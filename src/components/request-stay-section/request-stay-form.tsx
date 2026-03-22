@@ -1,3 +1,7 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import {
   Form,
   FormControl,
@@ -23,7 +27,30 @@ import { BORDER, BORDER_ERROR, labelClass } from "./constants";
 import { getInputClass, getSelectClass } from "./helpers";
 import { cn } from "@/lib/utils";
 
+const AnimatedRow = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -120px 0px" }}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 export const RequestStayForm = () => {
+  const submitRef = useRef(null);
+  const isSubmitInView = useInView(submitRef, { once: true, margin: "0px 0px -40px 0px" });
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,16 +71,14 @@ export const RequestStayForm = () => {
     formState: { errors },
   } = form;
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-  };
+  const onSubmit = (data: FormValues) => console.log(data);
 
   return (
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Row 1: First + Last Name */}
-          <div className="grid grid-cols-2 gap-x-8">
+          {/* Row 1 */}
+          <AnimatedRow className="grid grid-cols-2 gap-x-8">
             <FormField
               control={form.control}
               name="firstName"
@@ -90,10 +115,10 @@ export const RequestStayForm = () => {
                 </FormItem>
               )}
             />
-          </div>
+          </AnimatedRow>
 
-          {/* Row 2: Email + Phone */}
-          <div className="grid grid-cols-2 gap-x-8">
+          {/* Row 2 */}
+          <AnimatedRow className="grid grid-cols-2 gap-x-8">
             <FormField
               control={form.control}
               name="email"
@@ -131,10 +156,10 @@ export const RequestStayForm = () => {
                 </FormItem>
               )}
             />
-          </div>
+          </AnimatedRow>
 
-          {/* Row 3: Preferred Dates + Number of Guests */}
-          <div className="grid grid-cols-2 gap-x-8">
+          {/* Row 3 */}
+          <AnimatedRow className="grid grid-cols-2 gap-x-8">
             <FormField
               control={form.control}
               name="preferredDates"
@@ -163,9 +188,7 @@ export const RequestStayForm = () => {
                     <FormControl>
                       <SelectTrigger
                         className={getSelectClass(!!errors.numberOfGuests, !!field.value)}
-                        style={{
-                          borderBottomColor: errors.numberOfGuests ? BORDER_ERROR : BORDER,
-                        }}
+                        style={{ borderBottomColor: errors.numberOfGuests ? BORDER_ERROR : BORDER }}
                       >
                         <SelectValue placeholder="Select..." />
                       </SelectTrigger>
@@ -186,10 +209,10 @@ export const RequestStayForm = () => {
                 </FormItem>
               )}
             />
-          </div>
+          </AnimatedRow>
 
-          {/* Row 4: Referral + Special Requests */}
-          <div className="grid grid-cols-2 gap-x-8">
+          {/* Row 4 */}
+          <AnimatedRow className="grid grid-cols-2 gap-x-8">
             <FormField
               control={form.control}
               name="referralName"
@@ -226,10 +249,10 @@ export const RequestStayForm = () => {
                 </FormItem>
               )}
             />
-          </div>
+          </AnimatedRow>
 
-          {/* Row 5: How did you hear — full width */}
-          <div className="grid grid-cols-2 gap-x-8">
+          {/* Row 5 */}
+          <AnimatedRow className="grid grid-cols-2 gap-x-8">
             <FormField
               control={form.control}
               name="howDidYouHear"
@@ -240,9 +263,7 @@ export const RequestStayForm = () => {
                     <FormControl>
                       <SelectTrigger
                         className={getSelectClass(!!errors.howDidYouHear, !!field.value)}
-                        style={{
-                          borderBottomColor: errors.howDidYouHear ? BORDER_ERROR : BORDER,
-                        }}
+                        style={{ borderBottomColor: errors.howDidYouHear ? BORDER_ERROR : BORDER }}
                       >
                         <SelectValue placeholder="Select..." />
                       </SelectTrigger>
@@ -270,32 +291,40 @@ export const RequestStayForm = () => {
                 </FormItem>
               )}
             />
-          </div>
+          </AnimatedRow>
 
-          {/* Row 6: Ideal Stay textarea — full width */}
-          <FormField
-            control={form.control}
-            name="idealStay"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel className={labelClass}>Tell Us About Your Ideal Stay</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="We'd love to understand what you're looking for..."
-                    className={cn(
-                      "border-0 border-b rounded-none bg-transparent px-0 py-2 text-white placeholder:text-[#6b6259] text-[15px] focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none resize-none min-h-[60px] transition-colors duration-200"
-                    )}
-                    style={{ borderBottomColor: errors.idealStay ? BORDER_ERROR : BORDER }}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="text-[11px] text-red-400 font-light" />
-              </FormItem>
-            )}
-          />
+          {/* Row 6 — Textarea */}
+          <AnimatedRow>
+            <FormField
+              control={form.control}
+              name="idealStay"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel className={labelClass}>Tell Us About Your Ideal Stay</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="We'd love to understand what you're looking for..."
+                      className={cn(
+                        "border-0 border-b rounded-none bg-transparent px-0 py-2 text-white placeholder:text-[#6b6259] text-[15px] focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none resize-none min-h-[60px] transition-colors duration-200"
+                      )}
+                      style={{ borderBottomColor: errors.idealStay ? BORDER_ERROR : BORDER }}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-[11px] text-red-400 font-light" />
+                </FormItem>
+              )}
+            />
+          </AnimatedRow>
 
           {/* Submit */}
-          <div className="pt-4 space-y-4">
+          <motion.div
+            ref={submitRef}
+            className="pt-4 space-y-4"
+            initial={{ opacity: 0, y: 16 }}
+            animate={isSubmitInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <Button
               type="submit"
               className="bg-[#c8a882] hover:bg-[#b8987a] text-[#1c1a18] text-[11px] tracking-[0.22em] uppercase font-normal rounded-none px-10 py-6 transition-colors duration-300 cursor-pointer"
@@ -308,7 +337,7 @@ export const RequestStayForm = () => {
             >
               Your privacy is absolute. We do not share guest information.
             </p>
-          </div>
+          </motion.div>
         </form>
       </Form>
     </div>

@@ -9,24 +9,20 @@ export const EstateCard = ({
   title,
   subtitle,
   className,
-  style,
 }: {
   Image: React.ReactNode;
   title: string;
   subtitle: string;
   className?: string;
-  style?: React.CSSProperties;
 }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
-      className={cn("relative overflow-hidden cursor-pointer", className)}
+      className={cn("relative overflow-hidden cursor-pointer w-full h-full", className)}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      style={{ aspectRatio: "16/10", ...style }}
     >
-      {/* Image with zoom */}
       <motion.div
         className="absolute inset-0"
         animate={{ scale: hovered ? 1.07 : 1 }}
@@ -35,7 +31,6 @@ export const EstateCard = ({
         {Image}
       </motion.div>
 
-      {/* Gradient shadow overlay */}
       <motion.div
         className="absolute inset-0"
         animate={{
@@ -46,7 +41,6 @@ export const EstateCard = ({
         transition={{ duration: 0.5 }}
       />
 
-      {/* Text overlay */}
       <div className="absolute bottom-0 left-0 p-8 z-10">
         <div className="overflow-hidden">
           <motion.h2
@@ -59,7 +53,6 @@ export const EstateCard = ({
             {title}
           </motion.h2>
         </div>
-
         <div className="overflow-hidden mt-1">
           <motion.p
             className="text-white/80 text-xs uppercase font-light"
