@@ -5,44 +5,10 @@ import NextImage from "next/image";
 import { SectionContainer } from "../section-container";
 import { PillarCard } from "../pillar-card";
 import { SectionTitle } from "../section-title";
-import { motion, useInView, Variants } from "framer-motion";
-import { useRef } from "react";
-
-const rowVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
-};
-
-const cardLeft: Variants = {
-  hidden: { opacity: 0, x: -40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] } },
-};
-
-const cardRight: Variants = {
-  hidden: { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] } },
-};
-
-const cardUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } },
-};
-
-const AnimatedRow = ({ children }: { children: React.ReactNode }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  return (
-    <motion.div
-      ref={ref}
-      className="flex gap-4"
-      variants={rowVariants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-    >
-      {children}
-    </motion.div>
-  );
-};
+import { motion } from "framer-motion";
+import { cardLeft, cardRight, cardUp } from "./animations";
+import { AnimatedRow } from "./AnimatedRow";
+import { foodsContent } from "./constants";
 
 export const FoodPillar = () => {
   return (
@@ -53,7 +19,7 @@ export const FoodPillar = () => {
         subtitle="Private Chef · Local Harvest · Candlelit Evenings"
         Image={
           <NextImage
-            src="/images/food-pillar/hero-section.png"
+            src="/images/food-pillar/food-pillar-1.png"
             alt="A table set for one world"
             layout="fill"
             objectFit="cover"
@@ -70,55 +36,46 @@ export const FoodPillar = () => {
         <div className="space-y-3">
           {/* Row 1 — left big, right small */}
           <AnimatedRow>
-            <motion.div variants={cardLeft} style={{ flex: "0 0 calc(66.666% - 8px)" }}>
+            <motion.div variants={cardLeft} style={{ flex: "0 0 calc(66.666% - 6px)" }}>
               <PillarCard
                 className="h-[650px]"
                 Image={
                   <NextImage
-                    src="/images/food-pillar/food-pillar-1.png"
+                    src="/images/food-pillar/food-pillar-6.jpeg"
                     alt="food-1"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
-                title="La Casa Grande"
-                subtitle="6 Guests · Ocean Pool Terrace · The Crown Villa"
+                title="Roasted garden vegetables, mole negro & herb oil."
+                subtitle="Chef Billy Maldonado · Fónico"
               />
             </motion.div>
-            <motion.div variants={cardRight} style={{ flex: "0 0 calc(33.333% - 8px)" }}>
+            <motion.div variants={cardRight} style={{ flex: "0 0 calc(33.333% - 6px)" }}>
               <PillarCard
                 className="h-[650px]"
                 Image={
                   <NextImage
-                    src="/images/food-pillar/food-pillar-2.png"
+                    src="/images/food-pillar/food-pillar-9.jpeg"
                     alt="food-2"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
-                title="La Casa Grande"
-                subtitle="6 Guests · Ocean Pool Terrace · The Crown Villa"
+                title="Chef Billy"
+                subtitle="Fónico · Mexico City"
               />
             </motion.div>
           </AnimatedRow>
 
-          {/* Row 2 — three equal cards rise up */}
           <AnimatedRow>
-            {[
-              { src: "/images/food-pillar/food-pillar-3.png", alt: "food-3" },
-              { src: "/images/food-pillar/food-pillar-4.png", alt: "food-4" },
-              { src: "/images/food-pillar/food-pillar-5.png", alt: "food-5" },
-            ].map((img) => (
-              <motion.div
-                key={img.alt}
-                variants={cardUp}
-                style={{ flex: "0 0 calc(33.333% - 8px)" }}
-              >
+            {foodsContent.map(({ src, title, subtitle, alt }) => (
+              <motion.div key={alt} variants={cardUp} style={{ flex: "0 0 calc(33.333% - 8px)" }}>
                 <PillarCard
                   className="h-[424px]"
-                  Image={<NextImage src={img.src} alt={img.alt} layout="fill" objectFit="cover" />}
-                  title="La Casa Grande"
-                  subtitle="6 Guests · Ocean Pool Terrace · The Crown Villa"
+                  Image={<NextImage src={src} alt={alt} layout="fill" objectFit="cover" />}
+                  title={title}
+                  subtitle={subtitle}
                 />
               </motion.div>
             ))}
