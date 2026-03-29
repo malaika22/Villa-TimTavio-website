@@ -41,10 +41,10 @@ export const PillarCard = ({
         transition={{ duration: 0.5 }}
       />
 
-      <div className="absolute bottom-0 left-0 p-8 z-10">
+      <div className="absolute bottom-0 left-0 p-4 z-10 sm:p-6 lg:p-8">
         <div className="overflow-hidden">
           <motion.h2
-            className="text-white font-serif text-4xl font-light tracking-wide"
+            className="text-white font-serif text-xl font-light tracking-wide sm:text-2xl lg:text-4xl"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             initial={{ y: 60, opacity: 0 }}
             animate={hovered ? { y: 0, opacity: 1 } : { y: 60, opacity: 0 }}
@@ -55,7 +55,7 @@ export const PillarCard = ({
         </div>
         <div className="overflow-hidden mt-1">
           <motion.p
-            className="text-white/80 text-xs uppercase font-light"
+            className="text-white/80 text-[10px] uppercase font-light sm:text-xs"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", letterSpacing: "0.15em" }}
             initial={{ y: 30, opacity: 0 }}
             animate={hovered ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}

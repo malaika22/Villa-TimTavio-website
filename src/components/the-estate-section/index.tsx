@@ -8,6 +8,7 @@ import { SectionContainer } from "../section-container";
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const rowVariants = {
   hidden: {},
@@ -24,14 +25,14 @@ const cardRight: Variants = {
   visible: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] } },
 };
 
-const CardRow = ({ children }: { children: React.ReactNode }) => {
+const CardRow = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <motion.div
       ref={ref}
-      className="flex gap-4"
+      className={cn("grid grid-cols-1 gap-4 lg:gap-4", className)}
       variants={rowVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
@@ -58,12 +59,12 @@ export const TheEstateSection = () => {
           The Estate
         </motion.span>
 
-        <div className="flex justify-between">
+        <div className="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-0">
           <div className="flex-1 overflow-hidden">
             {["Six villas.", "One world."].map((line, i) => (
               <div key={line} className="overflow-hidden">
                 <motion.h5
-                  className="text-[#2C2C2C] text-[56px] font-light leading-[60.48px]"
+                  className="text-[#2C2C2C] text-[32px] font-light leading-[1.08] sm:text-[40px] lg:text-[56px] lg:leading-[60.48px]"
                   initial={{ y: "100%", opacity: 0 }}
                   animate={isHeadingInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
                   transition={{
@@ -78,10 +79,9 @@ export const TheEstateSection = () => {
             ))}
           </div>
 
-          {/* Body copy + CTA */}
-          <div className="flex-1 flex flex-col justify-between">
+          <div className="flex flex-col gap-6 lg:flex-1 lg:justify-between lg:gap-0">
             <motion.p
-              className="text-[#8A8278] text-[15px] font-light"
+              className="text-[#8A8278] text-[14px] font-light leading-relaxed lg:text-[15px]"
               initial={{ opacity: 0, y: 16 }}
               animate={isHeadingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
@@ -110,13 +110,9 @@ export const TheEstateSection = () => {
         </div>
       </div>
 
-      <section className="bg-[#F9F7F4] space-y-8 mt-8">
-        <CardRow>
-          <motion.div
-            variants={cardLeft}
-            style={{ flex: "0 0 calc(66.666% - 8px)" }}
-            className="h-[659px]"
-          >
+      <section className="space-y-4 mt-6 sm:space-y-6 lg:mt-8 lg:space-y-8">
+        <CardRow className="lg:grid-cols-[2fr_1fr]">
+          <motion.div variants={cardLeft} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image
@@ -130,11 +126,7 @@ export const TheEstateSection = () => {
               subtitle="6 Guests · Ocean Pool Terrace · The Crown Villa"
             />
           </motion.div>
-          <motion.div
-            variants={cardRight}
-            style={{ flex: "0 0 calc(33.333% - 8px)" }}
-            className="h-[659px]"
-          >
+          <motion.div variants={cardRight} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image
@@ -150,13 +142,8 @@ export const TheEstateSection = () => {
           </motion.div>
         </CardRow>
 
-        {/* Row 2 — left small, right big */}
-        <CardRow>
-          <motion.div
-            variants={cardLeft}
-            className="h-[659px]"
-            style={{ flex: "0 0 calc(33.333% - 8px)" }}
-          >
+        <CardRow className="lg:grid-cols-[1fr_2fr]">
+          <motion.div variants={cardLeft} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image
@@ -170,11 +157,7 @@ export const TheEstateSection = () => {
               subtitle="2 Guests · Rooftop Terrace · Sunset Views"
             />
           </motion.div>
-          <motion.div
-            variants={cardRight}
-            className="h-[659px]"
-            style={{ flex: "0 0 calc(66.666% - 8px)" }}
-          >
+          <motion.div variants={cardRight} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image
@@ -190,13 +173,8 @@ export const TheEstateSection = () => {
           </motion.div>
         </CardRow>
 
-        {/* Row 3 — equal halves */}
-        <CardRow>
-          <motion.div
-            variants={cardLeft}
-            className="h-[365px]"
-            style={{ flex: "0 0 calc(50% - 8px)" }}
-          >
+        <CardRow className="lg:grid-cols-2">
+          <motion.div variants={cardLeft} className="h-[280px] sm:h-[320px] lg:h-[365px]">
             <EstateCard
               Image={
                 <Image
@@ -210,11 +188,7 @@ export const TheEstateSection = () => {
               subtitle="3 Guests · Garden Bedroom · Private Terrace"
             />
           </motion.div>
-          <motion.div
-            variants={cardRight}
-            className="h-[365px]"
-            style={{ flex: "0 0 calc(50% - 8px)" }}
-          >
+          <motion.div variants={cardRight} className="h-[280px] sm:h-[320px] lg:h-[365px]">
             <EstateCard
               Image={
                 <Image

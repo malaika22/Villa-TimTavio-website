@@ -53,7 +53,7 @@ export const SectionDotsIndicator = () => {
   };
 
   return (
-    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-[14px]">
+    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden flex-col items-center gap-[14px] lg:flex">
       {NAV_LINKS.map(({ href, label }) => {
         const isActive = activeSection === href;
         const isHovered = hoveredDot === href;

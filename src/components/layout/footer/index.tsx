@@ -16,10 +16,12 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#1C1C1C] max-w-[1920px] mx-auto py-[60px] space-y-10">
-      {/* Top row: Logo + Nav */}
-      <div className="flex items-center justify-between px-12">
-        <Link href="/" className="relative w-[160px] h-[40px]">
+    <footer className="bg-[#1C1C1C] max-w-[1920px] mx-auto py-10 space-y-8 sm:py-12 lg:py-[60px] lg:space-y-10">
+      <div className="flex flex-col items-center gap-6 px-4 sm:px-8 md:px-12 lg:flex-row lg:items-center lg:justify-between">
+        <Link
+          href="/"
+          className="relative w-[120px] h-[32px] shrink-0 sm:w-[140px] sm:h-[36px] lg:w-[160px] lg:h-[40px]"
+        >
           <Image
             src="/images/logo-light.png"
             alt="Villa TimTavio"
@@ -29,7 +31,7 @@ export const Footer = () => {
           />
         </Link>
 
-        <nav className="flex items-center gap-10">
+        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-8 lg:gap-10">
           {navLinks.map(({ label, href }) => (
             <Link
               key={label}
@@ -42,11 +44,9 @@ export const Footer = () => {
         </nav>
       </div>
 
-      {/* Divider */}
-      <div className="border-t border-white/10 mx-12" />
+      <div className="border-t border-white/10 mx-4 sm:mx-8 md:mx-12" />
 
-      {/* Bottom row */}
-      <div className="flex items-center justify-between px-12">
+      <div className="flex flex-col items-center gap-4 px-4 text-center sm:px-8 md:px-12 lg:flex-row lg:items-center lg:justify-between lg:text-left">
         <p className="text-[#FFFFFF33] text-[11px] tracking-[0.4px]">
           © 2025 Casa TimTavio · Puerto Escondido, Oaxaca · Mexico
         </p>

@@ -14,7 +14,10 @@ export const SectionContainer = ({
   return (
     <div className={cn(wrapperClassName)} id={id}>
       <div
-        className={cn("py-[120px] space-y-[80px] mx-auto px-4 max-w-[1450px] mx-auto", className)}
+        className={cn(
+          "py-16 space-y-12 mx-auto px-4 max-w-[1450px] sm:px-8 sm:space-y-16 md:px-12 lg:py-[120px] lg:space-y-[80px]",
+          className
+        )}
       >
         {children}
       </div>

@@ -12,13 +12,16 @@ export const PhilosophySection = () => {
   return (
     <SectionContainer
       wrapperClassName="bg-[#8C7261]"
-      className="flex items-center space-y-0 justify-between"
+      className="flex items-center space-y-0 justify-between lg:flex-row"
     >
-      <div ref={ref} className="flex items-center justify-between w-full gap-12">
+      <div
+        ref={ref}
+        className="flex flex-col items-stretch gap-8 w-full sm:gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12"
+      >
         {/* Quote */}
         <div className="overflow-hidden flex-1">
           <motion.h4
-            className="text-[#F9F7F4BF] text-[32px] leading-[40px] tracking-[0%]"
+            className="text-[#F9F7F4BF] text-[22px] leading-[1.35] tracking-[0%] sm:text-[26px] lg:text-[32px] lg:leading-[40px]"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             initial={{ y: "100%", opacity: 0 }}
             animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
@@ -31,7 +34,7 @@ export const PhilosophySection = () => {
 
         {/* Divider — draws in */}
         <motion.div
-          className="bg-[#FFFFFF1F] w-[1px]"
+          className="hidden bg-[#FFFFFF1F] w-[1px] lg:block"
           initial={{ height: 0, opacity: 0 }}
           animate={isInView ? { height: 100, opacity: 1 } : { height: 0, opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.35 }}
@@ -43,7 +46,7 @@ export const PhilosophySection = () => {
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 24 }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.5 }}
         >
-          <Button className="border border-[#F9F7F44D] bg-transparent hover:bg-[#FFFFFF1F] h-[49px] w-[253px] text-[11px] text-[#F9F7F4BF] tracking-[0.2em] uppercase transition-colors duration-300 rounded-none cursor-pointer">
+          <Button className="border border-[#F9F7F44D] bg-transparent hover:bg-[#FFFFFF1F] h-[49px] w-full text-[11px] text-[#F9F7F4BF] tracking-[0.2em] uppercase transition-colors duration-300 rounded-none cursor-pointer sm:w-[253px]">
             Read our Philosophy
           </Button>
         </motion.div>

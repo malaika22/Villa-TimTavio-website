@@ -24,10 +24,10 @@ export const TheCircle = () => {
   return (
     <SectionContainer
       wrapperClassName="bg-[#E3E0DA]"
-      className="flex justify-between items-center"
+      className="flex flex-col gap-10 lg:flex-row lg:justify-between lg:items-center lg:gap-0"
       id="the-circle"
     >
-      <div className="flex-1 space-y-[60px]">
+      <div className="w-full space-y-8 sm:space-y-10 lg:flex-1 lg:space-y-[60px]">
         {/* Badge */}
         <motion.div
           ref={topRef}
@@ -43,7 +43,7 @@ export const TheCircle = () => {
         <div>
           <div className="overflow-hidden pb-[40px]">
             <motion.h4
-              className="text-[56px] text-[#181818] leading-[58.8px] italic max-w-[242px] font-light"
+              className="text-[32px] text-[#181818] leading-[1.08] italic max-w-[242px] font-light sm:text-[40px] lg:text-[56px] lg:leading-[58.8px]"
               initial={{ y: "100%", opacity: 0 }}
               animate={isTopInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
               transition={{ duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 }}
@@ -96,7 +96,7 @@ export const TheCircle = () => {
 
       {/* Image */}
       <motion.div
-        className="relative flex-1 w-[960px] h-[1108px]"
+        className="relative w-full h-[400px] sm:h-[500px] md:h-[650px] lg:flex-1 lg:w-[960px] lg:h-[1108px]"
         initial={{ opacity: 0, x: 60 }}
         animate={isTopInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}

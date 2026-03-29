@@ -10,7 +10,7 @@ export const FoundersQuoteSection = () => {
   return (
     <div
       ref={ref}
-      className="h-[705px] bg-[#E3E0DA] flex flex-col items-center justify-center gap-[72px]"
+      className="min-h-[400px] bg-[#E3E0DA] flex flex-col items-center justify-center gap-10 px-4 py-16 sm:min-h-[500px] sm:gap-14 sm:px-8 lg:h-[705px] lg:min-h-0 lg:gap-[72px] lg:px-12 lg:py-0"
     >
       {/* Vertical line draws down */}
       <motion.div
@@ -22,7 +22,7 @@ export const FoundersQuoteSection = () => {
 
       {/* Quote — word by word */}
       <motion.h5
-        className="text-[38px] font-light italic max-w-[680px] mx-auto text-center leading-snug"
+        className="text-[24px] font-light italic max-w-[680px] mx-auto text-center leading-snug sm:text-[30px] lg:text-[38px]"
         style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}

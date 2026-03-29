@@ -35,11 +35,10 @@ export const ExperiencePillar = () => {
         />
 
         <div className="space-y-3">
-          {/* Row 1 — left big, right small */}
-          <AnimatedRow>
-            <motion.div variants={cardLeft} style={{ flex: "0 0 calc(66.666% - 6px)" }}>
+          <AnimatedRow className="lg:grid-cols-[2fr_1fr]">
+            <motion.div variants={cardLeft}>
               <PillarCard
-                className="h-[643px]"
+                className="h-[320px] sm:h-[420px] lg:h-[643px]"
                 Image={
                   <NextImage
                     src="/images/experience-pillar/experience-8.jpeg"
@@ -52,9 +51,9 @@ export const ExperiencePillar = () => {
                 subtitle="Punta Zicatela · Oaxaca · Mexico"
               />
             </motion.div>
-            <motion.div variants={cardRight} style={{ flex: "0 0 calc(33.333% - 6px)" }}>
+            <motion.div variants={cardRight}>
               <PillarCard
-                className="h-[643px]"
+                className="h-[320px] sm:h-[420px] lg:h-[643px]"
                 Image={
                   <NextImage
                     src="/images/experience-pillar/experience-6.webp"
@@ -69,11 +68,11 @@ export const ExperiencePillar = () => {
             </motion.div>
           </AnimatedRow>
 
-          <AnimatedRow>
+          <AnimatedRow className="sm:grid-cols-2 lg:grid-cols-3">
             {experienceContent.map(({ alt, src, title, subtitle }) => (
-              <motion.div key={alt} variants={cardUp} style={{ flex: "0 0 calc(33.333% - 8px)" }}>
+              <motion.div key={alt} variants={cardUp}>
                 <PillarCard
-                  className="h-[424px]"
+                  className="h-[280px] sm:h-[340px] lg:h-[424px]"
                   Image={<NextImage src={src} alt={alt} layout="fill" objectFit="cover" />}
                   title={title}
                   subtitle={subtitle}

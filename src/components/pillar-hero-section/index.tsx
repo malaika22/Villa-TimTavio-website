@@ -25,7 +25,7 @@ export const PillarHeroSection = ({
 
   return (
     <section className="relative w-full max-w-[1920px] mx-auto overflow-hidden">
-      <div className="relative w-full h-[950px]">
+      <div className="relative w-full h-[480px] sm:h-[600px] md:h-[750px] lg:h-[950px]">
         {Image}
 
         {/* Gradient overlay — always visible, no animation needed */}
@@ -40,7 +40,7 @@ export const PillarHeroSection = ({
         {/* Text block — ref lives HERE so inView fires when THIS is visible */}
         <div
           ref={textRef}
-          className="absolute max-w-fit mx-auto right-0 left-0 bottom-[90px] p-10 z-10 text-center"
+          className="absolute max-w-fit mx-auto right-0 left-0 bottom-8 px-4 py-6 z-10 text-center sm:bottom-12 sm:px-8 lg:bottom-[90px] lg:p-10"
         >
           {/* Eyebrow tag */}
           <div className="overflow-hidden mb-3">
@@ -59,7 +59,7 @@ export const PillarHeroSection = ({
           {/* Main title */}
           <div className="overflow-hidden">
             <motion.h2
-              className="text-white text-5xl font-light leading-tight italic font-heading"
+              className="text-white text-2xl font-light leading-tight italic font-heading sm:text-3xl md:text-4xl lg:text-5xl"
               initial={{ y: 60, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : { y: 60, opacity: 0 }}
               transition={{ duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 }}

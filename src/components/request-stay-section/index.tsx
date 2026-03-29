@@ -14,8 +14,11 @@ export const RequestStaySection = () => {
   const isContactInView = useInView(contactRef, { once: true, margin: "0px 0px -60px 0px" });
 
   return (
-    <SectionContainer className="bg-[#2C2C2C] px-12 py-16 max-w-[1920px] mx-auto" id="contact">
-      <div className="grid grid-cols-[3fr_3fr] gap-x-24">
+    <SectionContainer
+      className="bg-[#2C2C2C] px-4 py-10 max-w-[1920px] mx-auto sm:px-8 sm:py-12 md:px-12 lg:py-16"
+      id="contact"
+    >
+      <div className="grid grid-cols-1 gap-y-12 lg:grid-cols-[3fr_3fr] lg:gap-x-24 lg:gap-y-0">
         {/* LEFT: Info */}
         <div className="flex flex-col">
           <div ref={leftRef}>
@@ -33,7 +36,7 @@ export const RequestStaySection = () => {
             {["Tell us", "what you", "need."].map((line, i) => (
               <div key={line} className="overflow-hidden">
                 <motion.span
-                  className={`block text-white text-[52px] font-light leading-[56.16px] tracking-[0%] ${i === 2 ? "italic" : ""}`}
+                  className={`block text-white text-[32px] font-light leading-[1.12] tracking-[0%] sm:text-[40px] lg:text-[52px] lg:leading-[56.16px] ${i === 2 ? "italic" : ""}`}
                   style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                   initial={{ y: "100%", opacity: 0 }}
                   animate={isLeftInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}

@@ -34,11 +34,10 @@ export const FoodPillar = () => {
         />
 
         <div className="space-y-3">
-          {/* Row 1 — left big, right small */}
-          <AnimatedRow>
-            <motion.div variants={cardLeft} style={{ flex: "0 0 calc(66.666% - 6px)" }}>
+          <AnimatedRow className="lg:grid-cols-[2fr_1fr]">
+            <motion.div variants={cardLeft}>
               <PillarCard
-                className="h-[650px]"
+                className="h-[320px] sm:h-[420px] lg:h-[650px]"
                 Image={
                   <NextImage
                     src="/images/food-pillar/food-pillar-6.jpeg"
@@ -51,9 +50,9 @@ export const FoodPillar = () => {
                 subtitle="Chef Billy Maldonado · Fónico"
               />
             </motion.div>
-            <motion.div variants={cardRight} style={{ flex: "0 0 calc(33.333% - 6px)" }}>
+            <motion.div variants={cardRight}>
               <PillarCard
-                className="h-[650px]"
+                className="h-[320px] sm:h-[420px] lg:h-[650px]"
                 Image={
                   <NextImage
                     src="/images/food-pillar/food-pillar-9.jpeg"
@@ -68,11 +67,11 @@ export const FoodPillar = () => {
             </motion.div>
           </AnimatedRow>
 
-          <AnimatedRow>
+          <AnimatedRow className="sm:grid-cols-2 lg:grid-cols-3">
             {foodsContent.map(({ src, title, subtitle, alt }) => (
-              <motion.div key={alt} variants={cardUp} style={{ flex: "0 0 calc(33.333% - 8px)" }}>
+              <motion.div key={alt} variants={cardUp}>
                 <PillarCard
-                  className="h-[424px]"
+                  className="h-[280px] sm:h-[340px] lg:h-[424px]"
                   Image={<NextImage src={src} alt={alt} layout="fill" objectFit="cover" />}
                   title={title}
                   subtitle={subtitle}

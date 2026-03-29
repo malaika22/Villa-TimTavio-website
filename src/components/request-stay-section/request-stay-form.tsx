@@ -78,7 +78,7 @@ export const RequestStayForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {/* Row 1 */}
-          <AnimatedRow className="grid grid-cols-2 gap-x-8">
+          <AnimatedRow className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="firstName"
@@ -118,7 +118,7 @@ export const RequestStayForm = () => {
           </AnimatedRow>
 
           {/* Row 2 */}
-          <AnimatedRow className="grid grid-cols-2 gap-x-8">
+          <AnimatedRow className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="email"
@@ -159,7 +159,7 @@ export const RequestStayForm = () => {
           </AnimatedRow>
 
           {/* Row 3 */}
-          <AnimatedRow className="grid grid-cols-2 gap-x-8">
+          <AnimatedRow className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="preferredDates"
@@ -212,7 +212,7 @@ export const RequestStayForm = () => {
           </AnimatedRow>
 
           {/* Row 4 */}
-          <AnimatedRow className="grid grid-cols-2 gap-x-8">
+          <AnimatedRow className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="referralName"
@@ -252,7 +252,7 @@ export const RequestStayForm = () => {
           </AnimatedRow>
 
           {/* Row 5 */}
-          <AnimatedRow className="grid grid-cols-2 gap-x-8">
+          <AnimatedRow className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="howDidYouHear"

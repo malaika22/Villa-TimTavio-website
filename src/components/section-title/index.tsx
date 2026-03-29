@@ -13,7 +13,7 @@ export const SectionTitle = ({
   buttonText: string;
 }) => {
   return (
-    <div className="flex items-end">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-0">
       {/* Description */}
       <motion.div
         className="flex-1"
@@ -30,7 +30,7 @@ export const SectionTitle = ({
 
       {/* Button */}
       <motion.div
-        className="flex-1 flex justify-center"
+        className="sm:flex-1 sm:flex sm:justify-center"
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"

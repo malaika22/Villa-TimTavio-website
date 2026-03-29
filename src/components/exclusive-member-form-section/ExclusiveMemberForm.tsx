@@ -41,7 +41,7 @@ const AnimatedRow = ({ children, delay = 0 }: { children: React.ReactNode; delay
   return (
     <motion.div
       ref={ref}
-      className="grid grid-cols-2 gap-x-16 gap-y-10"
+      className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:gap-x-16 lg:gap-y-10"
       initial={{ opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay }}
@@ -74,7 +74,7 @@ export const ExclusiveMemberForm = () => {
   };
 
   return (
-    <section className="px-[48px] py-[80px] max-w-[1920px] mx-auto">
+    <section className="px-0 py-10 max-w-[1920px] mx-auto sm:px-4 sm:py-12 lg:px-[48px] lg:py-[80px]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
           {/* Row 1: First Name + Last Name */}

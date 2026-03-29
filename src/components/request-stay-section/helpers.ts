@@ -9,7 +9,7 @@ export const getInputClass = (hasError: boolean) =>
 
 export const getSelectClass = (hasError: boolean, hasValue: boolean) =>
   cn(
-    "border-0 border-b rounded-none bg-transparent px-0 py-2 text-[15px] focus:ring-0 focus:ring-offset-0 shadow-none transition-colors duration-200 h-auto",
+    "w-full border-0 border-b rounded-none bg-transparent px-0 py-2 text-[15px] focus:ring-0 focus:ring-offset-0 shadow-none transition-colors duration-200 h-auto",
     hasError ? "border-b-[#f87171]" : `border-b-[${BORDER}] focus:border-b-white`,
     hasValue ? "text-white" : "text-[#6b6259]"
   );
