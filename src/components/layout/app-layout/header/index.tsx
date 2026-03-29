@@ -5,6 +5,7 @@ import { NAV_LINKS } from "./constants";
 import Link from "next/link";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
+import { AnimatedButton } from "@/components/animated-button";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -117,22 +118,7 @@ export const Header = () => {
       </div>
 
       {/* CTA — animated fill reveal on hover */}
-      <motion.div
-        initial={{ opacity: 0, x: 12 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-      >
-        <Link
-          href="#"
-          className="relative inline-flex items-center justify-center overflow-hidden border border-[#18181840] px-[28px] py-[13px] group"
-        >
-          {/* Sliding fill bg */}
-          <span className="absolute inset-0 bg-[#8C7261] translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" />
-          <span className="relative text-xs tracking-[0.15em] text-[#1818188C] group-hover:text-white transition-colors duration-200 uppercase">
-            Request an Invitation
-          </span>
-        </Link>
-      </motion.div>
+      <AnimatedButton href="#">Request an Invitation</AnimatedButton>
     </motion.nav>
   );
 };

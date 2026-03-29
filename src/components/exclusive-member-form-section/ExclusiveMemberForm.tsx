@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -24,6 +23,7 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { formSchema, type FormValues } from "./schema";
+import { AnimatedButton } from "../animated-button";
 
 const labelClass = "text-[10px] tracking-[0.18em] uppercase text-[#8a7f72] font-normal mb-1";
 
@@ -257,12 +257,14 @@ export const ExclusiveMemberForm = () => {
             animate={isSubmitInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <Button
-              type="submit"
-              className="bg-[#8C7261] hover:bg-[#2a2520] text-white text-[11px] tracking-[0.2em] uppercase font-normal rounded-none px-8 py-6 transition-colors duration-300 cursor-pointer"
+            <AnimatedButton
+              href="#"
+              hrefClassName="bg-[#8C7261] text-[#ffffff] border-[#8C7261]"
+              buttonClassName="text-[#ffffff group-hover:text-[#8C7261]"
+              hoverClassName="text-[#ffffff] border-[#2a2520] bg-[#F3F1EE]"
             >
               Submit Inquiry
-            </Button>
+            </AnimatedButton>
             <p
               className="text-[12px] text-[#9a9088] italic"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}

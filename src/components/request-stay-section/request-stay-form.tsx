@@ -19,13 +19,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { formSchema, FormValues } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { BORDER, BORDER_ERROR, labelClass } from "./constants";
 import { getInputClass, getSelectClass } from "./helpers";
 import { cn } from "@/lib/utils";
+import { AnimatedButton } from "../animated-button";
 
 const AnimatedRow = ({
   children,
@@ -325,12 +325,14 @@ export const RequestStayForm = () => {
             animate={isSubmitInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <Button
-              type="submit"
-              className="bg-[#c8a882] hover:bg-[#b8987a] text-[#1c1a18] text-[11px] tracking-[0.22em] uppercase font-normal rounded-none px-10 py-6 transition-colors duration-300 cursor-pointer"
+            <AnimatedButton
+              href="#"
+              hrefClassName="bg-[#8C7261] text-[#ffffff] border-[#8C7261]"
+              buttonClassName="text-[#ffffff group-hover:text-[#8C7261]"
+              hoverClassName="text-[#ffffff] border-[#2a2520] bg-[#F3F1EE]"
             >
               Submit Inquiry
-            </Button>
+            </AnimatedButton>
             <p
               className="text-[12px] text-[#6b6259] italic"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
