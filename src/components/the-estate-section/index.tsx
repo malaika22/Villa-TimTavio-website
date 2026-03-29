@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { SectionContainer } from "../section-container";
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 
 const rowVariants = {
   hidden: {},
@@ -58,7 +59,6 @@ export const TheEstateSection = () => {
         </motion.span>
 
         <div className="flex justify-between">
-          {/* Heading */}
           <div className="flex-1 overflow-hidden">
             {["Six villas.", "One world."].map((line, i) => (
               <div key={line} className="overflow-hidden">
@@ -96,18 +96,21 @@ export const TheEstateSection = () => {
               animate={isHeadingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
             >
-              <Button className="p-0 text-[#2C2C2C99] text-[11px] bg-transparent hover:bg-transparent w-fit group">
-                Enquire About a Villa{" "}
-                <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+              <Button
+                className="p-0 text-[#2C2C2C99] text-[11px] bg-transparent hover:bg-transparent w-fit group hover:text-[#2C2C2C] hover:bg-transparent"
+                asChild
+              >
+                <Link href="#" className="hover:bg-transparent!">
+                  Enquire About a Villa{" "}
+                  <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
               </Button>
             </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Card grid */}
       <section className="bg-[#F9F7F4] space-y-8 mt-8">
-        {/* Row 1 — left big, right small */}
         <CardRow>
           <motion.div
             variants={cardLeft}
