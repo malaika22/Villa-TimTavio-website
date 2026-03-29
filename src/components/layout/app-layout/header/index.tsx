@@ -8,28 +8,9 @@ import { useCallback, useEffect, useId, useState } from "react";
 import { AnimatedButton } from "@/components/animated-button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const menuPanelVariants = {
-  closed: { x: "100%", transition: { type: "spring" as const, damping: 32, stiffness: 320 } },
-  open: { x: 0, transition: { type: "spring" as const, damping: 28, stiffness: 280 } },
-};
-
-const backdropVariants = {
-  closed: { opacity: 0 },
-  open: { opacity: 1 },
-};
-
-const linkContainerVariants = {
-  open: {
-    transition: { staggerChildren: 0.06, delayChildren: 0.12 },
-  },
-  closed: {},
-};
-
-const linkItemVariants = {
-  open: { opacity: 1, x: 0 },
-  closed: { opacity: 0, x: 16 },
-};
+import { backdropVariants, linkItemVariants } from "./animations";
+import { menuPanelVariants } from "./animations";
+import { linkContainerVariants } from "./animations";
 
 export const Header = () => {
   const menuId = useId();
@@ -120,54 +101,52 @@ export const Header = () => {
             priority
           />
         </motion.div>
+        <div className="space-x-[52px] hidden lg:flex">
+          {NAV_LINKS.map((link, i) => {
+            const isActive = activeSection === link.href;
 
-        <div className="hidden items-center lg:flex lg:gap-[52px]">
-          <div className="space-x-[52px]">
-            {NAV_LINKS.map((link, i) => {
-              const isActive = activeSection === link.href;
-
-              return (
-                <motion.span
-                  key={link.href}
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.2 + i * 0.07,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  className="inline-block"
+            return (
+              <motion.span
+                key={link.href}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.2 + i * 0.07,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                className="inline-block"
+              >
+                <Link
+                  href={link.href}
+                  className="group relative inline-block py-1 text-xs tracking-[0.12em] text-[#18181873] transition-colors duration-200 hover:text-[#181818]"
                 >
-                  <Link
-                    href={link.href}
-                    className="group relative inline-block py-1 text-xs tracking-[0.12em] text-[#18181873] transition-colors duration-200 hover:text-[#181818]"
-                  >
-                    {link.label}
+                  {link.label}
 
-                    {isActive && (
-                      <motion.span
-                        className="absolute bottom-0 left-0 h-[1px] w-full origin-left bg-[#8C7261]"
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-                      />
-                    )}
+                  {isActive && (
+                    <motion.span
+                      className="absolute bottom-0 left-0 h-[1px] w-full origin-left bg-[#8C7261]"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    />
+                  )}
 
-                    {!isActive && (
-                      <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-[#8C7261] transition-all duration-300 ease-out group-hover:w-full" />
-                    )}
-                  </Link>
-                </motion.span>
-              );
-            })}
-          </div>
-
-          <AnimatedButton href="#">Request an Invitation</AnimatedButton>
+                  {!isActive && (
+                    <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-[#8C7261] transition-all duration-300 ease-out group-hover:w-full" />
+                  )}
+                </Link>
+              </motion.span>
+            );
+          })}
+        </div>
+        <div className="hidden items-center lg:flex lg:gap-[52px]">
+          <AnimatedButton href="#contact">Request an Invitation</AnimatedButton>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
           <AnimatedButton
-            href="#"
+            href="#contact"
             hrefClassName="!px-4 !py-2.5 sm:!px-5 sm:!py-3"
             buttonClassName="!text-[10px]"
           >

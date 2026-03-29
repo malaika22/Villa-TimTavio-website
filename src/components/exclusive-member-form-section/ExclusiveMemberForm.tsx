@@ -74,7 +74,10 @@ export const ExclusiveMemberForm = () => {
   };
 
   return (
-    <section className="px-0 py-10 max-w-[1920px] mx-auto sm:px-4 sm:py-12 lg:px-[48px] lg:py-[80px]">
+    <section
+      className="px-0 py-10 max-w-[1920px] mx-auto sm:px-4 sm:py-12 lg:px-[48px] lg:py-[80px]"
+      id="exclusive-member"
+    >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
           {/* Row 1: First Name + Last Name */}

@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { fadeUp } from "./animations";
+import { useRouter } from "next/navigation";
 
 export const SectionTitle = ({
   description,
@@ -12,6 +13,7 @@ export const SectionTitle = ({
   description: string;
   buttonText: string;
 }) => {
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-0">
       {/* Description */}
@@ -40,6 +42,7 @@ export const SectionTitle = ({
         <Button
           variant="ghost"
           className="group gap-2 hover:bg-transparent text-[#797168] font-regular text-[9px]"
+          onClick={() => router.push("#contact", { scroll: true })}
         >
           {buttonText}
           <motion.span

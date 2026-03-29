@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { IntroStripSection } from "../intro-strip-section";
 import { motion } from "framer-motion";
 import { curtain, fade } from "./constants";
+import Link from "next/link";
 
 const words = "Where the Pacific begins to whisper.".split(" ");
 
@@ -70,7 +71,7 @@ export const HeroSection = () => {
             </Button>
 
             <button className="group flex items-center justify-center gap-[10px] text-[#F5F3F042] text-[10px] tracking-[0.15em] hover:text-[#F5F3F0] transition-colors duration-300 bg-transparent border-none cursor-pointer sm:justify-start">
-              ENTER THE ESTATE
+              <Link href="#exclusive-member">ENTER THE ESTATE</Link>
               <motion.span
                 className="flex items-center"
                 animate={{ y: [0, 5, 0] }}

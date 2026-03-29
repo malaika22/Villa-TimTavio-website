@@ -100,7 +100,7 @@ export const TheEstateSection = () => {
                 className="p-0 text-[#2C2C2C99] text-[11px] bg-transparent hover:bg-transparent w-fit group hover:text-[#2C2C2C] hover:bg-transparent"
                 asChild
               >
-                <Link href="#" className="hover:bg-transparent!">
+                <Link href="#contact" className="hover:bg-transparent!">
                   Enquire About a Villa{" "}
                   <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
