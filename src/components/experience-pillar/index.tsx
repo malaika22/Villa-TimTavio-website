@@ -5,45 +5,12 @@ import NextImage from "next/image";
 import { SectionContainer } from "../section-container";
 import { SectionTitle } from "../section-title";
 import { PillarCard } from "../pillar-card";
-import { motion, useInView, Variants } from "framer-motion";
-import { useRef } from "react";
-
-const rowVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
-};
-
-const cardLeft: Variants = {
-  hidden: { opacity: 0, x: -40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] } },
-};
-
-const cardRight: Variants = {
-  hidden: { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] } },
-};
-
-const cardUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } },
-};
-
-const AnimatedRow = ({ children }: { children: React.ReactNode }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      className="flex gap-4"
-      variants={rowVariants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-    >
-      {children}
-    </motion.div>
-  );
-};
+import { motion } from "framer-motion";
+import { AnimatedRow } from "./AnimatedRow";
+import { cardLeft } from "./animations";
+import { cardRight } from "./animations";
+import { cardUp } from "./animations";
+import { experienceContent } from "./constants";
 
 export const ExperiencePillar = () => {
   return (
@@ -70,55 +37,46 @@ export const ExperiencePillar = () => {
         <div className="space-y-3">
           {/* Row 1 — left big, right small */}
           <AnimatedRow>
-            <motion.div variants={cardLeft} style={{ flex: "0 0 calc(66.666% - 8px)" }}>
+            <motion.div variants={cardLeft} style={{ flex: "0 0 calc(66.666% - 6px)" }}>
               <PillarCard
                 className="h-[643px]"
                 Image={
                   <NextImage
-                    src="/images/experience-pillar/experience-1.png"
+                    src="/images/experience-pillar/experience-8.jpeg"
                     alt="experience-1"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
-                title="La Casa Grande"
-                subtitle="6 Guests · Ocean Pool Terrace · The Crown Villa"
+                title="The kind of place, you stop checking your phone."
+                subtitle="Punta Zicatela · Oaxaca · Mexico"
               />
             </motion.div>
-            <motion.div variants={cardRight} style={{ flex: "0 0 calc(33.333% - 8px)" }}>
+            <motion.div variants={cardRight} style={{ flex: "0 0 calc(33.333% - 6px)" }}>
               <PillarCard
                 className="h-[643px]"
                 Image={
                   <NextImage
-                    src="/images/experience-pillar/experience-2.png"
+                    src="/images/experience-pillar/experience-6.webp"
                     alt="experience-2"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
-                title="La Casa Grande"
-                subtitle="6 Guests · Ocean Pool Terrace · The Crown Villa"
+                title="The shore,at your own pace."
+                subtitle="Sunset rides · Arranged exclusively"
               />
             </motion.div>
           </AnimatedRow>
 
-          {/* Row 2 — three equal cards rise up */}
           <AnimatedRow>
-            {[
-              { src: "/images/experience-pillar/experience-3.png", alt: "experience-3" },
-              { src: "/images/experience-pillar/experience-4.png", alt: "experience-4" },
-              { src: "/images/experience-pillar/experience-5.png", alt: "experience-5" },
-            ].map((img) => (
-              <motion.div
-                key={img.alt}
-                variants={cardUp}
-                style={{ flex: "0 0 calc(33.333% - 8px)" }}
-              >
+            {experienceContent.map(({ alt, src, title, subtitle }) => (
+              <motion.div key={alt} variants={cardUp} style={{ flex: "0 0 calc(33.333% - 8px)" }}>
                 <PillarCard
                   className="h-[424px]"
-                  Image={<NextImage src={img.src} alt={img.alt} layout="fill" objectFit="cover" />}
-                  title="La Casa Grande"
-                  subtitle="6 Guests · Ocean Pool Terrace · The Crown Villa"
+                  Image={<NextImage src={src} alt={alt} layout="fill" objectFit="cover" />}
+                  title={title}
+                  subtitle={subtitle}
                 />
               </motion.div>
             ))}
