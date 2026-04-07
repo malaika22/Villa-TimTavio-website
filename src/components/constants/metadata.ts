@@ -9,7 +9,7 @@ export const siteMetadata: Metadata = {
   },
 
   description:
-    "Six private villas. One estate. Entirely yours. Villa TimTavio is an invitation-only private estate in Puerto Escondido, Oaxaca — designed by local architects, served by Michelin-trained chefs, and oriented toward the Pacific.",
+    "1 Estate. 6 Suites. Entirely yours. Villa TimTavio is an invitation-only private estate in Puerto Escondido, Oaxaca — designed by local architects, served by Michelin-trained chefs, and oriented toward the Pacific.",
 
   keywords: [
     "Villa TimTavio",
@@ -37,7 +37,7 @@ export const siteMetadata: Metadata = {
     siteName: "Villa TimTavio",
     title: "Villa TimTavio — Where the Pacific Begins to Whisper",
     description:
-      "Six private villas. One estate. Entirely yours. An invitation-only private estate in Puerto Escondido, Oaxaca — Michelin-trained chefs, Pacific experiences, and a world that asks nothing of you.",
+      "1 Estate. 6 Suites. Entirely yours. An invitation-only private estate in Puerto Escondido, Oaxaca — Michelin-trained chefs, Pacific experiences, and a world that asks nothing of you.",
     images: [
       {
         url: "/images/og-image.jpg",
@@ -52,7 +52,7 @@ export const siteMetadata: Metadata = {
     card: "summary_large_image",
     title: "Villa TimTavio — Where the Pacific Begins to Whisper",
     description:
-      "Six private villas. One estate. Entirely yours. An invitation-only private estate in Puerto Escondido, Oaxaca.",
+      "1 Estate. 6 Suites. Entirely yours. An invitation-only private estate in Puerto Escondido, Oaxaca.",
     images: ["/images/og-image.jpg"],
   },
 
