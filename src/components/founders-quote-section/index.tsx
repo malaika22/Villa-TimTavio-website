@@ -22,14 +22,15 @@ export const FoundersQuoteSection = () => {
 
       {/* Quote — word by word */}
       <motion.h5
-        className="text-[24px] font-light italic max-w-[680px] mx-auto text-center leading-snug sm:text-[30px] lg:text-[38px]"
+        className="text-[24px] font-light italic max-w-[1200px] mx-auto text-center leading-snug sm:text-[30px] lg:text-[38px]"
         style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.4 }}
       >
-        &quot;We built this place because the world already has enough luxury. What it lacks is
-        quiet.&quot;
+        &quot;We built this place with our favorite things all in one place: brutalist architecture
+        by Ludwig Godefroy, luxury design by Bibiana Huber, Michelin-level food from Fónico and Chef
+        Billy Maldonado, and service for those that appreciate the finer subtleties of life.&quot;
       </motion.h5>
 
       {/* Attribution */}

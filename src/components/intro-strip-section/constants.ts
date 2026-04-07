@@ -5,7 +5,7 @@ export const INTRO_STRIP_SECTION_CONTENT = [
   },
   {
     label: "Properties",
-    value: "Six Private Villas",
+    value: "1 Estate. 6 Suites.",
   },
   {
     label: "Access",
