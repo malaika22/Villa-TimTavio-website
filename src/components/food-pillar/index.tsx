@@ -12,14 +12,14 @@ import { foodsContent } from "./constants";
 
 export const FoodPillar = () => {
   return (
-    <div>
+    <div id="food">
       <PillarHeroSection
         tag="The Food"
-        title="Where every meal is an occasion."
+        title="Where the freshest seafood goes directly from sea to table on the beach."
         subtitle="Private Chef · Local Harvest · Candlelit Evenings"
         Image={
           <NextImage
-            src="/images/food-pillar/food-pillar-1.png"
+            src="/images/food-pillar/food-pillar-hero-section.jpg"
             alt="A table set for one world"
             layout="fill"
             objectFit="cover"
@@ -30,7 +30,7 @@ export const FoodPillar = () => {
       <SectionContainer wrapperClassName="bg-[#E3E0DA]">
         <SectionTitle
           description="Michelin-trained chefs. Fresh-caught Pacific seafood. Private dinners composed entirely around you — never from a menu, always under open sky."
-          buttonText="Enquire About Dining"
+          buttonText="Enter The Infinity"
         />
 
         <div className="space-y-3">
@@ -40,14 +40,14 @@ export const FoodPillar = () => {
                 className="h-[320px] sm:h-[420px] lg:h-[650px]"
                 Image={
                   <NextImage
-                    src="/images/food-pillar/food-pillar-6.jpeg"
+                    src="/images/food-pillar/food-pillar-1.jpg"
                     alt="food-1"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
-                title="Roasted garden vegetables, mole negro & herb oil."
-                subtitle="Chef Billy Maldonado · Fónico"
+                title="Aguachile de Pesca"
+                subtitle="Fresh ingredients, plated with intention"
               />
             </motion.div>
             <motion.div variants={cardRight}>
@@ -55,14 +55,14 @@ export const FoodPillar = () => {
                 className="h-[320px] sm:h-[420px] lg:h-[650px]"
                 Image={
                   <NextImage
-                    src="/images/food-pillar/food-pillar-9.jpeg"
+                    src="/images/food-pillar/food-pillar-3.jpg"
                     alt="food-2"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
-                title="Chef Billy"
-                subtitle="Fónico · Mexico City"
+                title="Chef Billy Maldonado"
+                subtitle="The hand behind every plate"
               />
             </motion.div>
           </AnimatedRow>

@@ -1,20 +1,20 @@
 export const foodsContent = [
   {
-    src: "/images/food-pillar/food-pillar-3.png",
+    src: "/images/food-pillar/food-pillar-2.jpg",
     alt: "food-3",
-    title: "Where every dish begins in silence.",
-    subtitle: "Private dining · Casa TimTavio",
+    title: "The Pour",
+    subtitle: "Crafted cocktails to complement every meal",
   },
   {
-    src: "/images/food-pillar/food-pillar-10.jpg",
+    src: "/images/food-pillar/food-pillar-4.jpg",
     alt: "food-4",
-    title: "Two kitchens, one vision.",
-    subtitle: "Chef Billy Maldonado & Chef Partner · Fónico",
+    title: "Mole Negro & Garden Herbs",
+    subtitle: "Every plate tells a story",
   },
   {
-    src: "/images/food-pillar/food-pillar-7.jpg",
+    src: "/images/food-pillar/food-pillar-5.jpg",
     alt: "food-5",
-    title: "Pacific catch, salsa verde & wild purslane.",
-    subtitle: "Served under open sky · Puerto Escondido",
+    title: "Sea to Table",
+    subtitle: "Where every detail matters",
   },
 ];
