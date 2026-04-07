@@ -31,7 +31,7 @@ export const ExperiencePillar = () => {
       <SectionContainer wrapperClassName="bg-[#E3E0DA]">
         <SectionTitle
           description="From humpback whale encounters to private turtle releases at dawn — Puerto Escondido offers experiences that cannot be manufactured, replicated, or forgotten."
-          buttonText="Curated Exclusively Upon Inquiry"
+          buttonText="Enter The Infinity"
         />
 
         <div className="space-y-3">

@@ -3,7 +3,7 @@ export const experienceContent = [
     src: "/images/experience-pillar/experience-7.jpg",
     alt: "experience-3",
     title: "Golden hour belongs to everyone.",
-    subtitle: "Zicatela Beach · Puerto Escondido",
+    subtitle: "Playa Carrizalillo · Puerto Escondido",
   },
   {
     src: "/images/experience-pillar/experience-9.jpg",
@@ -15,6 +15,6 @@ export const experienceContent = [
     src: "/images/experience-pillar/experience-5.png",
     alt: "experience-5",
     title: "Inside the barrel of the Mexican Pipeline.",
-    subtitle: "Zicatela · World-class surf · Guest arranged",
+    subtitle: "Zicatela · World-class surf",
   },
 ];
