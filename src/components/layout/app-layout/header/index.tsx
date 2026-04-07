@@ -141,7 +141,7 @@ export const Header = () => {
           })}
         </div>
         <div className="hidden items-center lg:flex lg:gap-[52px]">
-          <AnimatedButton href="#contact">Request an Invitation</AnimatedButton>
+          <AnimatedButton href="#exclusive-member">Enter The Infinity</AnimatedButton>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">

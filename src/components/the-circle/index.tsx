@@ -6,11 +6,11 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const circleData = [
-  "Priority access to all six villas",
+  // "Priority access to all six villas",
   "Dedicated estate concierge",
-  "Exclusive member events & gatherings",
+  // "Exclusive member events & gatherings",
   "Invitation to new property releases",
-  "Annual estate retreat for members",
+  // "Annual estate retreat for members",
 ];
 
 export const TheCircle = () => {
@@ -25,7 +25,7 @@ export const TheCircle = () => {
     <SectionContainer
       wrapperClassName="bg-[#E3E0DA]"
       className="flex flex-col gap-10 lg:flex-row lg:justify-between lg:items-center lg:gap-0"
-      id="the-circle"
+      id="the-infinity"
     >
       <div className="w-full space-y-8 sm:space-y-10 lg:flex-1 lg:space-y-[60px]">
         {/* Badge */}
@@ -36,7 +36,7 @@ export const TheCircle = () => {
           animate={isTopInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          The Circle — Members Only
+          The Infinity — Members Only
         </motion.div>
 
         {/* Heading + Body */}
@@ -58,8 +58,8 @@ export const TheCircle = () => {
             animate={isTopInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.35 }}
           >
-            The Circle is our private membership for guests who return. Not a loyalty programme. Not
-            a points system. A quiet acknowledgment that you are part of something rare.
+            The Infinity is our exclusive, invite-only black book of approved guests — those who
+            have been personally vetted and welcomed into something rare.
           </motion.p>
         </div>
 
@@ -102,7 +102,7 @@ export const TheCircle = () => {
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
       >
         <Image
-          src="/images/the-circle-section.png"
+          src="/images/the-circle-section.jpeg"
           alt="the-circle-section"
           fill
           objectFit="cover"

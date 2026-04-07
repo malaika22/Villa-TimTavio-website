@@ -4,15 +4,15 @@ export const NAV_LINKS = [
     href: "#estate",
   },
   {
+    label: "FOOD",
+    href: "#food",
+  },
+  {
     label: "EXPERIENCES",
     href: "#experiences",
   },
   {
-    label: "THE CIRCLE",
-    href: "#the-circle",
-  },
-  {
-    label: "CONTACT",
-    href: "#contact",
+    label: "THE INFINITY",
+    href: "#the-infinity",
   },
 ];
