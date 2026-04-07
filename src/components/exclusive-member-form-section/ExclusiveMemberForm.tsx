@@ -66,6 +66,7 @@ export const ExclusiveMemberForm = () => {
       country: "",
       intendedUse: "",
       anticipatedVisits: "",
+      preferredDates: "",
     },
   });
 
@@ -252,6 +253,23 @@ export const ExclusiveMemberForm = () => {
             />
           </AnimatedRow>
 
+          {/* Row 5: Preferred Dates */}
+          <AnimatedRow>
+            <FormField
+              control={form.control}
+              name="preferredDates"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel className={labelClass}>Preferred Dates</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. Oct – Nov 2025" className={inputClass} {...field} />
+                  </FormControl>
+                  <FormMessage className="text-[11px] text-rose-400/80 font-light" />
+                </FormItem>
+              )}
+            />
+          </AnimatedRow>
+
           {/* Submit */}
           <motion.div
             ref={submitRef}
@@ -266,7 +284,7 @@ export const ExclusiveMemberForm = () => {
               buttonClassName="text-[#ffffff group-hover:text-[#8C7261]"
               hoverClassName="text-[#ffffff] border-[#2a2520] bg-[#F3F1EE]"
             >
-              Submit Inquiry
+              CLAIM YOUR INVITATION
             </AnimatedButton>
             <p
               className="text-[12px] text-[#9a9088] italic"

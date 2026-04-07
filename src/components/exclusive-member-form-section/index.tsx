@@ -20,7 +20,7 @@ export const ExclusiveMemberFormSection = () => {
           animate={isHeadingInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
           transition={{ duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          Apply to become an Exclusive Member
+          Apply to The Infinity
         </motion.h2>
       </div>
 

@@ -15,6 +15,10 @@ export const formSchema = z.object({
     .string()
     .min(1, "Anticipated visits is required")
     .regex(/^[A-Za-z]{3,9}\s*[-–]\s*[A-Za-z]{3,9}\s+\d{4}$/, "Use format: e.g. Oct – Nov 2025"),
+  preferredDates: z
+    .string()
+    .min(1, "Preferred dates are required")
+    .regex(/^[A-Za-z]{3,9}\s*[-–]\s*[A-Za-z]{3,9}\s+\d{4}$/, "Use format: e.g. Oct – Nov 2025"),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
