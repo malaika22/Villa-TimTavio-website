@@ -71,7 +71,7 @@ export const PillarHeroSection = ({
           {/* Subtitle */}
           <div className="overflow-hidden mt-4">
             <motion.h5
-              className="font-light font-sans text-[#fdfcf961] uppercase text-[0.58rem] tracking-[0.26em]"
+              className="font-light font-sans text-[#C9A96E] uppercase text-[0.58rem] tracking-[0.26em]"
               initial={{ y: 30, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
               transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
