@@ -61,7 +61,7 @@ export const TheEstateSection = () => {
 
         <div className="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-0">
           <div className="flex-1 overflow-hidden">
-            {["Six villas.", "One world."].map((line, i) => (
+            {["1 Estate.", "6 Suites."].map((line, i) => (
               <div key={line} className="overflow-hidden">
                 <motion.h5
                   className="text-[#2C2C2C] text-[32px] font-light leading-[1.08] sm:text-[40px] lg:text-[56px] lg:leading-[60.48px]"
@@ -86,9 +86,8 @@ export const TheEstateSection = () => {
               animate={isHeadingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
             >
-              Each villa is a private world — designed by local architects, furnished with Oaxacan
-              craft, and oriented toward either the ocean, the jungle, or the sky. No two are alike.
-              All are exceptional.
+              1 Estate. 6 Suites — 4 King Master Suites and 2 Bunk Rooms, each with a Queen and two
+              Twins. Designed by Ludwig Godefroy. No two suites are alike. All are exceptional.
             </motion.p>
 
             <motion.div
@@ -101,7 +100,7 @@ export const TheEstateSection = () => {
                 asChild
               >
                 <Link href="#contact" className="hover:bg-transparent!">
-                  Enquire About a Villa{" "}
+                  Enter The Infinity{" "}
                   <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </Button>
@@ -116,28 +115,28 @@ export const TheEstateSection = () => {
             <EstateCard
               Image={
                 <Image
-                  src="/images/estate-section/estate-1.png"
+                  src="/images/estate-section/estate-1.jpeg"
                   alt="estate-1"
                   layout="fill"
                   objectFit="cover"
                 />
               }
-              title="La Casa Grande"
-              subtitle="6 Guests · Ocean Pool Terrace · The Crown Villa"
+              title="King Master Suite."
+              subtitle="Private, open-air sleeping quarters framed by brutalist concrete and tropical gardens"
             />
           </motion.div>
           <motion.div variants={cardRight} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image
-                  src="/images/estate-section/estate-2.png"
+                  src="/images/estate-section/estate-2.jpeg"
                   alt="estate-2"
                   layout="fill"
                   objectFit="cover"
                 />
               }
-              title="La Casa Chica"
-              subtitle="2 Guests · Private Terrace · The Garden Suite"
+              title="Private Rooftop Terraces"
+              subtitle="Every suite features its own rooftop — designed for golden hour and nothing else"
             />
           </motion.div>
         </CardRow>
@@ -147,28 +146,28 @@ export const TheEstateSection = () => {
             <EstateCard
               Image={
                 <Image
-                  src="/images/estate-section/estate-3.png"
+                  src="/images/estate-section/estate-3.jpeg"
                   alt="estate-3"
                   layout="fill"
                   objectFit="cover"
                 />
               }
-              title="Villa Cielo"
-              subtitle="2 Guests · Rooftop Terrace · Sunset Views"
+              title="The Entrance"
+              subtitle="A singular threshold. Once you pass through, the world outside ceases to exist"
             />
           </motion.div>
           <motion.div variants={cardRight} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image
-                  src="/images/estate-section/estate-4.png"
+                  src="/images/estate-section/estate-4.jpeg"
                   alt="estate-4"
                   layout="fill"
                   objectFit="cover"
                 />
               }
-              title="Villa Cielo"
-              subtitle="2 Guests · Private Terrace · The Garden Suite"
+              title="Bunk Room"
+              subtitle="Queen bed and two twins — crafted in raw wood and concrete for those who travel together"
             />
           </motion.div>
         </CardRow>
@@ -178,28 +177,28 @@ export const TheEstateSection = () => {
             <EstateCard
               Image={
                 <Image
-                  src="/images/estate-section/estate-5.png"
+                  src="/images/estate-section/estate-5.jpeg"
                   alt="estate-5"
                   layout="fill"
                   objectFit="cover"
                 />
               }
-              title="Villa Tierra"
-              subtitle="3 Guests · Garden Bedroom · Private Terrace"
+              title="The Firepit & Social Sunbathing Pit"
+              subtitle="Where the Pacific becomes your backdrop and every afternoon turns into an occasion"
             />
           </motion.div>
           <motion.div variants={cardRight} className="h-[280px] sm:h-[320px] lg:h-[365px]">
             <EstateCard
               Image={
                 <Image
-                  src="/images/estate-section/estate-6.png"
+                  src="/images/estate-section/estate-6.jpeg"
                   alt="estate-6"
                   layout="fill"
                   objectFit="cover"
                 />
               }
-              title="Villa Cielo"
-              subtitle="2 Guests · Clifftop · Pacific Panorama"
+              title="Living Room & Bar Area"
+              subtitle="The heart of the estate — where evenings begin and no one wants them to end"
             />
           </motion.div>
         </CardRow>

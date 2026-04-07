@@ -12,7 +12,7 @@ export const EstateCard = ({
 }: {
   Image: React.ReactNode;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   className?: string;
 }) => {
   const [hovered, setHovered] = useState(false);
@@ -53,17 +53,22 @@ export const EstateCard = ({
             {title}
           </motion.h2>
         </div>
-        <div className="overflow-hidden mt-1">
-          <motion.p
-            className="text-white/80 text-[10px] uppercase font-light sm:text-xs"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", letterSpacing: "0.15em" }}
-            initial={{ y: 30, opacity: 0 }}
-            animate={hovered ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
-            transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.08 }}
-          >
-            {subtitle}
-          </motion.p>
-        </div>
+        {subtitle && (
+          <div className="overflow-hidden mt-1">
+            <motion.p
+              className="text-white/80 text-[10px] uppercase font-light sm:text-xs"
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                letterSpacing: "0.15em",
+              }}
+              initial={{ y: 30, opacity: 0 }}
+              animate={hovered ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
+              transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.08 }}
+            >
+              {subtitle}
+            </motion.p>
+          </div>
+        )}
       </div>
     </motion.div>
   );
