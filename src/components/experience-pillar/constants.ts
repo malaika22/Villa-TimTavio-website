@@ -2,8 +2,8 @@ export const experienceContent = [
   {
     src: "/images/experience-pillar/private-beach.jpg",
     alt: "Playa Carrizalillo",
-    title: "Golden hour belongs to everyone.",
-    subtitle: "Playa Carrizalillo · Puerto Escondido",
+    title: "A private audience with the Pacific.",
+    subtitle: "Playa TimTavio",
   },
   {
     src: "/images/experience-pillar/experience-3.jpg",

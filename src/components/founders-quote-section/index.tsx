@@ -41,7 +41,7 @@ export const FoundersQuoteSection = () => {
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.85 }}
       >
-        The Founders · Casa TimTavio
+        The Founders · Villa TimTavio
       </motion.p>
     </div>
   );
