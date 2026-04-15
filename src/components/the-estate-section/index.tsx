@@ -50,7 +50,7 @@ export const TheEstateSection = () => {
     <SectionContainer wrapperClassName="bg-[#F9F7F4]" id="villa">
       {/* Section header */}
       <div ref={headingRef}>
-        <div className="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-0">
+        <div className="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-0 items-center">
           <div className="flex-1 overflow-hidden">
             <div className="overflow-hidden">
               <motion.h5
@@ -70,7 +70,7 @@ export const TheEstateSection = () => {
 
           <div className="flex flex-col gap-6 lg:flex-1 lg:justify-between lg:gap-0">
             <motion.p
-              className="text-[#8A8278] text-[14px] font-light leading-relaxed lg:text-[15px]"
+              className="text-[#8A8278] text-[12px] font-light leading-relaxed "
               initial={{ opacity: 0, y: 16 }}
               animate={isHeadingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
@@ -85,7 +85,7 @@ export const TheEstateSection = () => {
               transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
             >
               <Button
-                className="p-0 text-[#2C2C2C99] text-[11px] bg-transparent hover:bg-transparent w-fit group hover:text-[#2C2C2C] hover:bg-transparent"
+                className="p-0 text-[#2C2C2C99] text-[11px] bg-transparent hover:bg-transparent w-fit group hover:text-[#2C2C2C] hover:bg-transparent mt-2"
                 asChild
               >
                 <Link href="#contact" className="hover:bg-transparent!">
@@ -156,7 +156,7 @@ export const TheEstateSection = () => {
                 />
               }
               title="King Master Suite"
-              subtitle="Private, open-air sleeping quarters framed by brutalist concrete and tropical gardens"
+              subtitle="Private, open-air sleeping quarters framed by brutalist concrete and tropical gardens."
             />
           </motion.div>
         </CardRow>

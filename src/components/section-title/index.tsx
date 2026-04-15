@@ -25,7 +25,7 @@ export const SectionTitle = ({
         viewport={{ once: true, amount: 0.2 }}
         custom={0}
       >
-        <p className="text-[#797168] text-[12px] leading-[28.8px] font-light max-w-[440px]">
+        <p className="text-[#797168] text-[12px] leading-[28.8px] font-light max-w-[650px]">
           {description}
         </p>
       </motion.div>

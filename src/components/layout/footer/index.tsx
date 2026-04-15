@@ -10,10 +10,12 @@ const navLinks = [
   { label: "PRIVACY", href: "/privacy" },
 ];
 
+const phone = "17022496669";
+
 const socialLinks = [
   { label: "INSTAGRAM", href: "https://www.instagram.com/casatimtavio/" },
   { label: "LINKEDIN", href: "https://wa.me" },
-  { label: "WHATSAPP", href: "https://wa.me" },
+  { label: "WHATSAPP", href: `https://wa.me/${phone}` },
 ];
 
 export const Footer = () => {

@@ -25,7 +25,7 @@ export const HeroSection = () => {
         />
         {/* <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" /> */}
 
-        <div className="absolute bottom-10 left-4 right-4 z-10 space-y-8 sm:bottom-14 sm:left-8 sm:right-8 sm:space-y-10 md:left-12 md:right-12 lg:bottom-[150px] lg:left-[100px] lg:right-auto lg:w-[600px] lg:space-y-[55px]">
+        <div className="absolute bottom-10 left-4 right-4 z-10 space-y-8 sm:bottom-14 sm:left-8 sm:right-8 sm:space-y-10 md:left-12 md:right-12 lg:bottom-[200px] lg:left-[100px] lg:right-auto lg:w-[600px] lg:space-y-[55px]">
           <motion.p
             className="text-[#F5F3F0CC] text-[10px] tracking-[0.2em]"
             variants={fade(0.3)}
