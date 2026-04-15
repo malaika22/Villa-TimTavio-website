@@ -1,7 +1,6 @@
 "use client";
 
 import { SectionContainer } from "../section-container";
-import { Button } from "../ui/button";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
@@ -21,7 +20,7 @@ export const PhilosophySection = () => {
         {/* Quote */}
         <div className="overflow-hidden flex-1">
           <motion.h4
-            className="text-[#F9F7F4BF] text-[22px] leading-[1.35] tracking-[0%] sm:text-[26px] lg:text-[32px] lg:leading-[40px]"
+            className="text-[#F9F7F4BF] text-[22px] leading-[1.35] tracking-[0%] sm:text-[26px] lg:text-[32px] lg:leading-[40px] text-center"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             initial={{ y: "100%", opacity: 0 }}
             animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
@@ -31,25 +30,6 @@ export const PhilosophySection = () => {
             them.&quot;
           </motion.h4>
         </div>
-
-        {/* Divider — draws in */}
-        <motion.div
-          className="hidden bg-[#FFFFFF1F] w-[1px] lg:block"
-          initial={{ height: 0, opacity: 0 }}
-          animate={isInView ? { height: 100, opacity: 1 } : { height: 0, opacity: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.35 }}
-        />
-
-        {/* CTA Button */}
-        <motion.div
-          initial={{ opacity: 0, x: 24 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 24 }}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.5 }}
-        >
-          <Button className="border border-[#F9F7F44D] bg-transparent hover:bg-[#FFFFFF1F] h-[49px] w-full text-[11px] text-[#F9F7F4BF] tracking-[0.2em] uppercase transition-colors duration-300 rounded-none cursor-pointer sm:w-[253px]">
-            Read our Philosophy
-          </Button>
-        </motion.div>
       </div>
     </SectionContainer>
   );

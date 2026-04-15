@@ -1,11 +1,11 @@
 export const NAV_LINKS = [
   {
-    label: "THE ESTATE",
-    href: "#estate",
+    label: "VILLA",
+    href: "#villa",
   },
   {
-    label: "FOOD",
-    href: "#food",
+    label: "CUISINE",
+    href: "#cuisine",
   },
   {
     label: "EXPERIENCES",
