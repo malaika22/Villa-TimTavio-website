@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { formSchema, type FormValues } from "./schema";
-import { AnimatedButton } from "../animated-button";
 
 const labelClass = "text-[10px] tracking-[0.18em] uppercase text-[#8a7f72] font-normal mb-1";
 
@@ -52,9 +51,6 @@ const AnimatedRow = ({ children, delay = 0 }: { children: React.ReactNode; delay
 };
 
 export const ExclusiveMemberForm = () => {
-  const submitRef = useRef(null);
-  const isSubmitInView = useInView(submitRef, { once: true, margin: "0px 0px -40px 0px" });
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,6 +63,7 @@ export const ExclusiveMemberForm = () => {
       intendedUse: "",
       anticipatedVisits: "",
       preferredDates: "",
+      numberOfGuests: "",
     },
   });
 
@@ -245,7 +242,14 @@ export const ExclusiveMemberForm = () => {
                 <FormItem className="space-y-1">
                   <FormLabel className={labelClass}>Anticipated Annual Visits</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Oct – Nov 2025" className={inputClass} {...field} />
+                    <Input
+                      type="number"
+                      min={1}
+                      max={52}
+                      placeholder="e.g. 4"
+                      className={inputClass}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
                 </FormItem>
@@ -253,7 +257,7 @@ export const ExclusiveMemberForm = () => {
             />
           </AnimatedRow>
 
-          {/* Row 5: Preferred Dates */}
+          {/* Row 5: Preferred Dates + Number of Guests */}
           <AnimatedRow>
             <FormField
               control={form.control}
@@ -268,24 +272,48 @@ export const ExclusiveMemberForm = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="numberOfGuests"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel className={labelClass}>Number of Guests</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={8}
+                      max={18}
+                      placeholder="8 – 18"
+                      className={inputClass}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-[11px] text-rose-400/80 font-light" />
+                  <p className="text-[10px] tracking-[0.06em] text-[#b0a898] pt-0.5">
+                    Minimum 8 guests &ndash; Maximum 18 guests per stay.
+                  </p>
+                </FormItem>
+              )}
+            />
           </AnimatedRow>
 
           {/* Submit */}
           <motion.div
-            ref={submitRef}
             className="pt-2 space-y-4"
             initial={{ opacity: 0, y: 16 }}
-            animate={isSubmitInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -40px 0px" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <AnimatedButton
-              href="#"
-              hrefClassName="bg-[#8C7261] text-[#ffffff] border-[#8C7261]"
-              buttonClassName="text-[#ffffff group-hover:text-[#8C7261]"
-              hoverClassName="text-[#ffffff] border-[#2a2520] bg-[#F3F1EE]"
+            <button
+              type="submit"
+              className="group relative inline-flex items-center justify-center overflow-hidden border border-[#8C7261] bg-[#8C7261] px-[28px] py-[13px] cursor-pointer w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              CLAIM YOUR INVITATION
-            </AnimatedButton>
+              <span className="absolute inset-0 translate-y-full bg-[#F3F1EE] transition-transform duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:translate-y-0" />
+              <span className="relative text-xs tracking-[0.15em] uppercase text-white transition-colors duration-200 group-hover:text-[#8C7261]">
+                Request Invitation
+              </span>
+            </button>
             <p
               className="text-[12px] text-[#9a9088] italic"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
