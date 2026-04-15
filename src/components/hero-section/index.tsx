@@ -6,14 +6,14 @@ import { motion } from "framer-motion";
 import { curtain, fade } from "./constants";
 import Link from "next/link";
 
-const words = "Where the Pacific begins to whisper.".split(" ");
+const words = "A brutalist sanctuary on the Oaxacan coast.".split(" ");
 
 export const HeroSection = () => {
   return (
     <div className="overflow-hidden">
       <section className="relative min-h-svh flex flex-col justify-end lg:min-h-0 lg:h-[945px]">
         <motion.div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/hero-section/hero-image.jpeg')]"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/hero-section/the-entrance.jpg')]"
           initial={{ scale: 1.06 }}
           animate={{ scale: 1 }}
           transition={{ duration: 9, ease: "easeOut" }}
@@ -27,7 +27,7 @@ export const HeroSection = () => {
 
         <div className="absolute bottom-10 left-4 right-4 z-10 space-y-8 sm:bottom-14 sm:left-8 sm:right-8 sm:space-y-10 md:left-12 md:right-12 lg:bottom-[150px] lg:left-[100px] lg:right-auto lg:w-[600px] lg:space-y-[55px]">
           <motion.p
-            className="text-[#E8E0D461] text-[10px] tracking-[0.2em]"
+            className="text-[#F5F3F0CC] text-[10px] tracking-[0.2em]"
             variants={fade(0.3)}
             initial="hidden"
             animate="show"
@@ -62,16 +62,6 @@ export const HeroSection = () => {
               </span>
             ))}
           </h1>
-
-          <motion.p
-            className="text-[#F5F3F0CC] text-[13px] tracking-[0.04em] sm:text-[14px]"
-            style={{ textShadow: "0 1px 12px rgba(0,0,0,0.8)" }}
-            variants={fade(1.4)}
-            initial="hidden"
-            animate="show"
-          >
-            1 Estate. 6 Suites. Entirely yours.
-          </motion.p>
 
           <motion.div
             className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-[40px]"
