@@ -1,20 +1,20 @@
 export const foodsContent = [
   {
     src: "/images/food-pillar/food-pillar-2.jpg",
-    alt: "food-3",
+    alt: "The Pour",
     title: "The Pour",
-    subtitle: "Crafted cocktails to complement every meal",
+    subtitle: "Bespoke agave and evening curation.",
   },
   {
     src: "/images/food-pillar/food-pillar-4.jpg",
-    alt: "food-4",
+    alt: "Mole Negro & Garden Herbs",
     title: "Mole Negro & Garden Herbs",
-    subtitle: "Every plate tells a story",
+    subtitle: "A masterclass in Oaxacan tradition.",
   },
   {
     src: "/images/food-pillar/food-pillar-5.jpg",
-    alt: "food-5",
+    alt: "Sea to Table",
     title: "Sea to Table",
-    subtitle: "Where every detail matters",
+    subtitle: "Dictated by the tide.",
   },
 ];
