@@ -28,9 +28,10 @@ export const FoundersQuoteSection = () => {
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.4 }}
       >
-        &quot;We built this place with our favorite things all in one place: brutalist architecture
-        by Ludwig Godefroy, luxury design by Bibiana Huber, Michelin-level food from Fónico and Chef
-        Billy Maldonado, and service for those that appreciate the finer subtleties of life.&quot;
+        &quot;Casa TimTavio was born from a singular vision: to curate the ultimate Oaxacan
+        sanctuary. We brought together the brutalist genius of Ludwig Godefroy, the design edge of
+        Bibiana Huber, and the Michelin-tier culinary direction of Chef Billy Maldonado to create an
+        experience entirely without compromise.&quot;
       </motion.h5>
 
       {/* Attribution */}
