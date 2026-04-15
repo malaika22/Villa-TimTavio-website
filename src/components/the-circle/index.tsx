@@ -101,12 +101,7 @@ export const TheCircle = () => {
         animate={isTopInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
       >
-        <Image
-          src="/images/the-circle-section.jpeg"
-          alt="the-circle-section"
-          fill
-          objectFit="cover"
-        />
+        <Image src="/images/night-villa.jpg" alt="Villa TimTavio" fill objectFit="cover" />
       </motion.div>
     </SectionContainer>
   );

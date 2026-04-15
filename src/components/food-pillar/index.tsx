@@ -12,15 +12,15 @@ import { foodsContent } from "./constants";
 
 export const FoodPillar = () => {
   return (
-    <div id="food">
+    <div id="cuisine">
       <PillarHeroSection
         tag="The Food"
-        title="Where the freshest seafood goes directly from sea to table on the beach."
-        subtitle="Private Chef · Local Harvest · Candlelit Evenings"
+        title="Always Oaxacan. Always fresh from sea and soil to your table."
+        subtitle="Elevated Mexican Cuisine · Michelin Pedigree · Bespoke Curation"
         Image={
           <NextImage
             src="/images/food-pillar/food-pillar-hero-section.jpg"
-            alt="A table set for one world"
+            alt="Michelin Pedigree"
             layout="fill"
             objectFit="cover"
             objectPosition="center"
@@ -29,7 +29,7 @@ export const FoodPillar = () => {
       />
       <SectionContainer wrapperClassName="bg-[#E3E0DA]">
         <SectionTitle
-          description="Michelin-trained chefs. Fresh-caught Pacific seafood. Private dinners composed entirely around you — never from a menu, always under open sky."
+          description="An exclusive partnership with Executive Chef Billy Maldonado and Mexico City’s Fónico. Every meal is a bespoke, Michelin-tier experience dictated by the morning's Pacific catch and tailored entirely to your personal palate."
           buttonText="Enter The Infinity"
         />
 
@@ -41,13 +41,13 @@ export const FoodPillar = () => {
                 Image={
                   <NextImage
                     src="/images/food-pillar/food-pillar-1.jpg"
-                    alt="food-1"
+                    alt="Aguachile de Pesca"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
                 title="Aguachile de Pesca"
-                subtitle="Fresh ingredients, plated with intention"
+                subtitle="Bright, raw, and sourced at dawn."
               />
             </motion.div>
             <motion.div variants={cardRight}>
@@ -56,13 +56,13 @@ export const FoodPillar = () => {
                 Image={
                   <NextImage
                     src="/images/food-pillar/food-pillar-3.jpg"
-                    alt="food-2"
+                    alt="Chef Billy Maldonado"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
                 title="Chef Billy Maldonado"
-                subtitle="The hand behind every plate"
+                subtitle="Executive Chef, Fónico Mexico City."
               />
             </motion.div>
           </AnimatedRow>

@@ -12,9 +12,9 @@ export const ExclusiveMemberFormSection = () => {
   return (
     <SectionContainer wrapperClassName="bg-[#F3F1EE]">
       {/* Heading */}
-      <div ref={headingRef} className="overflow-hidden">
+      <div ref={headingRef} className="overflow-hidden text-center">
         <motion.h2
-          className="text-[#2C2C2C] text-[28px] leading-[1.12] font-light text-center tracking-[0%] sm:text-[36px] lg:text-[52px] lg:leading-[56.16px]"
+          className="text-[#2C2C2C] text-[28px] leading-[1.12] font-light tracking-[0%] sm:text-[36px] lg:text-[52px] lg:leading-[56.16px]"
           style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           initial={{ y: "100%", opacity: 0 }}
           animate={isHeadingInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}

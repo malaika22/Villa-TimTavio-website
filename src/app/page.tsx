@@ -6,7 +6,6 @@ import { HeroSection } from "@/components/hero-section";
 import { TheCircle } from "@/components/the-circle";
 import { TheEstateSection } from "@/components/the-estate-section";
 import { PhilosophySection } from "@/components/philosophy-section";
-import { RequestStaySection } from "@/components/request-stay-section";
 
 export default function Home() {
   return (
@@ -19,7 +18,6 @@ export default function Home() {
       <TheCircle />
       <ExclusiveMemberFormSection />
       <PhilosophySection />
-      {/* <RequestStaySection /> */}
     </div>
   );
 }

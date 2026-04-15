@@ -1,18 +1,18 @@
 export const INTRO_STRIP_SECTION_CONTENT = [
   {
     label: "Location",
-    value: "Puerto Escondido, Oaxaca",
+    value: "Puerto Escondido, Oaxaca Mexico",
   },
   {
-    label: "Properties",
-    value: "1 Estate. 6 Suites.",
+    label: "Property",
+    value: "One Villa, Six Suites",
+  },
+  {
+    label: "Property Style",
+    value: "All Inclusive Villa Experience",
   },
   {
     label: "Access",
-    value: "Invitation Only",
-  },
-  {
-    label: "Estate Style",
-    value: "Whole-Estate Rental",
+    value: "The Infinity",
   },
 ];

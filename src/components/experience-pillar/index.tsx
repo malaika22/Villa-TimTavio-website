@@ -21,7 +21,7 @@ export const ExperiencePillar = () => {
         Image={
           <NextImage
             src="/images/experience-pillar/experience-hero-section.png"
-            alt="experience-pillar-hero-section"
+            alt="Puerto Escondido doesn't hold back. Neither should you"
             layout="fill"
             objectFit="cover"
           />
@@ -41,8 +41,8 @@ export const ExperiencePillar = () => {
                 className="h-[320px] sm:h-[420px] lg:h-[643px]"
                 Image={
                   <NextImage
-                    src="/images/experience-pillar/experience-8.jpeg"
-                    alt="experience-1"
+                    src="/images/experience-pillar/experience-1.jpeg"
+                    alt="Punta Zicatela"
                     layout="fill"
                     objectFit="cover"
                   />
@@ -56,14 +56,14 @@ export const ExperiencePillar = () => {
                 className="h-[320px] sm:h-[420px] lg:h-[643px]"
                 Image={
                   <NextImage
-                    src="/images/experience-pillar/experience-6.webp"
-                    alt="experience-2"
+                    src="/images/experience-pillar/experience-2.webp"
+                    alt="Sunset rides"
                     layout="fill"
                     objectFit="cover"
                   />
                 }
                 title="The shore,at your own pace."
-                subtitle="Sunset rides · Arranged exclusively"
+                subtitle="Sunset rides · Curated upon request"
               />
             </motion.div>
           </AnimatedRow>

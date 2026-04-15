@@ -14,11 +14,27 @@ export const formSchema = z.object({
   anticipatedVisits: z
     .string()
     .min(1, "Anticipated visits is required")
-    .regex(/^[A-Za-z]{3,9}\s*[-–]\s*[A-Za-z]{3,9}\s+\d{4}$/, "Use format: e.g. Oct – Nov 2025"),
+    .refine(
+      (val) => {
+        const n = parseInt(val, 10);
+        return !isNaN(n) && n >= 1 && n <= 52;
+      },
+      { message: "Enter a number between 1 and 52" }
+    ),
   preferredDates: z
     .string()
     .min(1, "Preferred dates are required")
     .regex(/^[A-Za-z]{3,9}\s*[-–]\s*[A-Za-z]{3,9}\s+\d{4}$/, "Use format: e.g. Oct – Nov 2025"),
+  numberOfGuests: z
+    .string()
+    .min(1, "Number of guests is required")
+    .refine(
+      (val) => {
+        const n = parseInt(val, 10);
+        return !isNaN(n) && n >= 8 && n <= 18;
+      },
+      { message: "Guest count must be between 8 and 18" }
+    ),
 });
 
 export type FormValues = z.infer<typeof formSchema>;

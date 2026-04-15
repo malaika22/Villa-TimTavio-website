@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 const navLinks = [
-  { label: "THE ESTATE", href: "#estate" },
+  { label: "THE VILLA", href: "#villa" },
+  { label: "CUISINE", href: "#cuisine" },
   { label: "EXPERIENCES", href: "#experiences" },
   { label: "THE INFINITY", href: "#the-infinity" },
   { label: "CONTACT", href: "/contact" },
@@ -10,7 +11,8 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { label: "INSTAGRAM", href: "https://instagram.com" },
+  { label: "INSTAGRAM", href: "https://www.instagram.com/casatimtavio/" },
+  { label: "LINKEDIN", href: "https://wa.me" },
   { label: "WHATSAPP", href: "https://wa.me" },
 ];
 
@@ -48,7 +50,7 @@ export const Footer = () => {
 
       <div className="flex flex-col items-center gap-4 px-4 text-center sm:px-8 md:px-12 lg:flex-row lg:items-center lg:justify-between lg:text-left">
         <p className="text-[#FFFFFF33] text-[11px] tracking-[0.4px]">
-          © 2025 Casa TimTavio · Puerto Escondido, Oaxaca · Mexico
+          © 2026 Casa TimTavio · Puerto Escondido, Oaxaca · Mexico
         </p>
 
         <p className="text-[#FFFFFF33] text-[14px] italic font-heading">For those who know.</p>
