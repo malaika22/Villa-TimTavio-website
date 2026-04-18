@@ -11,7 +11,7 @@ const words = "A brutalist sanctuary on the Oaxacan coast.".split(" ");
 export const HeroSection = () => {
   return (
     <div className="overflow-hidden">
-      <section className="relative min-h-svh flex flex-col justify-end lg:min-h-0 lg:h-[945px] mt-[80px]">
+      <section className="relative min-h-svh flex flex-col justify-end lg:min-h-0 lg:h-[945px] mt-[60px] lg:mt-[80px]">
         <motion.div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/hero-section/the-entrance.jpg')]"
           initial={{ scale: 1.06 }}
