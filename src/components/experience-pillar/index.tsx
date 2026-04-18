@@ -30,7 +30,7 @@ export const ExperiencePillar = () => {
       />
       <SectionContainer wrapperClassName="bg-[#E3E0DA]">
         <SectionTitle
-          description="From humpback whale encounters to private turtle releases at dawn — Puerto Escondido offers experiences that cannot be manufactured, replicated, or forgotten."
+          description="Experiences that cannot be manufactured, replicated, or forgotten. Curated entirely by your dedicated concierge, the full portfolio of excursions unlocks once you enter The Infinity."
           buttonText="Enter The Infinity"
         />
 

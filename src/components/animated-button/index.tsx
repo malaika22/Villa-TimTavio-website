@@ -24,7 +24,7 @@ export const AnimatedButton = ({
       <Link
         href={href}
         className={cn(
-          "relative inline-flex items-center justify-center overflow-hidden border border-[#18181840] px-[28px] py-[13px] group",
+          "relative inline-flex items-center justify-center overflow-hidden border border-[#181818]  px-[28px] py-[13px] group",
           hrefClassName
         )}
       >
@@ -36,7 +36,7 @@ export const AnimatedButton = ({
         />
         <span
           className={cn(
-            "relative text-xs tracking-[0.15em] text-[#1818188C] group-hover:text-white transition-colors duration-200 uppercase",
+            "relative text-xs tracking-[0.15em] text-[#181818]  group-hover:text-white transition-colors duration-200 uppercase",
             buttonClassName
           )}
         >
