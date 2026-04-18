@@ -97,13 +97,13 @@ export const ExclusiveMemberForm = () => {
       }
 
       // 2. Send email notification
-      // await fetch("/api/notify-invitation", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(data),
-      // }).catch(() => {
-      //   console.error("Email send failed");
-      // });
+      await fetch("/api/notify-invitation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).catch(() => {
+        console.error("Email send failed");
+      });
 
       if (success) {
         setSuccessOpen(true);
