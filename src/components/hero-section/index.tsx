@@ -13,7 +13,7 @@ export const HeroSection = () => {
     <div className="overflow-hidden">
       <section className="relative min-h-svh flex flex-col justify-end lg:min-h-0 lg:h-[945px] mt-[60px] lg:mt-[80px]">
         <motion.div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/hero-section/the-entrance.jpg')]"
+          className="absolute inset-0 bg-cover bg-no-repeat bg-[url('/images/hero-section/the-entrance.jpg')] bg-[position:-13px_0] md:bg-[position:0_0]"
           initial={{ scale: 1.06 }}
           animate={{ scale: 1 }}
           transition={{ duration: 9, ease: "easeOut" }}
