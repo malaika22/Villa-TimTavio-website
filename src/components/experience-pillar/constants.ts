@@ -1,15 +1,16 @@
 export const experienceContent = [
   {
-    src: "/images/experience-pillar/agave.jpg",
-    alt: "Playa Carrizalillo",
-    title: "A private audience with the Pacific.",
-    subtitle: "Playa TimTavio",
+    src: "/images/experience-pillar/agave.png",
+    alt: "Bespoke Mezcal Curation",
+    title: "Bespoke Mezcal Curation.",
+    subtitle:
+      "From the soil to the glass. Exclusive tours of Oaxacan agave fields and guided in-villa tastings",
   },
   {
     src: "/images/experience-pillar/experience-5.jpg",
-    alt: "Bioluminescent Bay",
-    title: "The sea glows blue.",
-    subtitle: "Bioluminescent Bay · A once-in-a-lifetime encounter",
+    alt: "The Estate Beach",
+    title: "The Estate Beach.",
+    subtitle: "Private sea turtle releases at dawn, directly in front of the villa",
   },
   {
     src: "/images/experience-pillar/experience-4.png",
