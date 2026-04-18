@@ -88,7 +88,7 @@ export const TheEstateSection = () => {
                 href="#contact"
                 className="group relative inline-flex items-center gap-2 border border-[#2C2C2C] px-5 py-2.5  overflow-hidden lg:mt-5"
               >
-                <span className="absolute inset-0 bg-[#2C2C2C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" />
+                <span className="absolute inset-0 bg-[#8C7261] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" />
                 <span className="relative text-[11px] font-medium tracking-[0.15em] uppercase text-[#2C2C2C] group-hover:text-[#F5F3F0] transition-colors duration-300">
                   Enter The Infinity
                 </span>
