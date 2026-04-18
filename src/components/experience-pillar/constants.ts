@@ -1,6 +1,6 @@
 export const experienceContent = [
   {
-    src: "/images/experience-pillar/private-beach.jpg",
+    src: "/images/experience-pillar/agave.jpg",
     alt: "Playa Carrizalillo",
     title: "A private audience with the Pacific.",
     subtitle: "Playa TimTavio",
