@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -23,6 +23,9 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { formSchema, type FormValues } from "./schema";
+import { Spinner } from "../ui/spinner";
+import { supabase } from "@/lib/supabase/service";
+import { FormSubmissionDialog } from "./FormSubmissionDialog";
 
 const labelClass = "text-[10px] tracking-[0.18em] uppercase text-[#8a7f72] font-normal mb-1";
 
@@ -66,9 +69,51 @@ export const ExclusiveMemberForm = () => {
       numberOfGuests: "",
     },
   });
+  const [isLoading, setLoading] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+  const onSubmit = async (data: FormValues) => {
+    setLoading(true);
+
+    try {
+      // 1. Save to database
+      const { error, success } = await supabase.from("exclusive-member").insert({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        city: data.city,
+        country: data.country,
+        intended_use: data.intendedUse,
+        anticipated_visits: parseInt(data.anticipatedVisits),
+        preferred_dates: data.preferredDates,
+        number_of_guests: parseInt(data.numberOfGuests),
+      });
+
+      if (error) {
+        console.error("Form submission failed", error);
+        setLoading(false);
+        return;
+      }
+
+      // 2. Send email notification
+      // await fetch("/api/notify-invitation", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(data),
+      // }).catch(() => {
+      //   console.error("Email send failed");
+      // });
+
+      if (success) {
+        setSuccessOpen(true);
+        form.reset();
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -266,7 +311,7 @@ export const ExclusiveMemberForm = () => {
                 <FormItem className="space-y-1">
                   <FormLabel className={labelClass}>Preferred Dates</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Oct – Nov 2025" className={inputClass} {...field} />
+                    <Input placeholder="e.g. 12-13 Oct" className={inputClass} {...field} />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
                 </FormItem>
@@ -281,16 +326,16 @@ export const ExclusiveMemberForm = () => {
                   <FormControl>
                     <Input
                       type="number"
-                      min={8}
-                      max={18}
-                      placeholder="8 – 18"
+                      min={1}
+                      max={16}
+                      placeholder="8 – 16"
                       className={inputClass}
                       {...field}
                     />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
                   <p className="text-[10px] tracking-[0.06em] text-[#b0a898] pt-0.5">
-                    Minimum 8 guests &ndash; Maximum 18 guests per stay.
+                    Minimum 8 guests &ndash; Maximum 16 guests per stay.
                   </p>
                 </FormItem>
               )}
@@ -306,13 +351,22 @@ export const ExclusiveMemberForm = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <button
-              type="submit"
-              className="group relative inline-flex items-center justify-center overflow-hidden border border-[#8C7261] bg-[#8C7261] px-[28px] py-[13px] cursor-pointer w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={isLoading}
+              className="group relative inline-flex items-center justify-center overflow-hidden border border-[#8C7261] bg-[#8C7261] px-[28px] py-[13px] cursor-pointer w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed min-w-[220px]"
             >
-              <span className="absolute inset-0 translate-y-full bg-[#F3F1EE] transition-transform duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:translate-y-0" />
-              <span className="relative text-xs tracking-[0.15em] uppercase text-white transition-colors duration-200 group-hover:text-[#8C7261]">
-                Request Invitation
-              </span>
+              <span
+                className={cn(
+                  isLoading ? "translate-y-0" : "translate-y-full",
+                  "absolute inset-0 bg-[#F3F1EE] transition-transform duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:translate-y-0"
+                )}
+              />
+              {isLoading ? (
+                <Spinner className="text-[#8C7261]" />
+              ) : (
+                <span className="relative text-xs tracking-[0.15em] uppercase text-white transition-colors duration-200 group-hover:text-[#8C7261]">
+                  Request Invitation
+                </span>
+              )}
             </button>
             <p
               className="text-[12px] text-[#9a9088] italic"
@@ -323,6 +377,7 @@ export const ExclusiveMemberForm = () => {
           </motion.div>
         </form>
       </Form>
+      <FormSubmissionDialog successOpen={successOpen} setSuccessOpen={setSuccessOpen} />
     </section>
   );
 };

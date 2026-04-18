@@ -29,7 +29,7 @@ export const FoodPillar = () => {
       />
       <SectionContainer wrapperClassName="bg-[#E3E0DA]">
         <SectionTitle
-          description="An exclusive partnership with Executive Chef Billy Maldonado and Mexico City’s Fónico. Every meal is a bespoke, Michelin-tier experience dictated by the morning's Pacific catch and tailored entirely to your personal palate."
+          description="Elevated Oaxacan cuisine rooted in wellness and local ingredients, where the guest comes first."
           buttonText="Enter The Infinity"
         />
 
@@ -37,7 +37,7 @@ export const FoodPillar = () => {
           <AnimatedRow className="lg:grid-cols-[2fr_1fr]">
             <motion.div variants={cardLeft}>
               <PillarCard
-                className="h-[320px] sm:h-[420px] lg:h-[650px]"
+                className="h-[420px] lg:h-[650px]"
                 Image={
                   <NextImage
                     src="/images/food-pillar/food-pillar-1.jpg"
@@ -52,13 +52,14 @@ export const FoodPillar = () => {
             </motion.div>
             <motion.div variants={cardRight}>
               <PillarCard
-                className="h-[320px] sm:h-[420px] lg:h-[650px]"
+                className="h-[420px] lg:h-[650px]"
                 Image={
                   <NextImage
                     src="/images/food-pillar/food-pillar-3.jpg"
                     alt="Chef Billy Maldonado"
                     layout="fill"
                     objectFit="cover"
+                    objectPosition="top"
                   />
                 }
                 title="Chef Billy Maldonado"
@@ -71,7 +72,7 @@ export const FoodPillar = () => {
             {foodsContent.map(({ src, title, subtitle, alt }) => (
               <motion.div key={alt} variants={cardUp}>
                 <PillarCard
-                  className="h-[280px] sm:h-[340px] lg:h-[424px]"
+                  className="h-[340px] lg:h-[424px]"
                   Image={<NextImage src={src} alt={alt} layout="fill" objectFit="cover" />}
                   title={title}
                   subtitle={subtitle}

@@ -9,7 +9,7 @@ export const INTRO_STRIP_SECTION_CONTENT = [
   },
   {
     label: "Property Style",
-    value: "All Inclusive Villa Experience",
+    value: "All Inclusive Experience",
   },
   {
     label: "Access",

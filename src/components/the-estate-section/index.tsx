@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { EstateCard } from "./estate-card";
-import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import { SectionContainer } from "../section-container";
 import { motion, useInView, Variants } from "framer-motion";
@@ -70,47 +69,52 @@ export const TheEstateSection = () => {
 
           <div className="flex flex-col gap-6 lg:flex-1 lg:justify-between lg:gap-0">
             <motion.p
-              className="text-[#8A8278] text-[12px] font-light leading-relaxed "
+              className="text-[18px] text-center  leading-relaxed  italic font-heading lg:text-[24px] lg:text-start"
               initial={{ opacity: 0, y: 16 }}
               animate={isHeadingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
             >
-              Villa TimTavio — Accommodating up to 16 guests across four King Master Suites and two
-              luxury Bunk Rooms.
+              Villa TimTavio Accommodating 8 to 16 guests. Sweeping curves and dramatic shadows
+              seamlessly unite every room, social space, and sunset view in absolute privacy.
             </motion.p>
 
             <motion.div
+              className="flex justify-center lg:justify-start"
               initial={{ opacity: 0, y: 10 }}
               animate={isHeadingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
             >
-              <Button
-                className="p-0 text-[#2C2C2C99] text-[11px] bg-transparent hover:bg-transparent w-fit group hover:text-[#2C2C2C] hover:bg-transparent mt-2"
-                asChild
+              <Link
+                href="#contact"
+                className="group relative inline-flex items-center gap-2 border border-[#2C2C2C] px-5 py-2.5  overflow-hidden lg:mt-5"
               >
-                <Link href="#contact" className="hover:bg-transparent!">
-                  Enter The Infinity{" "}
-                  <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-              </Button>
+                <span className="absolute inset-0 bg-[#2C2C2C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" />
+                <span className="relative text-[11px] font-medium tracking-[0.15em] uppercase text-[#2C2C2C] group-hover:text-[#F5F3F0] transition-colors duration-300">
+                  Enter The Infinity
+                </span>
+                <ArrowRight
+                  size={13}
+                  className="relative text-[#2C2C2C] group-hover:text-[#F5F3F0] transition-all duration-300 group-hover:translate-x-1"
+                />
+              </Link>
             </motion.div>
           </div>
         </div>
       </div>
 
       <section className="space-y-4 mt-6 sm:space-y-6 lg:mt-8 lg:space-y-8">
-        <CardRow className="lg:grid-cols-[2fr_1fr]">
+        <CardRow className="lg:grid-cols-[1fr_1fr]">
           <motion.div variants={cardLeft} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image
                   src="/images/estate-section/the-curve-and-pool.jpg"
-                  alt="The Curve & Pool"
+                  alt="The Entrance"
                   layout="fill"
                   objectFit="cover"
                 />
               }
-              title="The Curve & Pool"
+              title="The Entrance"
               subtitle="A seamless architectural meridian stretching from the threshold straight to the horizon."
             />
           </motion.div>
@@ -122,6 +126,7 @@ export const TheEstateSection = () => {
                   alt="Living Room & Bar Area"
                   layout="fill"
                   objectFit="cover"
+                  objectPosition="top right"
                 />
               }
               title="Living Room & Bar Area"
@@ -130,7 +135,7 @@ export const TheEstateSection = () => {
           </motion.div>
         </CardRow>
 
-        <CardRow className="lg:grid-cols-[1fr_2fr]">
+        <CardRow className="lg:grid-cols-[1fr_1fr]">
           <motion.div variants={cardLeft} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
@@ -139,6 +144,7 @@ export const TheEstateSection = () => {
                   alt="The Dining Room"
                   layout="fill"
                   objectFit="cover"
+                  objectPosition="top 100% left 10%"
                 />
               }
               title="The Dining Room"
@@ -161,8 +167,8 @@ export const TheEstateSection = () => {
           </motion.div>
         </CardRow>
 
-        <CardRow className="lg:grid-cols-2">
-          <motion.div variants={cardLeft} className="h-[280px] sm:h-[320px] lg:h-[365px]">
+        <CardRow className="lg:grid-cols-[1fr_1fr]">
+          <motion.div variants={cardLeft} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image
@@ -176,7 +182,7 @@ export const TheEstateSection = () => {
               subtitle="Crafted in raw wood and concrete, designed for those who travel together."
             />
           </motion.div>
-          <motion.div variants={cardRight} className="h-[280px] sm:h-[320px] lg:h-[365px]">
+          <motion.div variants={cardRight} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
                 <Image

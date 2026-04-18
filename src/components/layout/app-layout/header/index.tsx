@@ -90,16 +90,22 @@ export const Header = () => {
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="relative h-7 w-[120px] shrink-0 sm:h-8 sm:w-[148px] lg:h-10 lg:w-[175px]"
+          className="flex flex-col items-start gap-1"
         >
-          <Image
-            src="/images/logo-dark.png"
-            alt="Casa Tim Tavio Logo"
-            fill
-            className="object-contain object-left"
-            sizes="175px"
-            priority
-          />
+          <div className="relative h-7 w-[120px] shrink-0 sm:h-8 sm:w-[148px] lg:h-10 lg:w-[175px]">
+            <Image
+              src="/images/logo-dark.png"
+              alt="Casa Tim Tavio Logo"
+              fill
+              className="object-contain object-left"
+              sizes="175px"
+              priority
+            />
+          </div>
+
+          <span className="text-[6px] tracking-[0.2em]  text-[#8C7261] uppercase sm:text-[9px] lg:text-[7px] w-full text-end">
+            Puerto Escondido · Oaxaca · Mexico
+          </span>
         </motion.div>
         <div className="space-x-[52px] hidden lg:flex">
           {NAV_LINKS.map((link, i) => {
@@ -145,13 +151,6 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <AnimatedButton
-            href="#contact"
-            hrefClassName="!px-4 !py-2.5 sm:!px-5 sm:!py-3"
-            buttonClassName="!text-[10px]"
-          >
-            Request An Invitation
-          </AnimatedButton>
           <button
             type="button"
             aria-expanded={menuOpen}
@@ -254,7 +253,10 @@ export const Header = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                <AnimatedButton href="#" hrefClassName="!flex !w-full !justify-center">
+                <AnimatedButton
+                  href="#exclusive-member"
+                  hrefClassName="!flex !w-full !justify-center"
+                >
                   Request an Invitation
                 </AnimatedButton>
               </motion.div>

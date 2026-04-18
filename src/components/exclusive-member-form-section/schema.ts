@@ -24,7 +24,7 @@ export const formSchema = z.object({
   preferredDates: z
     .string()
     .min(1, "Preferred dates are required")
-    .regex(/^[A-Za-z]{3,9}\s*[-–]\s*[A-Za-z]{3,9}\s+\d{4}$/, "Use format: e.g. Oct – Nov 2025"),
+    .regex(/^\d{1,2}-\d{1,2}\s+[A-Za-z]{3,9}$/, "Use format: e.g. 12-13 Oct"),
   numberOfGuests: z
     .string()
     .min(1, "Number of guests is required")

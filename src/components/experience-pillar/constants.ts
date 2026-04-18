@@ -6,7 +6,7 @@ export const experienceContent = [
     subtitle: "Playa TimTavio",
   },
   {
-    src: "/images/experience-pillar/experience-3.jpg",
+    src: "/images/experience-pillar/experience-5.jpg",
     alt: "Bioluminescent Bay",
     title: "The sea glows blue.",
     subtitle: "Bioluminescent Bay · A once-in-a-lifetime encounter",
