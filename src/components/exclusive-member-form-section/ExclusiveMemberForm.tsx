@@ -64,7 +64,7 @@ export const ExclusiveMemberForm = () => {
       city: "",
       country: "",
       intendedUse: "",
-      anticipatedVisits: "",
+      referredByRepresentation: "",
       preferredDates: "",
       numberOfGuests: "",
     },
@@ -85,7 +85,7 @@ export const ExclusiveMemberForm = () => {
         city: data.city,
         country: data.country,
         intended_use: data.intendedUse,
-        anticipated_visits: parseInt(data.anticipatedVisits),
+        referred_by_representation: data.referredByRepresentation || null,
         preferred_dates: data.preferredDates,
         number_of_guests: parseInt(data.numberOfGuests),
       });
@@ -282,16 +282,16 @@ export const ExclusiveMemberForm = () => {
             />
             <FormField
               control={form.control}
-              name="anticipatedVisits"
+              name="referredByRepresentation"
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel className={labelClass}>Anticipated Annual Visits</FormLabel>
+                  <FormLabel className={labelClass}>
+                    Referred By / Representation{" "}
+                    <span className="normal-case tracking-normal text-[#b0a898]">(optional)</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      min={1}
-                      max={52}
-                      placeholder="e.g. 4"
+                      placeholder="Name, agency, or member referral"
                       className={inputClass}
                       {...field}
                     />

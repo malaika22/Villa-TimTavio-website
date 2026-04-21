@@ -58,7 +58,7 @@ export const RequestStaySection = () => {
               animate={isLeftInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.55 }}
             >
-              Every stay at Casa TimTavio is arranged personally. There are no booking engines, no
+              Every stay at Villa TimTavio is arranged personally. There are no booking engines, no
               availability calendars. Tell us who you are and what you&apos;re looking for —
               we&apos;ll take care of the rest.
             </motion.p>

@@ -55,7 +55,7 @@ export const FoodPillar = () => {
                 className="h-[420px] lg:h-[650px]"
                 Image={
                   <NextImage
-                    src="/images/food-pillar/food-pillar-3.jpg"
+                    src="/images/food-pillar/food-pillar-3.jpeg"
                     alt="Chef Billy Maldonado"
                     layout="fill"
                     objectFit="cover"

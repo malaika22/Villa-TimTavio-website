@@ -95,7 +95,7 @@ export const Header = () => {
           <div className="relative h-7 w-[120px] shrink-0 sm:h-8 sm:w-[148px] lg:h-10 lg:w-[175px]">
             <Image
               src="/images/logo-dark.png"
-              alt="Casa Tim Tavio Logo"
+              alt="Villa Tim Tavio Logo"
               fill
               className="object-contain object-left"
               sizes="175px"

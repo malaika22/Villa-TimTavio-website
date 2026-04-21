@@ -11,16 +11,8 @@ export const formSchema = z.object({
   city: z.string().min(1, "City is required"),
   country: z.string().min(1, "Country is required"),
   intendedUse: z.string().min(1, "Please select intended use"),
-  anticipatedVisits: z
-    .string()
-    .min(1, "Anticipated visits is required")
-    .refine(
-      (val) => {
-        const n = parseInt(val, 10);
-        return !isNaN(n) && n >= 1 && n <= 52;
-      },
-      { message: "Enter a number between 1 and 52" }
-    ),
+  /** Optional — who referred them or agency representation */
+  referredByRepresentation: z.string().max(500),
   preferredDates: z
     .string()
     .min(1, "Preferred dates are required")

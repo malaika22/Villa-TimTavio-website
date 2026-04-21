@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
             <td style="padding: 8px 0;">${data.country}</td></tr>
         <tr><td style="padding: 8px 0; color: #8a7f72;">Intended Use</td>
             <td style="padding: 8px 0;">${data.intendedUse}</td></tr>
-        <tr><td style="padding: 8px 0; color: #8a7f72;">Anticipated Annual Visits</td>
-            <td style="padding: 8px 0;">${data.anticipatedVisits}</td></tr>
+        <tr><td style="padding: 8px 0; color: #8a7f72;">Referred By / Representation</td>
+            <td style="padding: 8px 0;">${data.referredByRepresentation || "—"}</td></tr>
         <tr><td style="padding: 8px 0; color: #8a7f72;">Preferred Dates</td>
             <td style="padding: 8px 0;">${data.preferredDates}</td></tr>
         <tr><td style="padding: 8px 0; color: #8a7f72;">Number of Guests</td>

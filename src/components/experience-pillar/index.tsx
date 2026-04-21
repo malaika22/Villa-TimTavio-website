@@ -47,7 +47,7 @@ export const ExperiencePillar = () => {
                     objectFit="cover"
                   />
                 }
-                title="The kind of place, you stop checking your phone."
+                title="The kind of place you stop checking your phone."
                 subtitle="Punta Zicatela · Oaxaca · Mexico"
               />
             </motion.div>

@@ -4,7 +4,7 @@ export const BORDER = "#E6D5C5";
 export const BORDER_ERROR = "#f87171";
 
 export const contactItems = [
-  { label: "EMAIL", value: "inquiries@casatimtavio.com" },
+  { label: "EMAIL", value: "info@villatimtavio.com" },
   { label: "WHATSAPP", value: "+52 000 000 0000" },
   { label: "LOCATION", value: "Puerto Escondido, Oaxaca · Mexico" },
   { label: "RESPONSE", value: "Within 24 hours, always personal" },

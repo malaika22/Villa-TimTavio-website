@@ -26,7 +26,7 @@ export const PhilosophySection = () => {
             animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0 }}
           >
-            &quot;There are places in the world that ask nothing of you. Casa TimTavio is one of
+            &quot;There are places in the world that ask nothing of you. Villa TimTavio is one of
             them.&quot;
           </motion.h4>
         </div>

@@ -13,7 +13,7 @@ export const siteMetadata: Metadata = {
 
   keywords: [
     "Villa TimTavio",
-    "Casa TimTavio",
+    "Villa TimTavio",
     "private villa Puerto Escondido",
     "luxury estate Oaxaca",
     "invitation only villa Mexico",
@@ -26,9 +26,9 @@ export const siteMetadata: Metadata = {
     "exclusive villa rental Mexico",
   ],
 
-  authors: [{ name: "Casa TimTavio", url: "https://www.villatimtavio.com" }],
+  authors: [{ name: "Villa TimTavio", url: "https://www.villatimtavio.com" }],
 
-  creator: "Casa TimTavio",
+  creator: "Villa TimTavio",
 
   openGraph: {
     type: "website",

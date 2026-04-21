@@ -52,7 +52,7 @@ export const Footer = () => {
 
       <div className="flex flex-col items-center gap-4 px-4 text-center sm:px-8 md:px-12 lg:flex-row lg:items-center lg:justify-between lg:text-left">
         <p className="text-[#FFFFFF33] text-[11px] tracking-[0.4px]">
-          © 2026 Casa TimTavio · Puerto Escondido, Oaxaca · Mexico
+          © 2026 Villa TimTavio · Puerto Escondido, Oaxaca · Mexico
         </p>
 
         <p className="text-[#FFFFFF33] text-[14px] italic font-heading">For those who know.</p>

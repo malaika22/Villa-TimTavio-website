@@ -25,7 +25,7 @@ export async function submitExclusiveForm(data: FormValues) {
     city: values.city,
     country: values.country,
     intended_use: values.intendedUse,
-    anticipated_visits: parseInt(values.anticipatedVisits),
+    referred_by_representation: values.referredByRepresentation.trim() || null,
     preferred_dates: values.preferredDates,
     number_of_guests: parseInt(values.numberOfGuests),
   });
