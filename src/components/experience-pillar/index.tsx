@@ -1,7 +1,6 @@
 "use client";
 
 import { PillarHeroSection } from "../pillar-hero-section";
-import NextImage from "next/image";
 import { SectionContainer } from "../section-container";
 import { SectionTitle } from "../section-title";
 import { PillarCard } from "../pillar-card";
@@ -11,6 +10,7 @@ import { cardLeft } from "./animations";
 import { cardRight } from "./animations";
 import { cardUp } from "./animations";
 import { experienceContent } from "./constants";
+import { IMAGE_SIZES, OptimizedImage } from "../ui/optimized-image";
 
 export const ExperiencePillar = () => {
   return (
@@ -19,11 +19,10 @@ export const ExperiencePillar = () => {
         title="Puerto Escondido doesn't hold back. Neither should you."
         subtitle="Humpback Whales · Turtle Releases · The Wild Pacific"
         Image={
-          <NextImage
-            src="/images/experience-pillar/experience-hero-section.png"
+          <OptimizedImage
+            src="/images/experience-pillar/experience-hero-section.webp"
             alt="Puerto Escondido doesn't hold back. Neither should you"
-            layout="fill"
-            objectFit="cover"
+            sizes={IMAGE_SIZES.pillarHero}
           />
         }
         tag="The Experience"
@@ -40,11 +39,10 @@ export const ExperiencePillar = () => {
               <PillarCard
                 className="h-[320px] sm:h-[420px] lg:h-[643px]"
                 Image={
-                  <NextImage
-                    src="/images/experience-pillar/experience-1.jpeg"
+                  <OptimizedImage
+                    src="/images/experience-pillar/experience-1.webp"
                     alt="Punta Zicatela"
-                    layout="fill"
-                    objectFit="cover"
+                    sizes={IMAGE_SIZES.pillarCardLarge}
                   />
                 }
                 title="The kind of place you stop checking your phone."
@@ -55,11 +53,10 @@ export const ExperiencePillar = () => {
               <PillarCard
                 className="h-[320px] sm:h-[420px] lg:h-[643px]"
                 Image={
-                  <NextImage
+                  <OptimizedImage
                     src="/images/experience-pillar/experience-2.webp"
                     alt="Sunset rides"
-                    layout="fill"
-                    objectFit="cover"
+                    sizes={IMAGE_SIZES.pillarCardLarge}
                   />
                 }
                 title="The shore,at your own pace."
@@ -73,7 +70,13 @@ export const ExperiencePillar = () => {
               <motion.div key={alt} variants={cardUp}>
                 <PillarCard
                   className="h-[280px] sm:h-[340px] lg:h-[424px]"
-                  Image={<NextImage src={src} alt={alt} layout="fill" objectFit="cover" />}
+                  Image={
+                    <OptimizedImage
+                      src={src}
+                      alt={alt}
+                      sizes={IMAGE_SIZES.pillarCardSmall}
+                    />
+                  }
                   title={title}
                   subtitle={subtitle}
                 />

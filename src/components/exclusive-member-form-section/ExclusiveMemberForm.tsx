@@ -24,7 +24,7 @@ import {
 import { cn } from "@/lib/utils";
 import { formSchema, type FormValues } from "./schema";
 import { Spinner } from "../ui/spinner";
-import { supabase } from "@/lib/supabase/service";
+import { getSupabase } from "@/lib/supabase/service";
 import { FormSubmissionDialog } from "./FormSubmissionDialog";
 
 const labelClass = "text-[10px] tracking-[0.18em] uppercase text-[#8a7f72] font-normal mb-1";
@@ -77,7 +77,7 @@ export const ExclusiveMemberForm = () => {
 
     try {
       // 1. Save to database
-      const { error, success } = await supabase.from("exclusive-member").insert({
+      const { error, success } = await getSupabase().from("exclusive-member").insert({
         first_name: data.firstName,
         last_name: data.lastName,
         email: data.email,

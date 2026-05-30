@@ -29,9 +29,9 @@ export const Footer = () => {
           <Image
             src="/images/logo-light.png"
             alt="Villa TimTavio"
-            layout="fill"
-            objectFit="contain"
-            objectPosition="left center"
+            fill
+            className="object-contain object-left"
+            sizes="160px"
           />
         </Link>
 

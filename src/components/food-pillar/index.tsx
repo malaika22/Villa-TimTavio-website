@@ -1,7 +1,6 @@
 "use client";
 
 import { PillarHeroSection } from "../pillar-hero-section";
-import NextImage from "next/image";
 import { SectionContainer } from "../section-container";
 import { PillarCard } from "../pillar-card";
 import { SectionTitle } from "../section-title";
@@ -9,6 +8,7 @@ import { motion } from "framer-motion";
 import { cardLeft, cardRight, cardUp } from "./animations";
 import { AnimatedRow } from "./AnimatedRow";
 import { foodsContent } from "./constants";
+import { IMAGE_SIZES, OptimizedImage } from "../ui/optimized-image";
 
 export const FoodPillar = () => {
   return (
@@ -18,12 +18,10 @@ export const FoodPillar = () => {
         title="Always Oaxacan. Always fresh from sea and soil to your table."
         subtitle="Elevated Mexican Cuisine · Michelin Pedigree · Bespoke Curation"
         Image={
-          <NextImage
-            src="/images/food-pillar/food-pillar-hero-section.jpg"
+          <OptimizedImage
+            src="/images/food-pillar/food-pillar-hero-section.webp"
             alt="Michelin Pedigree"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            sizes={IMAGE_SIZES.pillarHero}
           />
         }
       />
@@ -39,11 +37,10 @@ export const FoodPillar = () => {
               <PillarCard
                 className="h-[420px] lg:h-[650px]"
                 Image={
-                  <NextImage
-                    src="/images/food-pillar/food-pillar-1.jpg"
+                  <OptimizedImage
+                    src="/images/food-pillar/food-pillar-1.webp"
                     alt="Aguachile de Pesca"
-                    layout="fill"
-                    objectFit="cover"
+                    sizes={IMAGE_SIZES.pillarCardLarge}
                   />
                 }
                 title="Aguachile de Pesca"
@@ -54,12 +51,11 @@ export const FoodPillar = () => {
               <PillarCard
                 className="h-[420px] lg:h-[650px]"
                 Image={
-                  <NextImage
-                    src="/images/food-pillar/food-pillar-3.jpeg"
+                  <OptimizedImage
+                    src="/images/food-pillar/food-pillar-3.webp"
                     alt="Chef Billy Maldonado"
-                    layout="fill"
-                    objectFit="cover"
-                    objectPosition="top"
+                    sizes={IMAGE_SIZES.pillarCardLarge}
+                    className="object-cover object-top"
                   />
                 }
                 title="Chef Billy Maldonado"
@@ -73,7 +69,13 @@ export const FoodPillar = () => {
               <motion.div key={alt} variants={cardUp}>
                 <PillarCard
                   className="h-[340px] lg:h-[424px]"
-                  Image={<NextImage src={src} alt={alt} layout="fill" objectFit="cover" />}
+                  Image={
+                    <OptimizedImage
+                      src={src}
+                      alt={alt}
+                      sizes={IMAGE_SIZES.pillarCardSmall}
+                    />
+                  }
                   title={title}
                   subtitle={subtitle}
                 />

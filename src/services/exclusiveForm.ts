@@ -2,7 +2,7 @@
 "use server";
 
 import { formSchema, FormValues } from "@/components/exclusive-member-form-section/schema";
-import { supabase } from "@/lib/supabase/service";
+import { getSupabase } from "@/lib/supabase/service";
 
 export async function submitExclusiveForm(data: FormValues) {
   console.log("data", data);
@@ -17,7 +17,7 @@ export async function submitExclusiveForm(data: FormValues) {
 
   const values = parsed.data;
 
-  return supabase.from("exclusive-member").insert({
+  return getSupabase().from("exclusive-member").insert({
     first_name: values.firstName,
     last_name: values.lastName,
     email: values.email,
