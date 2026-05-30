@@ -99,7 +99,7 @@ export const Header = () => {
               fill
               className="object-contain object-left"
               sizes="175px"
-              priority
+              preload
             />
           </div>
 

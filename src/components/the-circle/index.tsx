@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { SectionContainer } from "../section-container";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { IMAGE_SIZES, OptimizedImage } from "../ui/optimized-image";
 
 const circleData = [
   // "Priority access to all six villas",
@@ -101,7 +101,11 @@ export const TheCircle = () => {
         animate={isTopInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
       >
-        <Image src="/images/night-villa.jpg" alt="Villa TimTavio" fill objectFit="cover" />
+        <OptimizedImage
+          src="/images/night-villa.webp"
+          alt="Villa TimTavio"
+          sizes={IMAGE_SIZES.portrait}
+        />
       </motion.div>
     </SectionContainer>
   );

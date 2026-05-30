@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { EstateCard } from "./estate-card";
 import { ArrowRight } from "lucide-react";
 import { SectionContainer } from "../section-container";
@@ -8,6 +7,7 @@ import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { IMAGE_SIZES, OptimizedImage } from "../ui/optimized-image";
 
 const rowVariants = {
   hidden: {},
@@ -107,11 +107,10 @@ export const TheEstateSection = () => {
           <motion.div variants={cardLeft} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
-                <Image
-                  src="/images/estate-section/the-curve-and-pool.jpg"
+                <OptimizedImage
+                  src="/images/estate-section/the-curve-and-pool.webp"
                   alt="The Entrance"
-                  layout="fill"
-                  objectFit="cover"
+                  sizes={IMAGE_SIZES.estateCard}
                 />
               }
               title="The Entrance"
@@ -121,12 +120,11 @@ export const TheEstateSection = () => {
           <motion.div variants={cardRight} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
-                <Image
-                  src="/images/estate-section/living-room-bar-area.jpg"
+                <OptimizedImage
+                  src="/images/estate-section/living-room-bar-area.webp"
                   alt="Living Room & Bar Area"
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="top right"
+                  sizes={IMAGE_SIZES.estateCard}
+                  className="object-cover object-[top_right]"
                 />
               }
               title="Living Room & Bar Area"
@@ -139,12 +137,11 @@ export const TheEstateSection = () => {
           <motion.div variants={cardLeft} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
-                <Image
-                  src="/images/estate-section/dining-room.jpg"
+                <OptimizedImage
+                  src="/images/estate-section/dining-room.webp"
                   alt="The Dining Room"
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="top 100% left 10%"
+                  sizes={IMAGE_SIZES.estateCard}
+                  className="object-cover object-[top_100%_left_10%]"
                 />
               }
               title="The Dining Room"
@@ -154,11 +151,10 @@ export const TheEstateSection = () => {
           <motion.div variants={cardRight} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
-                <Image
-                  src="/images/estate-section/king-master-suite.jpg"
+                <OptimizedImage
+                  src="/images/estate-section/king-master-suite.webp"
                   alt="King Master Suite"
-                  layout="fill"
-                  objectFit="cover"
+                  sizes={IMAGE_SIZES.estateCard}
                 />
               }
               title="King Master Suite"
@@ -171,11 +167,10 @@ export const TheEstateSection = () => {
           <motion.div variants={cardLeft} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
-                <Image
-                  src="/images/estate-section/bunk-room.jpg"
+                <OptimizedImage
+                  src="/images/estate-section/bunk-room.webp"
                   alt="Bunk Room"
-                  layout="fill"
-                  objectFit="cover"
+                  sizes={IMAGE_SIZES.estateCard}
                 />
               }
               title="Bunk Room"
@@ -185,11 +180,10 @@ export const TheEstateSection = () => {
           <motion.div variants={cardRight} className="h-[320px] sm:h-[420px] lg:h-[659px]">
             <EstateCard
               Image={
-                <Image
-                  src="/images/estate-section/fire-sunbathing-pit.jpg"
+                <OptimizedImage
+                  src="/images/estate-section/fire-sunbathing-pit.webp"
                   alt="The Firepit & Social Sunbathing Pit"
-                  layout="fill"
-                  objectFit="cover"
+                  sizes={IMAGE_SIZES.estateCard}
                 />
               }
               title="The Firepit & Social Sunbathing Pit"

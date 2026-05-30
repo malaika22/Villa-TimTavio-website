@@ -44,16 +44,16 @@ export const PillarHeroSection = ({
         >
           {/* Eyebrow tag */}
           <div className="overflow-hidden mb-3">
-            <motion.p
+            <motion.div
               className="text-[#C9A96E] text-[10px] tracking-[0.3em] uppercase flex items-center gap-2 justify-center"
               initial={{ y: 20, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
               transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0 }}
             >
-              <div className="w-[10px] h-[1px] bg-[#C9A96E]" />
+              <span className="w-[10px] h-[1px] bg-[#C9A96E]" aria-hidden="true" />
               {tag}
-              <div className="w-[10px] h-[1px] bg-[#C9A96E]" />
-            </motion.p>
+              <span className="w-[10px] h-[1px] bg-[#C9A96E]" aria-hidden="true" />
+            </motion.div>
           </div>
 
           {/* Main title */}
