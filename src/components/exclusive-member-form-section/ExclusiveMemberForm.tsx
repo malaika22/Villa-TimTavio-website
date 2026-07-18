@@ -24,7 +24,6 @@ import {
 import { cn } from "@/lib/utils";
 import { formSchema, type FormValues } from "./schema";
 import { Spinner } from "../ui/spinner";
-import { getSupabase } from "@/lib/supabase/service";
 import { FormSubmissionDialog } from "./FormSubmissionDialog";
 
 const labelClass = "text-[10px] tracking-[0.18em] uppercase text-[#8a7f72] font-normal mb-1";
@@ -65,50 +64,41 @@ export const ExclusiveMemberForm = () => {
       country: "",
       intendedUse: "",
       referredByRepresentation: "",
-      preferredDates: "",
+      socialLink: "",
+      preferredFrom: "",
+      preferredTo: "",
       numberOfGuests: "",
     },
   });
   const [isLoading, setLoading] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
 
+  // Today (YYYY-MM-DD) for the date pickers' min; end date can't precede start.
+  const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .split("T")[0];
+  const startDate = form.watch("preferredFrom");
+
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
 
     try {
-      // 1. Save to database
-      const { error, success } = await getSupabase().from("exclusive-member").insert({
-        first_name: data.firstName,
-        last_name: data.lastName,
-        email: data.email,
-        phone: data.phone,
-        city: data.city,
-        country: data.country,
-        intended_use: data.intendedUse,
-        referred_by_representation: data.referredByRepresentation || null,
-        preferred_dates: data.preferredDates,
-        number_of_guests: parseInt(data.numberOfGuests),
+      // Forward to the estate-manager API (inquiry lands in the dashboard) and
+      // send the notification email. The /api/notify-invitation route does both.
+      const res = await fetch("/api/notify-invitation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
 
-      if (error) {
-        console.error("Form submission failed", error);
+      if (!res.ok) {
+        console.error("Form submission failed", res.status);
         setLoading(false);
         return;
       }
 
-      // 2. Send email notification
-      await fetch("/api/notify-invitation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }).catch(() => {
-        console.error("Email send failed");
-      });
-
-      if (success) {
-        setSuccessOpen(true);
-        form.reset();
-      }
+      setSuccessOpen(true);
+      form.reset();
     } catch (err) {
       console.error("Unexpected error:", err);
     } finally {
@@ -302,21 +292,48 @@ export const ExclusiveMemberForm = () => {
             />
           </AnimatedRow>
 
-          {/* Row 5: Preferred Dates + Number of Guests */}
+          {/* Row 5: Preferred Start Date + Preferred End Date */}
           <AnimatedRow>
             <FormField
               control={form.control}
-              name="preferredDates"
+              name="preferredFrom"
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel className={labelClass}>Preferred Dates</FormLabel>
+                  <FormLabel className={labelClass}>Arrival Date</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. 12-13 Oct" className={inputClass} {...field} />
+                    <Input
+                      type="date"
+                      min={today}
+                      className={cn(inputClass, !field.value && "text-[#b0a898]")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="preferredTo"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel className={labelClass}>Departure Date</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      min={startDate || today}
+                      className={cn(inputClass, !field.value && "text-[#b0a898]")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-[11px] text-rose-400/80 font-light" />
+                </FormItem>
+              )}
+            />
+          </AnimatedRow>
+
+          {/* Row 6: Number of Guests + Social Link */}
+          <AnimatedRow>
             <FormField
               control={form.control}
               name="numberOfGuests"
@@ -326,16 +343,36 @@ export const ExclusiveMemberForm = () => {
                   <FormControl>
                     <Input
                       type="number"
-                      min={1}
+                      min={3}
                       max={16}
-                      placeholder="8 – 16"
+                      placeholder="3 – 16"
                       className={inputClass}
                       {...field}
                     />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
                   <p className="text-[10px] tracking-[0.06em] text-[#b0a898] pt-0.5">
-                    Minimum 8 guests &ndash; Maximum 16 guests per stay.
+                    Minimum 3 guests &ndash; Maximum 16 guests per stay.
+                  </p>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="socialLink"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel className={labelClass}>Social Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://instagram.com/you"
+                      className={inputClass}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-[11px] text-rose-400/80 font-light" />
+                  <p className="text-[10px] tracking-[0.06em] text-[#b0a898] pt-0.5">
+                    Instagram, LinkedIn, or personal site.
                   </p>
                 </FormItem>
               )}
