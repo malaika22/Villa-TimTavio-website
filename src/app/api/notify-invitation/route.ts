@@ -3,13 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// const NOTIFY_EMAILS = [
-//   "Tim@villatimtavio.com",
-//   "Rodrigo@villatimtavio.com",
-//   "Tina@villatimtavio.com",
-// ];
-
-const NOTIFY_EMAILS = ["malaikaafridi22@gmail.com"];
+const NOTIFY_EMAILS = [
+  "Tim@villatimtavio.com",
+  "Rodrigo@villatimtavio.com",
+  "Tina@villatimtavio.com",
+  "malaikaafridi22@gmail.com",
+];
 
 // Estate-manager API (NestJS) that owns the dashboard's inquiry table.
 const MONOREPO_API_URL = process.env.MONOREPO_API_URL ?? "https://casa-timtavio-api.onrender.com";

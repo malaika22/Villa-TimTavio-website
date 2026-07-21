@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { formSchema, type FormValues } from "./schema";
+import { ElegantDatePicker } from "./ElegantDatePicker";
 import { Spinner } from "../ui/spinner";
 import { FormSubmissionDialog } from "./FormSubmissionDialog";
 
@@ -297,15 +298,16 @@ export const ExclusiveMemberForm = () => {
             <FormField
               control={form.control}
               name="preferredFrom"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem className="space-y-1">
                   <FormLabel className={labelClass}>Arrival Date</FormLabel>
                   <FormControl>
-                    <Input
-                      type="date"
+                    <ElegantDatePicker
+                      value={field.value}
+                      onChange={field.onChange}
                       min={today}
-                      className={cn(inputClass, !field.value && "text-[#b0a898]")}
-                      {...field}
+                      placeholder="Select arrival date"
+                      invalid={fieldState?.error != null}
                     />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
@@ -315,15 +317,16 @@ export const ExclusiveMemberForm = () => {
             <FormField
               control={form.control}
               name="preferredTo"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem className="space-y-1">
                   <FormLabel className={labelClass}>Departure Date</FormLabel>
                   <FormControl>
-                    <Input
-                      type="date"
+                    <ElegantDatePicker
+                      value={field.value}
+                      onChange={field.onChange}
                       min={startDate || today}
-                      className={cn(inputClass, !field.value && "text-[#b0a898]")}
-                      {...field}
+                      placeholder="Select departure date"
+                      invalid={fieldState?.error != null}
                     />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
