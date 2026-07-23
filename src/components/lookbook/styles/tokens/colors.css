@@ -1,0 +1,70 @@
+/* ─────────────────────────────────────────────────────────────────
+   Casa TimTavio — Semantic Color Tokens
+   Aliases that map the raw Figma scale to named intents.
+   ───────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Brand Palette ─────────────────────────────────────── */
+  --ct-ink:              rgb(24,24,24);        /* deepest near-black */
+  --ct-ink-body:         rgb(44,44,44);        /* primary body text */
+  --ct-ink-secondary:    rgb(121,113,104);     /* warm secondary text */
+  --ct-ink-ui:           rgb(112,110,122);     /* cooler UI meta text */
+  --ct-ink-muted:        rgb(143,136,128);     /* very muted / disabled */
+
+  /* ── Terracotta — primary brand accent ─────────────────── */
+  --ct-terracotta:       rgb(127,76,77);       /* main CTA, links, active states */
+  --ct-terracotta-deep:  rgb(92,53,48);        /* hover, pressed, decorative */
+  --ct-terracotta-pale:  rgba(127,76,77,0.1);  /* tints, tag backgrounds */
+  --ct-terracotta-mid:   rgba(127,76,77,0.18); /* sidebar active bg */
+
+  /* ── Forest Green — confirm / success ──────────────────── */
+  --ct-forest:           rgb(74,124,89);       /* success, confirm, CTA alt */
+  --ct-forest-deep:      rgb(58,94,72);        /* pressed, darker accent */
+  --ct-forest-pale:      rgba(74,124,89,0.1);  /* success tint bg */
+  --ct-forest-mid:       rgba(58,94,72,0.2);   /* success overlay */
+
+  /* ── Gold / Warm Sand ───────────────────────────────────── */
+  --ct-gold:             rgb(212,165,116);     /* warm gold accent */
+  --ct-gold-deep:        rgb(199,160,70);      /* darker gold */
+  --ct-gold-pale:        rgb(230,213,197);     /* sand / warm border */
+  --ct-amber:            rgb(160,120,64);      /* warning text */
+
+  /* ── System Feedback ────────────────────────────────────── */
+  --ct-success:          rgb(76,175,80);
+  --ct-success-text:     rgb(102,187,106);
+  --ct-success-bg:       rgba(76,175,80,0.15);
+  --ct-success-border:   rgba(76,175,80,0.3);
+  --ct-warning-bg:       rgb(255,244,230);
+  --ct-warning-border:   rgba(212,165,116,0.3);
+  --ct-warning-text:     rgb(160,120,64);
+  --ct-error:            rgb(184,74,53);
+
+  /* ── Surfaces ───────────────────────────────────────────── */
+  --ct-surface-page:     rgb(243,241,238);     /* website page background */
+  --ct-surface-app:      rgb(249,247,244);     /* app / dashboard background */
+  --ct-surface-warm:     rgb(255,244,230);     /* warm peach / notifications */
+  --ct-surface-stone:    rgb(227,224,218);     /* pull quote bg, gallery bg */
+  --ct-surface-stone-2:  rgb(232,228,222);     /* card borders, dividers */
+  --ct-surface-card:     rgb(255,255,255);     /* card & panel white */
+  --ct-surface-input:    rgb(245,243,240);     /* form input fill */
+  --ct-surface-raised:   rgb(240,237,233);     /* status bar, subtle raised */
+
+  /* ── Dark surfaces (sidebar, hero overlays) ─────────────── */
+  --ct-dark:             rgb(24,24,24);
+  --ct-dark-panel:       rgb(19,19,19);        /* owner dashboard sidebar */
+  --ct-dark-deep:        rgb(15,15,15);        /* mobile deep dark */
+  --ct-overlay-heavy:    rgba(12,8,6,0.88);    /* hero bottom overlay */
+  --ct-overlay-mid:      rgba(12,8,6,0.75);    /* mid-overlay */
+  --ct-overlay-light:    rgba(20,14,10,0.28);  /* side overlay */
+
+  /* ── Borders ────────────────────────────────────────────── */
+  --ct-border:           rgb(227,224,218);     /* standard divider */
+  --ct-border-light:     rgb(232,228,222);     /* light card border */
+  --ct-border-strong:    rgb(206,198,184);     /* strong / contrast border */
+  --ct-border-dark:      rgba(255,255,255,0.06); /* dark panel border */
+  --ct-border-input:     rgb(227,224,218);     /* form input border */
+
+  /* ── Pure ───────────────────────────────────────────────── */
+  --ct-white:            rgb(255,255,255);
+  --ct-black:            rgb(0,0,0);
+}

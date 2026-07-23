@@ -1,0 +1,725 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Native smooth scroll only when Lenis is off — Lenis owns inertia otherwise. */
+html { scroll-behavior: smooth; }
+html.has-smooth-scroll { scroll-behavior: auto; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  font-family: var(--ct-font-body);
+  background: var(--ct-dark);
+  color: var(--ct-ink-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+a { color: inherit; }
+button { font: inherit; }
+
+/* ── NAV ───────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; flex-direction: row; justify-content: space-between; align-items: center;
+  padding: 28px 100px;
+  background: linear-gradient(to bottom, rgba(14,10,7,0.55) 0%, rgba(14,10,7,0) 100%);
+  pointer-events: none;
+}
+nav a, nav button { pointer-events: auto; }
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.nav-logo-img { display: block; height: 22px; width: auto; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--ct-white); }
+
+/* ── PROGRESS RAIL ─────────────────────────────────────── */
+.rail {
+  position: fixed; right: 26px; top: 50%; transform: translateY(-50%); z-index: 1000;
+  display: flex; flex-direction: column; gap: 9px; align-items: center;
+  background: rgba(15,12,10,0.32); backdrop-filter: blur(8px);
+  padding: 14px 9px; border-radius: 999px;
+}
+.rail-dot { width: 5px; height: 5px; border-radius: 999px; background: rgba(255,255,255,0.3); display: block; text-decoration: none; transition: all 0.25s ease; }
+.rail-dot.is-active { background: var(--ct-gold); height: 18px; }
+.rail-gap { width: 5px; height: 1px; }
+
+/* ── DECK MECHANICS ────────────────────────────────────── */
+.deck-wrap { position: relative; }
+.deck-slide {
+  position: sticky; top: 0; left: 0; width: 100%; height: 100vh;
+  overflow: hidden; display: flex;
+  box-shadow: inset 0 90px 140px -90px rgba(0,0,0,0.55);
+}
+/* Stacked vertical pages: panels sit on top of each other inside the sticky
+   slide; each subsequent page slides up from below to cover the previous
+   (transform driven by useDeckScroll). Later siblings paint on top. */
+.deck-track { position: relative; width: 100%; height: 100%; }
+.deck-panel {
+  position: absolute; inset: 0; overflow: hidden;
+  will-change: transform;
+  box-shadow: 0 -60px 100px -30px rgba(0,0,0,0.55);
+}
+.deck-panel:first-child { box-shadow: none; }
+/* pre-JS default: pages rest below the viewport so only page 1 shows */
+.deck-panel:not(:first-child) { transform: translate3d(0, 101vh, 0); }
+.deck-panel-bg { position: absolute; inset: 0; }
+.deck-panel-bg-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  z-index: 0;
+}
+.deck-panel-overlay { position: absolute; inset: 0; }
+
+.deck-panel-content {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 100px; max-width: 780px; gap: 24px;
+}
+.deck-panel.is-center .deck-panel-content { justify-content: center; align-items: center; text-align: center; max-width: 100%; gap: 20px; }
+
+/* Cover reads as a centered editorial title page */
+.deck-panel.is-cover .deck-panel-content {
+  justify-content: center; align-items: center; text-align: center;
+  max-width: 100%; margin: 0 auto; gap: 22px;
+}
+.deck-panel.is-cover .deck-body { margin: 0 auto; }
+
+.deck-panel.is-media .deck-panel-content {
+  justify-content: flex-end; align-items: center; text-align: center;
+  max-width: 100%; gap: 14px; padding-bottom: 56px;
+}
+.deck-panel.is-media .deck-media-caption {
+  text-shadow: 0 1px 14px rgba(0,0,0,0.75);
+}
+
+/* ── TYPOGRAPHY (raised per client feedback: bigger, clearer) ── */
+.deck-eyebrow { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(255,255,255,0.62); }
+.deck-headline { font-family: var(--ct-font-display); font-weight: 300; font-size: clamp(38px, 4.5vw, 64px); line-height: 1.08; color: rgba(255,255,255,0.97); }
+.deck-body { font-size: 16px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,0.82); max-width: 540px; }
+
+/* Overlay chrome (phase/page, index, cue) sits over unpredictable photos —
+   incl. bright ones like the arrival wood. A tight dark shadow keeps it legible
+   on any background without a heavy scrim. */
+.deck-meta { position: absolute; top: 92px; left: 100px; z-index: 5; display: flex; flex-direction: column; gap: 6px; pointer-events: none; text-shadow: 0 1px 3px rgba(0,0,0,0.65), 0 1px 14px rgba(0,0,0,0.5); }
+.deck-meta-phase { font-size: 9px; letter-spacing: 0.34em; text-transform: uppercase; color: rgb(238,206,150); }
+.deck-meta-page { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.95); }
+.deck-index { position: absolute; top: 92px; right: 100px; z-index: 5; font-size: 11px; letter-spacing: 0.18em; color: rgba(255,255,255,0.85); pointer-events: none; text-shadow: 0 1px 3px rgba(0,0,0,0.65), 0 1px 14px rgba(0,0,0,0.5); }
+
+.deck-cue { position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; align-items: center; gap: 9px; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(255,255,255,0.72); pointer-events: none; white-space: nowrap; text-shadow: 0 1px 3px rgba(0,0,0,0.65), 0 1px 14px rgba(0,0,0,0.5); }
+/* all motion is vertical now — the cue always points down */
+.deck-cue-chevron { display: inline-block; transform: rotate(90deg); }
+
+.deck-media-icon { width: 30px; height: 30px; color: rgba(255,255,255,0.55); }
+.deck-media-kind { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+.deck-media-caption { font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.92); max-width: 460px; }
+
+.deck-cover-cue { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 12px; }
+.deck-cover-cue-line { width: 1px; height: 46px; background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0)); }
+
+/* ── VERTICAL PANEL ────────────────────────────────────── */
+.deck-panel.is-vertical:not(.is-fill) .deck-panel-bg {
+  filter: blur(22px) brightness(0.4) saturate(0.7);
+  transform: scale(1.08);
+}
+.vt-media {
+  position: absolute; top: 45%; left: 50%;
+  transform: translate(-50%, -50%);
+  height: 78vh; width: auto;
+  z-index: 1; border-radius: 3px;
+  object-fit: contain;
+  box-shadow: 0 30px 80px -20px rgba(0,0,0,0.55);
+}
+.deck-panel.is-vertical.is-fill {
+  background: rgb(14,12,10);
+}
+.media-fill,
+.deck-panel.is-vertical.is-fill .vt-media {
+  position: absolute !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  transform: none !important;
+  object-fit: cover !important;
+  object-position: center center;
+  border-radius: 0;
+  z-index: 1;
+}
+.deck-panel.is-vertical:not(.is-fill) .deck-panel-content {
+  z-index: 2; justify-content: flex-end; align-items: center; text-align: center;
+  max-width: 100%; gap: 14px; padding-bottom: 96px;
+}
+.deck-panel.is-vertical.is-fill .deck-panel-content {
+  z-index: 3;
+  width: 100%;
+  max-width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 48px 56px;
+  pointer-events: none;
+}
+/* museum-plate label under a contained portrait — no band, small caps */
+.deck-panel.is-vertical:not(.is-fill) .deck-media-caption {
+  background: none; padding: 0; max-width: 640px;
+  font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.72);
+}
+.deck-media-caption--fill {
+  max-width: 560px;
+  text-align: center;
+  text-shadow: 0 1px 14px rgba(0,0,0,0.7);
+}
+
+/* ── GALLERY PANEL — seam-free (client note: no thin black lines) ── */
+.deck-panel.is-gallery {
+  display: flex; gap: 0;
+  background: rgb(14,12,10);
+}
+.gallery-col { flex: 1; height: 100%; overflow: hidden; position: relative; }
+.gallery-col-media {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+}
+.gallery-col video, .gallery-col img { width: 100%; height: 100%; object-fit: cover; }
+.deck-panel-media {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0;
+}
+.gallery-col-bg { position: absolute; inset: 0; }
+.gallery-col-label {
+  position: absolute; bottom: 28px; left: 0; right: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  z-index: 2; pointer-events: none;
+}
+
+/* ── CLOSING ───────────────────────────────────────────── */
+.closing-actions { display: flex; gap: 20px; margin-top: 14px; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; background: rgb(140,114,97); color: white; border: none; font-family: var(--ct-font-body); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; padding: 14px 30px; cursor: pointer; height: 47px; transition: opacity 0.2s; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-outline { display: inline-flex; align-items: center; justify-content: center; background: transparent; color: rgba(255,255,255,0.85); border: 1.5px solid rgba(255,255,255,0.3); font-family: var(--ct-font-body); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; padding: 14px 30px; cursor: pointer; height: 47px; transition: border-color 0.2s; }
+.btn-outline:hover { border-color: rgba(255,255,255,0.7); }
+
+/* ── INQUIRY FORM ──────────────────────────────────────── */
+.inquiry-form { padding: 100px 120px; background: var(--ct-surface-page); position: relative; z-index: 50; }
+.form-title { font-family: var(--ct-font-display); font-weight: 300; font-size: clamp(28px,3vw,42px); color: var(--ct-ink-body); text-align: center; margin-bottom: 12px; }
+.form-subtitle { font-size: 13px; font-weight: 300; color: var(--ct-ink-secondary); text-align: center; margin-bottom: 48px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; max-width: 720px; margin-left: auto; margin-right: auto; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ct-ink-secondary); }
+.field-input, .field-textarea { border: none; outline: none; box-shadow: inset 0 0 0 1px var(--ct-border); padding: 0 14px; font-family: var(--ct-font-body); font-size: 13px; font-weight: 300; color: var(--ct-ink-body); background: var(--ct-white); transition: box-shadow 0.15s; }
+.field-input { height: 48px; }
+.field-textarea { padding: 14px; min-height: 96px; resize: none; font-family: var(--ct-font-body); }
+.field-input:focus, .field-textarea:focus { box-shadow: inset 0 0 0 1px var(--ct-terracotta); }
+.field-input::placeholder, .field-textarea::placeholder { color: var(--ct-ink-muted); }
+.form-submit { margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 720px; margin-left: auto; margin-right: auto; }
+.btn-submit { display: inline-flex; align-items: center; justify-content: center; background: rgb(140,114,97); color: white; border: none; font-family: var(--ct-font-body); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; width: 240px; height: 49px; cursor: pointer; transition: opacity 0.2s; }
+.btn-submit:hover { opacity: 0.85; }
+.form-note { font-size: 12px; font-weight: 300; font-style: italic; color: var(--ct-ink-body); text-align: center; }
+
+/* ── FOOTER ────────────────────────────────────────────── */
+footer { background: rgb(28,28,28); padding: 56px 80px 40px; display: flex; flex-direction: column; gap: 32px; position: relative; z-index: 50; }
+.footer-top { display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.07); padding-bottom: 40px; }
+.footer-logo { display: flex; align-items: center; text-decoration: none; }
+.footer-logo-img { display: block; height: 24px; width: auto; }
+.footer-links { display: flex; gap: 32px; list-style: none; }
+.footer-links a { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.7); }
+.footer-bottom { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+.footer-copy { font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); }
+.footer-location { font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+
+/* ── COVER: TWO DOORS ──────────────────────────────────── */
+.cover-entries { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+.cover-door {
+  position: relative; display: flex; flex-direction: column; gap: 5px;
+  min-width: 232px; padding: 18px 22px 20px;
+  text-decoration: none; color: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(3px);
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+}
+.cover-door::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--ct-gold); transform: scaleY(0); transform-origin: top;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cover-door:hover { border-color: rgba(255,214,150,0.55); background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+.cover-door:hover::before { transform: scaleY(1); }
+.cover-door.is-primary { border-color: rgba(255,214,150,0.4); background: rgba(255,214,150,0.06); }
+.cover-door-label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.95); }
+.cover-door-sub { font-size: 11px; letter-spacing: 0.08em; color: rgba(255,255,255,0.6); }
+.cover-door-arrow {
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%) translateX(-4px);
+  font-size: 15px; color: var(--ct-gold); opacity: 0; transition: all 0.3s ease;
+}
+.cover-door:hover .cover-door-arrow { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+/* ── AMBIENT AUDIO TOGGLE ───────────────────────────────── */
+.audio-toggle {
+  position: fixed; left: 26px; bottom: 26px; z-index: 1000;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 14px 9px 12px; border-radius: 999px;
+  background: rgba(15,12,10,0.42); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.62);
+  cursor: pointer; transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+.audio-toggle:hover { color: rgba(255,255,255,0.95); border-color: rgba(255,255,255,0.3); }
+.audio-toggle.is-on { color: var(--ct-gold); border-color: rgba(255,214,150,0.4); }
+.audio-toggle-label { font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; }
+.audio-hint {
+  position: absolute; left: calc(100% + 12px); top: 50%; transform: translateY(-50%);
+  white-space: nowrap; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.85); background: rgba(15,12,10,0.7); backdrop-filter: blur(8px);
+  padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,214,150,0.3);
+  animation: rise-in 0.5s ease both;
+}
+@keyframes audio-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,214,150,0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(255,214,150,0); }
+}
+.audio-toggle.has-hint { animation: audio-pulse 1.8s ease-in-out infinite; border-color: rgba(255,214,150,0.5); color: rgba(255,214,150,0.9); }
+
+/* ── ENTER GATE (tap to enter → gate-split reveal) ─────── */
+.enter-gate { position: fixed; inset: 0; z-index: 3000; display: grid; place-items: center; cursor: pointer; padding: 24px; }
+.enter-gate.is-leaving { pointer-events: none; }
+.enter-gate:focus-visible { outline: none; }
+
+.enter-gate-half {
+  position: absolute; top: 0; bottom: 0; width: 51%; z-index: 1;
+  background: linear-gradient(to bottom, rgb(16,12,9) 0%, rgb(23,18,12) 52%, rgb(9,7,5) 100%);
+  transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+.enter-gate-half--l { left: 0; box-shadow: 20px 0 60px -20px rgba(0,0,0,0.7); }
+.enter-gate-half--r { right: 0; box-shadow: -20px 0 60px -20px rgba(0,0,0,0.7); }
+.enter-gate.is-leaving .enter-gate-half--l { transform: translateX(-102%); }
+.enter-gate.is-leaving .enter-gate-half--r { transform: translateX(102%); }
+
+.enter-gate::before {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(circle at 50% 40%, rgba(42,31,18,0.55) 0%, rgba(0,0,0,0) 58%);
+  transition: opacity 0.5s ease;
+}
+.enter-gate.is-leaving::before { opacity: 0; }
+
+.enter-gate-seam {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; z-index: 3; transform: translateX(-50%);
+  background: linear-gradient(to bottom, transparent, rgba(214,180,120,0.55) 45%, rgba(214,180,120,0.55) 55%, transparent);
+  opacity: 0;
+}
+.enter-gate.is-leaving .enter-gate-seam { animation: enter-seam 1s ease forwards; }
+
+.enter-gate-inner {
+  position: relative; z-index: 4;
+  display: flex; flex-direction: column; align-items: center; gap: 26px; text-align: center;
+  animation: enter-rise 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.5, 0, 0.75, 0);
+}
+.enter-gate.is-leaving .enter-gate-inner { animation: none; opacity: 0; transform: scale(0.9); }
+
+.enter-eyebrow { font-size: 10px; letter-spacing: 0.36em; text-transform: uppercase; color: rgba(214,180,120,0.75); }
+.enter-logo { height: clamp(34px, 7vw, 52px); width: auto; opacity: 0.96; }
+.enter-cue { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 12px; }
+.enter-cue-line { width: 1px; height: 42px; background: linear-gradient(to bottom, var(--ct-gold), rgba(214,180,120,0)); }
+.enter-cue-text {
+  font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.65);
+  animation: enter-pulse 2.4s ease-in-out infinite;
+}
+@keyframes enter-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes enter-pulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+@keyframes enter-seam { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SINGLE SUBTLE REVEAL ──────────────────────────────────
+   Per client feedback: no auto-fading text, no staggered rises.
+   Each panel's content fades in ONCE (opacity only) as it enters
+   view, then stays fully visible. `data-inview` is set by
+   ScrollReveal's IntersectionObserver; `.reveal-ready` gates the
+   hidden state so no-JS stays visible. */
+.reveal-ready .deck-panel:not(.is-swivel) > .deck-panel-content,
+.reveal-ready .deck-panel .gallery-col {
+  opacity: 0;
+  transition: opacity 0.65s ease;
+}
+.reveal-ready .deck-panel[data-inview] > .deck-panel-content,
+.reveal-ready .deck-panel[data-inview] .gallery-col {
+  opacity: 1;
+}
+
+/* ── SIGNATURE: THE SWIVEL DOOR (driven by --p on .deck-slide) ── */
+.deck-panel.is-swivel { background: rgb(8, 10, 12); }
+.swivel-reveal { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
+.swivel-reveal-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transform: scale(calc(1.1 - var(--p, 0) * 0.1));
+}
+.swivel-reveal-scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(6,10,14,0.78) 0%, rgba(6,10,14,0.1) 55%, rgba(6,10,14,0.2) 100%);
+  opacity: calc(1 - var(--p, 0) * 0.45);
+}
+.swivel-stage { position: absolute; inset: 0; z-index: 1; perspective: 2200px; perspective-origin: 28% 50%; }
+.swivel-door {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 66%;
+  transform-origin: left center;
+  transform: rotateY(calc(var(--p, 0) * -82deg));
+  transform-style: preserve-3d;
+  box-shadow: 40px 0 120px -30px rgba(0,0,0,0.8);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+.swivel-door-img, .swivel-door-face {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 60% center;
+}
+.swivel-door-face { background: linear-gradient(120deg, rgb(38,30,22) 0%, rgb(62,50,38) 55%, rgb(30,24,18) 100%); }
+.swivel-door-edge {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 78%, rgba(255,255,255,0.06) 100%);
+}
+.swivel-door-handle {
+  position: absolute; right: 6%; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 120px; border-radius: 3px;
+  background: linear-gradient(180deg, rgba(214,196,168,0.9), rgba(150,132,108,0.7));
+  box-shadow: 0 0 14px rgba(0,0,0,0.4);
+}
+.swivel-copy {
+  position: relative; z-index: 3;
+  opacity: clamp(0, calc((var(--p, 0) - 0.42) * 2.6), 1);
+}
+.swivel-hint {
+  position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%); z-index: 4;
+  font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(255,255,255,0.55);
+  opacity: calc(1 - var(--p, 0) * 1.4); pointer-events: none; white-space: nowrap;
+}
+
+/* ── EDITORIAL VARIANTS ── */
+.deck-panel-bg-img.is-dim { filter: brightness(0.4) saturate(0.85); }
+.panel-placeholder-note {
+  margin-top: 26px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4); border-left: 2px solid var(--ct-gold); padding-left: 12px;
+}
+.is-program .deck-panel-content,
+.is-amenities .deck-panel-content,
+.is-spec .deck-panel-content,
+.is-village .deck-panel-content,
+.is-scale .deck-panel-content,
+.is-service .deck-panel-content {
+  justify-content: center; max-width: 1080px; gap: 40px;
+}
+.is-program .deck-headline,
+.is-amenities .deck-headline,
+.is-spec .deck-headline,
+.is-village .deck-headline,
+.is-scale .deck-headline,
+.is-service .deck-headline { font-size: clamp(32px, 3.6vw, 54px); }
+
+/* ── 24-HOUR CULINARY PROGRAM ── */
+.program-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+.program-rail { list-style: none; display: flex; flex-direction: column; gap: 4px; position: relative; }
+.program-rail::before {
+  content: ''; position: absolute; left: 68px; top: 12px; bottom: 12px; width: 1px;
+  background: linear-gradient(180deg, rgba(255,214,150,0.7), rgba(255,255,255,0.08));
+}
+.program-window { display: grid; grid-template-columns: 56px 24px 1fr; align-items: baseline; gap: 0; padding: 14px 0; }
+.program-time { font-size: 12px; letter-spacing: 0.14em; color: var(--ct-gold); font-variant-numeric: tabular-nums; }
+.program-dot { position: relative; align-self: center; }
+.program-dot::before {
+  content: ''; position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
+  width: 7px; height: 7px; border-radius: 999px; background: var(--ct-gold);
+  box-shadow: 0 0 0 4px rgba(255,214,150,0.15);
+}
+.program-text { display: flex; flex-direction: column; gap: 4px; }
+.program-title { font-family: var(--ct-font-display); font-weight: 300; font-size: 21px; color: rgba(255,255,255,0.96); }
+.program-desc { font-size: 14px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.72); }
+
+/* ── PREMIUM AMENITIES ── */
+.amenities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.amenity-card {
+  display: flex; flex-direction: column; gap: 12px; padding: 28px 26px;
+  background: rgba(255,255,255,0.04); backdrop-filter: blur(3px);
+  border-top: 1px solid rgba(255,214,150,0.4);
+}
+.amenity-index { font-size: 12px; letter-spacing: 0.2em; color: var(--ct-gold); }
+.amenity-title { font-family: var(--ct-font-display); font-weight: 300; font-size: 24px; color: rgba(255,255,255,0.96); }
+.amenity-desc { font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.72); }
+
+/* ── PRODUCTION FOOTPRINT (SPEC) ── */
+.spec-content { max-width: 1120px !important; }
+.spec-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 8px; }
+.spec-stat { display: flex; flex-direction: column; gap: 8px; padding: 24px 26px; background: rgba(255,255,255,0.035); border-top: 1px solid rgba(255,255,255,0.15); }
+.spec-value { font-family: var(--ct-font-display); font-weight: 300; font-size: clamp(28px,3vw,42px); color: rgba(255,255,255,0.96); }
+.spec-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.68); line-height: 1.5; }
+.spec-points { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 32px; }
+.spec-points li {
+  font-size: 14px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.82);
+  padding-left: 18px; position: relative;
+}
+.spec-points li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; background: var(--ct-gold); }
+
+/* ── PRODUCTION VILLAGE ── */
+.village-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.village-card {
+  display: flex; flex-direction: column; gap: 12px; padding: 30px 26px; min-height: 180px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  justify-content: flex-end; position: relative;
+}
+.village-pin { width: 12px; height: 12px; border-radius: 999px; border: 2px solid var(--ct-gold); position: absolute; top: 26px; left: 26px; }
+.village-pin::after { content: ''; position: absolute; inset: 2px; border-radius: 999px; background: var(--ct-gold); opacity: 0.5; }
+.village-name { font-family: var(--ct-font-display); font-weight: 300; font-size: 24px; color: rgba(255,255,255,0.96); }
+.village-note { font-size: 13px; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.7); }
+
+/* ── THE RETREAT (offerings) ── */
+.scale-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; }
+.scale-mode { flex: 1 1 280px; max-width: 360px; display: flex; flex-direction: column; gap: 12px; padding: 34px 30px; background: rgba(255,255,255,0.04); border-top: 1px solid rgba(255,214,150,0.35); }
+.scale-tag { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ct-gold); }
+.scale-title { font-family: var(--ct-font-display); font-weight: 300; font-size: 27px; color: rgba(255,255,255,0.96); }
+.scale-desc { font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.75); }
+
+/* ── WELCOME SERVICE ── */
+.service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+.service-item { display: flex; flex-direction: column; gap: 8px; padding: 24px 26px; background: rgba(255,255,255,0.04); border-left: 1px solid rgba(255,214,150,0.4); }
+.service-title { font-family: var(--ct-font-display); font-weight: 300; font-size: 21px; color: rgba(255,255,255,0.96); }
+.service-desc { font-size: 14px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.72); }
+
+/* ── CLOSING (sign-off) ── */
+.is-closing .deck-panel-content { gap: 18px; }
+.is-closing::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, rgba(214,180,120,0.14) 0%, rgba(214,180,120,0) 55%);
+  opacity: 0.8;
+}
+.closing-eyebrow { color: rgba(214,180,120,0.8); }
+.closing-headline { color: #fff; }
+.closing-divider {
+  display: block; width: 128px; height: 1px; margin: 8px auto 2px;
+  background: linear-gradient(90deg, transparent, var(--ct-gold), transparent);
+  transform: scaleX(0);
+  transition: transform 0.9s cubic-bezier(0.22,1,0.36,1) 0.25s;
+}
+.reveal-ready [data-inview] .closing-divider,
+html:not(.reveal-ready) .closing-divider { transform: scaleX(1); }
+.closing-tagline {
+  font-family: var(--ct-font-display); font-weight: 300; font-style: italic;
+  font-size: clamp(18px, 2vw, 24px); color: rgba(255,255,255,0.82); letter-spacing: 0.01em;
+}
+.closing-signoff {
+  font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); margin-top: 6px;
+}
+
+/* ── AERIAL CHAPTER — drone placeholder ── */
+.deck-panel.is-aerial { width: 100%; }
+.aerial-frame {
+  position: absolute; inset: 9% 8%; z-index: 1; pointer-events: none;
+  border: 1px dashed rgba(214,180,120,0.3); border-radius: 4px;
+}
+.aerial-corner { position: absolute; width: 28px; height: 28px; border: 2px solid rgba(214,180,120,0.75); }
+.aerial-corner--tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+.aerial-corner--tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+.aerial-corner--bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+.aerial-corner--br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+.aerial-reticle {
+  position: absolute; left: 50%; top: 50%; width: 260px; height: 260px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 999px;
+}
+.aerial-reticle::before, .aerial-reticle::after {
+  content: ''; position: absolute; background: rgba(255,255,255,0.16);
+}
+.aerial-reticle::before { left: 50%; top: -14px; bottom: -14px; width: 1px; }
+.aerial-reticle::after { top: 50%; left: -14px; right: -14px; height: 1px; }
+.aerial-note {
+  position: absolute; bottom: 16px; right: 20px;
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+.aerial-content { z-index: 2; }
+.aerial-eyebrow { color: rgba(214,180,120,0.85); }
+
+/* ── PRODUCTION SITE PLAN + FLOOR PLAN (shared shell) ── */
+.siteplan-content { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 48px; align-items: center; max-width: 1180px !important; }
+.siteplan-head { display: flex; flex-direction: column; gap: 18px; }
+.is-siteplan .deck-headline, .is-floorplan .deck-headline { font-size: clamp(30px, 3.4vw, 50px); }
+.siteplan-legend { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-top: 4px; }
+.sp-legend-item { display: flex; align-items: center; gap: 11px; font-size: 13px; letter-spacing: 0.05em; color: rgba(255,255,255,0.82); }
+.sp-swatch { width: 14px; height: 14px; border-radius: 3px; flex: 0 0 auto; }
+.sp-swatch--estate { background: rgba(230,220,205,0.22); border: 1px solid rgba(255,255,255,0.45); }
+.sp-swatch--staging { background: rgba(214,180,106,0.28); border: 1px solid var(--ct-gold); }
+.sp-swatch--basecamp { background: rgba(201,138,82,0.3); border: 1px solid #c98a52; }
+.sp-swatch--crew { background: transparent; border: 1px dashed #d69a6a; }
+.fp-swatch--suite { background: rgba(214,180,106,0.28); border: 1px solid var(--ct-gold); }
+.fp-swatch--bunk { background: rgba(201,138,82,0.3); border: 1px solid #c98a52; }
+.fp-swatch--social { background: rgba(230,220,205,0.22); border: 1px solid rgba(255,255,255,0.45); }
+.fp-swatch--outdoor { background: rgba(43,111,143,0.45); border: 1px solid #4d90ad; }
+
+.siteplan-map { width: 100%; }
+.sp-svg { width: 100%; height: auto; display: block; }
+.sp-ocean { fill: #16303f; opacity: 0.9; }
+.sp-ocean-label { fill: rgba(255,255,255,0.32); font-size: 13px; letter-spacing: 4px; text-anchor: end; }
+.sp-perimeter { fill: rgba(255,255,255,0.03); stroke: var(--ct-gold); stroke-width: 2; stroke-dasharray: 9 7; }
+.sp-villa { fill: rgba(230,220,205,0.14); stroke: rgba(255,255,255,0.4); stroke-width: 1.5; }
+.sp-pool { fill: #2b6f8f; opacity: 0.85; }
+.sp-lot { fill: rgba(214,180,106,0.1); stroke: var(--ct-gold); stroke-width: 1.5; }
+.sp-truck { fill: rgba(214,180,106,0.22); stroke: rgba(214,180,106,0.5); stroke-width: 1; }
+.sp-basecamp { fill: rgba(201,138,82,0.2); stroke: #c98a52; stroke-width: 1.5; }
+.sp-gatepost { fill: var(--ct-gold); }
+.sp-guest-path { stroke: rgba(255,255,255,0.5); stroke-width: 1.5; stroke-dasharray: 5 5; }
+.sp-crew-path { fill: none; stroke: #d69a6a; stroke-width: 1.5; stroke-dasharray: 4 5; }
+.sp-road { stroke: rgba(255,255,255,0.22); stroke-width: 8; stroke-linecap: round; }
+.sp-label { fill: rgba(255,255,255,0.92); font-size: 14px; letter-spacing: 0.4px; text-anchor: middle; }
+.sp-label--gold { fill: var(--ct-gold); }
+.sp-label--amber { fill: #d69a6a; }
+.sp-sublabel { fill: rgba(255,255,255,0.55); font-size: 11.5px; letter-spacing: 0.4px; text-anchor: middle; font-style: italic; }
+.sp-compass line, .sp-compass path { stroke: rgba(255,255,255,0.5); fill: rgba(255,255,255,0.5); stroke-width: 1.5; }
+.sp-compass text { fill: rgba(255,255,255,0.6); font-size: 13px; text-anchor: middle; }
+.sp-scale line { stroke: rgba(255,255,255,0.4); stroke-width: 1.2; }
+.sp-scale text { fill: rgba(255,255,255,0.45); font-size: 11px; text-anchor: middle; letter-spacing: 1px; }
+
+/* Floor-plan shapes */
+.fp-shell { fill: rgba(255,255,255,0.02); stroke: rgba(255,255,255,0.35); stroke-width: 2; }
+.fp-suite { fill: rgba(214,180,106,0.16); stroke: var(--ct-gold); stroke-width: 1.5; }
+.fp-bunk { fill: rgba(201,138,82,0.18); stroke: #c98a52; stroke-width: 1.5; }
+.fp-social { fill: rgba(230,220,205,0.1); stroke: rgba(255,255,255,0.45); stroke-width: 1.5; }
+.fp-outdoor { fill: rgba(43,111,143,0.28); stroke: #4d90ad; stroke-width: 1.5; }
+.fp-pool { fill: #2b6f8f; opacity: 0.85; }
+.fp-courtyard { fill: rgba(224,200,160,0.1); stroke: rgba(224,200,160,0.5); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.fp-stair { fill: rgba(255,255,255,0.05); stroke: rgba(255,255,255,0.35); stroke-width: 1.2; stroke-dasharray: 4 4; }
+.fp-door { fill: rgba(214,180,120,0.9); stroke: rgb(240,214,160); stroke-width: 2; }
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready .deck-panel:not(.is-swivel) > .deck-panel-content,
+  .reveal-ready .deck-panel .gallery-col {
+    opacity: 1 !important; transition: none !important;
+  }
+  .swivel-door { display: none; }
+  .swivel-copy { opacity: 1; transform: none; }
+  .swivel-reveal-img { transform: none; }
+  .swivel-hint { display: none; }
+  .audio-toggle.has-hint { animation: none; }
+  .audio-hint { animation: none; }
+  .enter-gate-inner, .enter-cue-text { animation: none; }
+  .enter-gate.is-leaving .enter-gate-half { transition: opacity 0.35s ease; opacity: 0; transform: none; }
+  .enter-gate.is-leaving .enter-gate-seam { animation: none; }
+  .closing-divider { transform: scaleX(1) !important; transition: none; }
+}
+
+/* ── MOBILE / PORTRAIT: clean, standard vertical scroll ─────────────
+   Per client feedback: absolutely no horizontal movement, no snap, no
+   pinned sections — every page stacks and scrolls naturally. */
+@media (max-width: 900px), (orientation: portrait) {
+  nav { padding: 20px 20px; }
+  .nav-links { display: none; }
+  .deck-meta { top: 72px; left: 20px; }
+
+  /* unfold the stacked pages into a plain vertical flow */
+  .deck-slide { position: static; height: auto; overflow: visible; box-shadow: none; display: block; }
+  .deck-track { height: auto; width: 100%; }
+  .deck-panel {
+    position: relative; inset: auto;
+    width: 100% !important; height: auto;
+    display: flex; flex-direction: column;
+    transform: none !important;
+    box-shadow: none; will-change: auto;
+  }
+  .deck-panel-content { flex: 1 0 auto; height: auto; }
+
+  /* the swivel renders as a plain full-screen page — no pinning, no scrub */
+  .deck-wrap.is-scrub .deck-slide { position: static; height: auto; overflow: visible; display: block; }
+  .deck-wrap.is-scrub .deck-track { flex-direction: column; height: auto; }
+  .deck-wrap.is-scrub .deck-panel { min-height: 100vh; min-height: 100svh; }
+  .swivel-stage, .swivel-hint { display: none; }
+  .swivel-copy { opacity: 1 !important; transform: none; }
+  .swivel-reveal-img { transform: none; }
+  .swivel-reveal-scrim { opacity: 1; }
+
+  /* full-screen pages — no scroll-snap, native momentum */
+  .deck-panel.is-cover,
+  .deck-panel.is-media,
+  .deck-panel.is-vertical,
+  .deck-panel.is-text,
+  .deck-panel.is-closing,
+  .deck-panel.is-aerial,
+  .deck-panel.is-program, .deck-panel.is-amenities, .deck-panel.is-spec,
+  .deck-panel.is-siteplan, .deck-panel.is-floorplan,
+  .deck-panel.is-scale, .deck-panel.is-service {
+    min-height: 100vh; min-height: 100svh;
+  }
+
+  /* ── MOBILE STACKED PAGES ─────────────────────────────────────────
+     Viewport-sized pages pin at the top and the next page slides up to
+     cover them — the same book-like stack as desktop, in pure CSS with
+     native touch momentum (nothing intercepts the scroll). Pages that
+     can exceed one screen (galleries, program, plans, cards) stay in
+     normal flow so their content is never trapped behind a pin. */
+  .deck-panel.is-cover,
+  .deck-panel.is-text,
+  .deck-panel.is-media,
+  .deck-panel.is-vertical,
+  .deck-panel.is-swivel,
+  .deck-panel.is-closing,
+  .deck-panel.is-aerial {
+    position: sticky; top: 0;
+    box-shadow: 0 -40px 80px -30px rgba(0,0,0,0.5);
+  }
+  .deck-panel.is-cover { box-shadow: none; }
+
+  .deck-panel-content { padding: 28px 22px 46px; max-width: 100%; }
+  .deck-headline { font-size: clamp(34px, 9vw, 48px); }
+  .deck-body { font-size: 16px; }
+
+  /* galleries stack vertically, seam-free */
+  .deck-panel.is-gallery { flex-direction: column; gap: 0; min-height: 0; }
+  .gallery-col { flex: 0 0 auto; min-height: 54vh; min-height: 54svh; }
+
+  /* hide desktop-only affordances */
+  .rail { display: none; }
+  .deck-index { display: none; }
+  .deck-cue { display: none; }
+
+  /* editorial variants: single column, comfortable spacing */
+  /* extra top clearance so the fixed phase/page chip never overlaps content */
+  .is-program .deck-panel-content,
+  .is-amenities .deck-panel-content,
+  .is-spec .deck-panel-content,
+  .is-scale .deck-panel-content,
+  .is-service .deck-panel-content,
+  .is-aerial .deck-panel-content,
+  .siteplan-content { justify-content: center; padding: 150px 22px 64px; gap: 28px; }
+  .program-content { grid-template-columns: 1fr; }
+  .program-rail::before { left: 62px; }
+  .amenities-grid, .spec-stats { grid-template-columns: 1fr; }
+  .spec-points, .service-grid { grid-template-columns: 1fr; }
+  .scale-grid { flex-direction: column; align-items: stretch; }
+  .scale-mode { max-width: 100%; }
+
+  /* plans: keep the map legible via horizontal scroll inside the panel */
+  .siteplan-content { grid-template-columns: 1fr; gap: 22px; }
+  .siteplan-map { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .sp-svg { min-width: 560px; }
+
+  .aerial-reticle { width: 180px; height: 180px; }
+
+  .audio-toggle { left: 16px; bottom: 16px; padding: 8px 12px; }
+  .audio-toggle-label { display: none; }
+
+  .form-grid { grid-template-columns: 1fr; }
+  .inquiry-form { padding: 64px 24px; }
+  .closing-actions { flex-direction: column; }
+
+  footer { padding: 44px 22px 88px; gap: 26px; }
+  .footer-top { flex-direction: column; align-items: flex-start; gap: 22px; padding-bottom: 26px; }
+  .footer-links { flex-wrap: wrap; gap: 18px 24px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+}

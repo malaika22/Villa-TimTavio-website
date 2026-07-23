@@ -1,0 +1,115 @@
+/* ─────────────────────────────────────────────────────────────────
+   Casa TimTavio — Typography Tokens
+   Two typefaces: Cormorant Garamond (editorial/display) + Inter (UI/body)
+   ───────────────────────────────────────────────────────────────── */
+
+/* Web-font @import hoisted to styles/index.css (Turbopack requires @import to
+   precede all other rules once the token files are flattened). */
+
+:root {
+  /* ── Families ───────────────────────────────────────────── */
+  --ct-font-display:  "Cormorant Garamond", ui-serif, Georgia, "Times New Roman", serif;
+  --ct-font-body:     Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* ── Weights ────────────────────────────────────────────── */
+  --ct-weight-light:    300;
+  --ct-weight-regular:  400;
+  --ct-weight-medium:   500;
+  --ct-weight-semibold: 600;
+
+  /* ── Type Scale — Display (Cormorant Garamond) ──────────── */
+  --ct-type-display-hero:   clamp(52px, 6vw, 92px);   /* hero headline */
+  --ct-type-display-xl:     52px;                       /* section/membership titles */
+  --ct-type-display-lg:     38px;                       /* pull quotes, pillar headlines */
+  --ct-type-display-md:     30px;                       /* mobile large headline */
+  --ct-type-display-sm:     20px;                       /* dashboard page titles */
+  --ct-type-display-xs:     17px;                       /* section headers, card titles */
+  --ct-type-display-2xs:    16px;                       /* chart titles */
+  --ct-type-display-3xs:    14px;                       /* mini section heads */
+
+  /* ── Type Scale — Body / UI (Inter) ────────────────────── */
+  --ct-type-body-xl:    18px;   /* large body paragraphs */
+  --ct-type-body-lg:    13px;   /* dashboard body / table */
+  --ct-type-body-md:    12px;   /* standard body text */
+  --ct-type-body-sm:    11px;   /* meta / timestamps */
+  --ct-type-body-xs:    10px;   /* small descriptions */
+  --ct-type-body-2xs:    9px;   /* micro labels */
+  --ct-type-body-3xs:    8px;   /* eyebrows / section labels */
+  --ct-type-body-4xs:    7px;   /* smallest tracked uppercase labels */
+
+  /* ── Line Heights ───────────────────────────────────────── */
+  --ct-lh-display:  1.08; /* @kind other */
+  --ct-lh-body:     1.6; /* @kind other */
+  --ct-lh-relaxed:  2.4; /* @kind other */ /* body at 12px in website */
+  --ct-lh-tight:    1.1; /* @kind other */
+  --ct-lh-none:     1.0; /* @kind other */
+
+  /* ── Letter Spacing ─────────────────────────────────────── */
+  --ct-tracking-tight:   0.02em;
+  --ct-tracking-normal:  0.04em;
+  --ct-tracking-wide:    0.12em;   /* ~1.26px at 9px — nav labels */
+  --ct-tracking-wider:   0.16em;   /* CTA & button labels */
+  --ct-tracking-widest:  0.44em;   /* ultra-spaced eyebrow labels */
+}
+
+/* ── Utility classes ──────────────────────────────────────────── */
+.ct-display-hero {
+  font-family: var(--ct-font-display);
+  font-weight: var(--ct-weight-light);
+  font-size: var(--ct-type-display-hero);
+  line-height: var(--ct-lh-display);
+  color: var(--ct-white);
+}
+
+.ct-display-xl {
+  font-family: var(--ct-font-display);
+  font-weight: var(--ct-weight-light);
+  font-size: var(--ct-type-display-xl);
+  line-height: var(--ct-lh-display);
+  color: var(--ct-ink-body);
+}
+
+.ct-display-lg {
+  font-family: var(--ct-font-display);
+  font-weight: var(--ct-weight-light);
+  font-style: italic;
+  font-size: var(--ct-type-display-lg);
+  line-height: 1.35;
+  color: var(--ct-ink);
+}
+
+.ct-display-sm {
+  font-family: var(--ct-font-display);
+  font-weight: var(--ct-weight-regular);
+  font-size: var(--ct-type-display-sm);
+  line-height: var(--ct-lh-none);
+  letter-spacing: 0.01em;
+  color: var(--ct-ink-body);
+}
+
+.ct-eyebrow {
+  font-family: var(--ct-font-body);
+  font-weight: var(--ct-weight-regular);
+  font-size: var(--ct-type-body-4xs);
+  line-height: 1;
+  letter-spacing: var(--ct-tracking-widest);
+  text-transform: uppercase;
+  color: var(--ct-ink-secondary);
+}
+
+.ct-body-md {
+  font-family: var(--ct-font-body);
+  font-weight: var(--ct-weight-light);
+  font-size: var(--ct-type-body-md);
+  line-height: var(--ct-lh-relaxed);
+  color: var(--ct-ink-secondary);
+}
+
+.ct-label {
+  font-family: var(--ct-font-body);
+  font-weight: var(--ct-weight-medium);
+  font-size: var(--ct-type-body-2xs);
+  line-height: 1;
+  letter-spacing: var(--ct-tracking-wider);
+  color: var(--ct-ink);
+}

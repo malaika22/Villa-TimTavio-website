@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import { AppLayout } from "@/components/layout/app-layout";
 import { siteMetadata } from "@/components/constants/metadata";

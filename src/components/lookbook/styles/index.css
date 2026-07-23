@@ -1,0 +1,15 @@
+/* Lookbook design tokens + deck styles.
+   Order preserved from the original villa-timtavio-lookbook build:
+   tokens → typography → spacing → app. Kept as plain global CSS so the
+   lookbook route renders byte-for-byte identically to the standalone app.
+
+   The Cormorant Garamond + Inter web-font @import is hoisted here (it lived
+   inside tokens/typography.css originally). Turbopack requires every @import to
+   precede all other rules; flattening the token files would otherwise bury it. */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+@import './tokens/fig-tokens.css';
+@import './tokens/fig-typography.css';
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './app.css';
