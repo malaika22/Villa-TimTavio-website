@@ -9,7 +9,16 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
 
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    // Vendored lookbook deck, migrated verbatim from villa-timtavio-lookbook.
+    // Kept as plain JS/JSX to preserve exact behavior; excluded from the site's
+    // TS/prettier lint rules.
+    "src/components/lookbook/**",
+  ]),
 
   {
     plugins: {

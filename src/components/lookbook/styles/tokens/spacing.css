@@ -1,0 +1,66 @@
+/* ─────────────────────────────────────────────────────────────────
+   Casa TimTavio — Spacing & Layout Tokens
+   ───────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Base spacing scale ─────────────────────────────────── */
+  --ct-space-1:   4px;
+  --ct-space-2:   6px;
+  --ct-space-3:   8px;
+  --ct-space-4:  10px;
+  --ct-space-5:  12px;
+  --ct-space-6:  14px;
+  --ct-space-7:  16px;
+  --ct-space-8:  20px;
+  --ct-space-9:  24px;
+  --ct-space-10: 28px;
+  --ct-space-11: 32px;
+  --ct-space-12: 36px;
+  --ct-space-13: 40px;
+  --ct-space-14: 48px;
+  --ct-space-15: 56px;
+  --ct-space-16: 64px;
+  --ct-space-17: 72px;
+  --ct-space-18: 80px;
+  --ct-space-19: 100px;
+  --ct-space-20: 120px;
+  --ct-space-21: 160px;
+  --ct-space-22: 200px;
+
+  /* ── Semantic aliases ───────────────────────────────────── */
+  --ct-gap-xs:   var(--ct-space-1);   /* 4px  — icon gap */
+  --ct-gap-sm:   var(--ct-space-3);   /* 8px  — tight row gap */
+  --ct-gap-md:   var(--ct-space-6);   /* 14px — standard gap */
+  --ct-gap-lg:   var(--ct-space-10);  /* 28px — section gap */
+  --ct-gap-xl:   var(--ct-space-17);  /* 72px — pillar gap */
+
+  --ct-pad-xs:   var(--ct-space-2);   /* 6px  — chip padding */
+  --ct-pad-sm:   var(--ct-space-4);   /* 10px — card inner */
+  --ct-pad-md:   var(--ct-space-6);   /* 14px — card standard */
+  --ct-pad-lg:   var(--ct-space-10);  /* 28px — page horizontal */
+  --ct-pad-xl:   var(--ct-space-19);  /* 100px — website section */
+
+  /* ── Border radii ───────────────────────────────────────── */
+  --ct-radius-sm:   4px;   /* small dashboard buttons */
+  --ct-radius-md:   6px;   /* tab controls */
+  --ct-radius-lg:   8px;   /* data tables, cards */
+  --ct-radius-xl:   10px;  /* mobile cards */
+  --ct-radius-2xl:  12px;  /* option cards */
+  --ct-radius-3xl:  24px;  /* bottom sheet */
+  --ct-radius-full: 999px; /* pills/badges */
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --ct-shadow-card:   inset 0 0 0 1px var(--ct-border-light);
+  --ct-shadow-input:  inset 0 0 0 1px var(--ct-border-input);
+  --ct-shadow-focus:  inset 0 0 0 1px var(--ct-terracotta);
+  --ct-shadow-dark:   inset 0 0 0 1px var(--ct-border-dark);
+  --ct-shadow-raised: 0 2px 8px rgba(12,8,6,0.08), 0 1px 2px rgba(12,8,6,0.04);
+
+  /* ── Layout widths ──────────────────────────────────────── */
+  --ct-width-mobile:     390px;
+  --ct-width-tablet:     768px;
+  --ct-width-desktop:   1024px;
+  --ct-width-wide:      1440px;
+  --ct-width-max:       1920px;
+  --ct-sidebar-width:    240px;
+}
