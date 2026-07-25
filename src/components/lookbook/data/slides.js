@@ -83,7 +83,7 @@ const IMG = {
   wcHero: "https://res.cloudinary.com/esqw89g2/image/upload/v1784822949/villa/L1010012.jpg",
   wcFeature: "https://res.cloudinary.com/esqw89g2/image/upload/v1784822491/villa/L1000465.jpg",
   // Interiors · Dining (Dining Area)
-  dnHero: "https://res.cloudinary.com/esqw89g2/image/upload/v1784822493/villa/2J7A2841.jpg",
+  dnHero: "https://res.cloudinary.com/esqw89g2/image/upload/v1784981296/villa/2J7A2841.jpg",
   dnFeature: "https://res.cloudinary.com/esqw89g2/image/upload/v1784822494/villa/2J7A2866.jpg",
   dnA: "https://res.cloudinary.com/esqw89g2/image/upload/v1784822497/villa/2J7A2792.jpg",
   dnB: "https://res.cloudinary.com/esqw89g2/image/upload/v1784822499/villa/2J7A3278.jpg",
