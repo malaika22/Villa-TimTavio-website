@@ -74,7 +74,7 @@ export const TheEstateSection = () => {
               animate={isHeadingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
             >
-              Villa TimTavio Accommodating 8 to 16 guests. Sweeping curves and dramatic shadows
+              Villa TimTavio Accommodating upto 14 guests. Sweeping curves and dramatic shadows
               seamlessly unite every room, social space, and sunset view in absolute privacy.
             </motion.p>
 

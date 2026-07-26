@@ -346,16 +346,16 @@ export const ExclusiveMemberForm = () => {
                   <FormControl>
                     <Input
                       type="number"
-                      min={3}
-                      max={16}
-                      placeholder="3 – 16"
+                      min={2}
+                      max={14}
+                      placeholder="2 – 14"
                       className={inputClass}
                       {...field}
                     />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
                   <p className="text-[10px] tracking-[0.06em] text-[#b0a898] pt-0.5">
-                    Minimum 3 guests &ndash; Maximum 16 guests per stay.
+                    Minimum 2 guests &ndash; Maximum 14 guests per stay.
                   </p>
                 </FormItem>
               )}

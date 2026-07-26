@@ -35,9 +35,9 @@ export const formSchema = z
       .refine(
         (val) => {
           const n = parseInt(val, 10);
-          return !isNaN(n) && n >= 3 && n <= 16;
+          return !isNaN(n) && n >= 2 && n <= 14;
         },
-        { message: "Guest count must be between 3 and 16" }
+        { message: "Guest count must be between 2 and 14" }
       ),
   })
   .refine((d) => !d.preferredFrom || d.preferredFrom >= todayISO(), {

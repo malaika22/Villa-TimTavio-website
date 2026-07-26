@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const NOTIFY_EMAILS = [
-  "Tim@villatimtavio.com",
-  "Rodrigo@villatimtavio.com",
-  "Tina@villatimtavio.com",
+  // "Tim@villatimtavio.com",
+  // "Rodrigo@villatimtavio.com",
+  // "Tina@villatimtavio.com",
   "malaikaafridi22@gmail.com",
 ];
 
