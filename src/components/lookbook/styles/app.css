@@ -454,6 +454,25 @@ footer { background: rgb(28,28,28); padding: 56px 80px 40px; display: flex; flex
 .amenity-title { font-family: var(--ct-font-display); font-weight: 300; font-size: 24px; color: rgba(255,255,255,0.96); }
 .amenity-desc { font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.72); }
 
+/* ── BED CONFIGURATION ── */
+.is-bedconfig .deck-panel-content { justify-content: center; max-width: 1000px; gap: 40px; }
+.is-bedconfig .deck-headline { font-size: clamp(32px, 3.6vw, 54px); }
+.bedconfig-intro { display: flex; flex-direction: column; gap: 16px; }
+/* Two columns: king suites stacked, shared suites on the bottom row — left
+   holds the three-twin share, right the queen + twin (per the room plan). */
+.bedconfig-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+.room-card {
+  display: flex; flex-direction: column; gap: 10px; padding: 24px 28px;
+  background: rgba(255,255,255,0.04); backdrop-filter: blur(3px);
+  border-top: 1px solid rgba(255,214,150,0.4);
+}
+.room-index { font-size: 12px; letter-spacing: 0.2em; color: var(--ct-gold); font-variant-numeric: tabular-nums; }
+.room-name { font-family: var(--ct-font-display); font-weight: 300; font-size: 23px; color: rgba(255,255,255,0.96); }
+.room-guests { font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+.room-beds { display: flex; align-items: flex-end; gap: 14px; min-height: 26px; margin-top: 6px; color: rgba(255,255,255,0.85); }
+.room-bed-icon { display: block; }
+.room-bedlabel { font-size: 13px; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.72); }
+
 /* ── PRODUCTION FOOTPRINT (SPEC) ── */
 .spec-content { max-width: 1120px !important; }
 .spec-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 8px; }
@@ -696,10 +715,11 @@ html:not(.reveal-ready) .closing-divider { transform: scaleX(1); }
   .is-scale .deck-panel-content,
   .is-service .deck-panel-content,
   .is-aerial .deck-panel-content,
+  .is-bedconfig .deck-panel-content,
   .siteplan-content { justify-content: center; padding: 150px 22px 64px; gap: 28px; }
   .program-content { grid-template-columns: 1fr; }
   .program-rail::before { left: 62px; }
-  .amenities-grid, .spec-stats { grid-template-columns: 1fr; }
+  .amenities-grid, .spec-stats, .bedconfig-grid { grid-template-columns: 1fr; }
   .spec-points, .service-grid { grid-template-columns: 1fr; }
   .scale-grid { flex-direction: column; align-items: stretch; }
   .scale-mode { max-width: 100%; }

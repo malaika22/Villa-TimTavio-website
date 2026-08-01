@@ -177,7 +177,7 @@ export const RAIL_ITEMS = [
   { slide: 21, title: 'After Dark', gapBefore: false },
   { slide: 22, title: 'The Location', gapBefore: true },
   { slide: 23, title: 'The Aerial Chapter', gapBefore: true },
-  { slide: 24, title: 'The Floor Plan', gapBefore: false },
+  { slide: 24, title: 'Bed Configuration', gapBefore: false },
   { slide: 25, title: 'Production Footprint', gapBefore: false },
   { slide: 26, title: 'The Retreat', gapBefore: false },
   { slide: 27, title: 'Closing', gapBefore: true },
@@ -788,23 +788,27 @@ export const SLIDES = [
     ],
   },
 
-  // 30 · THE FLOOR PLAN
+  // 30 · BED CONFIGURATION
+  // Six suites, sleeping fourteen. Laid out as two columns: four king suites
+  // stacked on top, the two shared suites on the bottom row — left the
+  // three-twin share, right the queen + twin (per the client's room plan).
   {
-    meta: { phase: 'VII · Executive', page: 'The Floor Plan' },
+    meta: { phase: 'VII · Executive', page: 'Bed Configuration' },
     panels: [
       {
-        variant: 'floorplan',
+        variant: 'bedconfig',
         bg: 'radial-gradient(120% 100% at 70% 0%, rgb(20,22,26) 0%, rgb(12,13,16) 70%)',
-        eyebrow: 'Room assignment · illustrative',
+        eyebrow: 'Bed configuration · sleeps 14',
         headline: 'Every room,\nalready decided.',
-        body: 'Assign suites before wheels-down — the estate at a glance for planners, EAs, and production leads.',
-        legend: [
-          { key: 'suite', label: 'King suites' },
-          { key: 'bunk', label: 'Bunk room' },
-          { key: 'social', label: 'Living, dining & bar' },
-          { key: 'outdoor', label: 'Pool, pit & terraces' },
+        body: 'Four king suites and two shared suites — the full sleeping plan at a glance for planners, EAs, and production leads.',
+        rooms: [
+          { index: '01', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },
+          { index: '02', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },
+          { index: '03', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },
+          { index: '04', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },
+          { index: '05', name: 'Shared Suite', guests: '3 Guests', beds: ['twin', 'twin', 'twin'], bedLabel: '3 Twin beds' },
+          { index: '06', name: 'Shared Suite', guests: '3 Guests', beds: ['double', 'twin'], bedLabel: 'Queen bed + 1 Twin bed' },
         ],
-        placeholderNote: 'Schematic — replace with surveyed floor plan when available',
       },
     ],
   },
