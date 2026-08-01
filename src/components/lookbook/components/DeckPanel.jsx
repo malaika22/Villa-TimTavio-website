@@ -605,8 +605,12 @@ function BedConfigPanel({ panel, priority, shouldLoad, isPanelActive }) {
               <span className="room-name">{room.name}</span>
               {room.guests && <span className="room-guests">{room.guests}</span>}
               <span className="room-beds">
-                {room.beds.map((bed, j) => (
-                  <BedIcon key={j} type={bed} />
+                {room.beds.map((row, r) => (
+                  <span className="room-bed-row" key={r}>
+                    {row.map((bed, j) => (
+                      <BedIcon key={j} type={bed} />
+                    ))}
+                  </span>
                 ))}
               </span>
               <span className="room-bedlabel">{room.bedLabel}</span>

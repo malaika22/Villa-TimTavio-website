@@ -801,13 +801,16 @@ export const SLIDES = [
         eyebrow: 'Six suites · sleeps 14',
         headline: 'Every room,\nalready assigned.',
         body: 'Four king suites and two shared suites — the full sleeping plan at a glance for planners, EAs, and production leads.',
+        // `beds` is an array of rows (each row an array of bed glyphs) so the
+        // bunk-room suites can stack one bed on top of another. King suites are
+        // a single row; the two shared suites are bunk rooms → top bed stacked.
         rooms: [
-          { index: '01', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },
-          { index: '02', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },
-          { index: '03', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },
-          { index: '04', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },
-          { index: '05', name: 'Shared Suite', guests: '3 Guests', beds: ['twin', 'twin', 'twin'], bedLabel: '3 Twin beds' },
-          { index: '06', name: 'Shared Suite', guests: '3 Guests', beds: ['double', 'twin'], bedLabel: 'Queen bed + 1 Twin bed' },
+          { index: '01', name: 'Suite', guests: '2 Guests', beds: [['double']], bedLabel: 'King bed' },
+          { index: '02', name: 'Suite', guests: '2 Guests', beds: [['double']], bedLabel: 'King bed' },
+          { index: '03', name: 'Suite', guests: '2 Guests', beds: [['double']], bedLabel: 'King bed' },
+          { index: '04', name: 'Suite', guests: '2 Guests', beds: [['double']], bedLabel: 'King bed' },
+          { index: '05', name: 'Shared Suite', guests: '3 Guests', beds: [['twin'], ['twin', 'twin']], bedLabel: '(Bunk room) 3 Twin beds' },
+          { index: '06', name: 'Shared Suite', guests: '3 Guests', beds: [['twin'], ['double']], bedLabel: 'Queen bed + 1 Twin bed' },
         ],
       },
     ],

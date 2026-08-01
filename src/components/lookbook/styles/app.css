@@ -479,7 +479,10 @@ footer { background: rgb(28,28,28); padding: 56px 80px 40px; display: flex; flex
 .room-index { font-size: 11px; letter-spacing: 0.2em; color: var(--ct-gold); font-variant-numeric: tabular-nums; }
 .room-name { font-family: var(--ct-font-display); font-weight: 300; font-size: 20px; line-height: 1.15; color: rgba(255,255,255,0.96); }
 .room-guests { font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
-.room-beds { display: flex; align-items: flex-end; gap: 12px; min-height: 22px; margin-top: 4px; color: rgba(255,255,255,0.85); }
+/* Column of rows so bunk-room suites can stack one bed on top; single-row
+   suites (kings) render as one row and look unchanged. */
+.room-beds { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-height: 22px; margin-top: 4px; color: rgba(255,255,255,0.85); }
+.room-bed-row { display: flex; align-items: flex-end; gap: 12px; }
 .room-bed-icon { display: block; }
 .room-bedlabel { font-size: 12px; font-weight: 300; line-height: 1.55; color: rgba(255,255,255,0.72); }
 
