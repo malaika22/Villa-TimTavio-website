@@ -798,8 +798,8 @@ export const SLIDES = [
       {
         variant: 'bedconfig',
         bg: 'radial-gradient(120% 100% at 70% 0%, rgb(20,22,26) 0%, rgb(12,13,16) 70%)',
-        eyebrow: 'Bed configuration · sleeps 14',
-        headline: 'Every room,\nalready decided.',
+        eyebrow: 'Six suites · sleeps 14',
+        headline: 'Every room,\nalready assigned.',
         body: 'Four king suites and two shared suites — the full sleeping plan at a glance for planners, EAs, and production leads.',
         rooms: [
           { index: '01', name: 'Suite', guests: '2 Guests', beds: ['double'], bedLabel: 'King bed' },

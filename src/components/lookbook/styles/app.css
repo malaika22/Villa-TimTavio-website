@@ -455,19 +455,22 @@ footer { background: rgb(28,28,28); padding: 56px 80px 40px; display: flex; flex
 .amenity-desc { font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.72); }
 
 /* ── BED CONFIGURATION ── */
-/* Six suites (three rows) have to sit inside a single pinned 100vh panel, so
-   the intro and cards are deliberately compact to avoid overflowing into the
-   fixed nav / phase chip. */
+/* Centered "poster" layout: the whole block (intro + 2-column grid) is centered
+   in the viewport — horizontally via margin auto + align-items, vertically via
+   justify-content — so it reads balanced and clears the fixed nav / phase chip.
+   Kept compact so all six suites fit inside the pinned 100vh panel. */
 .is-bedconfig .deck-panel-content {
-  justify-content: center; max-width: 980px; gap: 22px;
-  padding-top: 84px; padding-bottom: 60px;
+  justify-content: center; align-items: center;
+  max-width: 1120px; margin: 0 auto; gap: 26px;
+  padding: 96px 40px 64px;
 }
 .is-bedconfig .deck-headline { font-size: clamp(26px, 2.8vw, 40px); }
-.is-bedconfig .deck-body { font-size: 14px; line-height: 1.55; max-width: 560px; }
-.bedconfig-intro { display: flex; flex-direction: column; gap: 10px; }
+.is-bedconfig .deck-body { font-size: 14px; line-height: 1.55; max-width: 620px; margin: 0 auto; }
+.bedconfig-intro { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
 /* Two columns: king suites stacked, shared suites on the bottom row — left
-   holds the three-twin share, right the queen + twin (per the room plan). */
-.bedconfig-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+   holds the three-twin share, right the queen + twin (per the room plan).
+   Fixed max-width + centered so the grid sits balanced under the intro. */
+.bedconfig-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; width: 100%; max-width: 820px; }
 .room-card {
   display: flex; flex-direction: column; gap: 5px; padding: 15px 24px;
   background: rgba(255,255,255,0.04); backdrop-filter: blur(3px);
