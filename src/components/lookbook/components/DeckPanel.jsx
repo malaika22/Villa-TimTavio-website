@@ -559,6 +559,70 @@ function ServicePanel({ panel, priority, shouldLoad, isPanelActive }) {
   );
 }
 
+// ── Bed configuration — line-art bed glyphs, matched to the deck's chrome ──
+// A "double" glyph reads King/Queen; a "twin" glyph is the narrow single. Size
+// is carried by the text label (King vs Queen), the count by how many glyphs.
+function BedIcon({ type = 'double' }) {
+  const isDouble = type === 'double';
+  const w = isDouble ? 46 : 30;
+  return (
+    <svg
+      className={`room-bed-icon room-bed-icon--${type}`}
+      width={w}
+      height="26"
+      viewBox={`0 0 ${w} 26`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {/* headboard + pillow (left) → mattress → footboard (right) */}
+      <path d={`M2 21 V12 q0-3 3-3 h${isDouble ? 9 : 6} q3 0 3 3`} />
+      <path d={`M${isDouble ? 17 : 14} 12 H${w - 5} q3 0 3 3 V21`} />
+      {/* base rail + legs */}
+      <path d={`M1 17 H${w - 1}`} />
+      <path d={`M4 21 V24 M${w - 4} 21 V24`} />
+    </svg>
+  );
+}
+
+function BedConfigPanel({ panel, priority, shouldLoad, isPanelActive }) {
+  return (
+    <div className={`deck-panel is-bedconfig${isPanelActive ? ' is-live' : ''}`}>
+      <BackdropImage panel={panel} priority={priority} shouldLoad={shouldLoad} />
+      <div className="deck-panel-content bedconfig-content">
+        <div className="bedconfig-intro">
+          {panel.eyebrow && <div className="deck-eyebrow">{panel.eyebrow}</div>}
+          <Headline text={panel.headline} style={panel.headlineStyle} />
+          {panel.body && <p className="deck-body">{panel.body}</p>}
+        </div>
+        <div className="bedconfig-grid">
+          {panel.rooms.map((room, i) => (
+            <div className="room-card" key={i} style={{ '--i': i }}>
+              <span className="room-index">{room.index}</span>
+              <span className="room-name">{room.name}</span>
+              {room.guests && <span className="room-guests">{room.guests}</span>}
+              <span className="room-beds">
+                {room.beds.map((row, r) => (
+                  <span className="room-bed-row" key={r}>
+                    {row.map((bed, j) => (
+                      <BedIcon key={j} type={bed} />
+                    ))}
+                  </span>
+                ))}
+              </span>
+              <span className="room-bedlabel">{room.bedLabel}</span>
+            </div>
+          ))}
+        </div>
+        <PlaceholderNote note={panel.placeholderNote} />
+      </div>
+    </div>
+  );
+}
+
 export default function DeckPanel({ panel, isActive = false, isNearActive = false, isPanelActive = false }) {
   const shouldLoad = isNearActive || Boolean(panel.preload);
   const priority = isActive || Boolean(panel.preload);
@@ -589,6 +653,9 @@ export default function DeckPanel({ panel, isActive = false, isNearActive = fals
   }
   if (panel.variant === 'floorplan') {
     return <FloorplanPanel panel={panel} isPanelActive={isPanelActive} />;
+  }
+  if (panel.variant === 'bedconfig') {
+    return <BedConfigPanel panel={panel} priority={priority} shouldLoad={shouldLoad} isPanelActive={isPanelActive} />;
   }
   if (panel.variant === 'aerial') {
     return <AerialPanel panel={panel} isPanelActive={isPanelActive} />;

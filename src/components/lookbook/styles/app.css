@@ -454,6 +454,38 @@ footer { background: rgb(28,28,28); padding: 56px 80px 40px; display: flex; flex
 .amenity-title { font-family: var(--ct-font-display); font-weight: 300; font-size: 24px; color: rgba(255,255,255,0.96); }
 .amenity-desc { font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.72); }
 
+/* ── BED CONFIGURATION ── */
+/* Centered "poster" layout: the whole block (intro + 2-column grid) is centered
+   in the viewport — horizontally via margin auto + align-items, vertically via
+   justify-content — so it reads balanced and clears the fixed nav / phase chip.
+   Kept compact so all six suites fit inside the pinned 100vh panel. */
+.is-bedconfig .deck-panel-content {
+  justify-content: center; align-items: center;
+  max-width: 1120px; margin: 0 auto; gap: 26px;
+  padding: 96px 40px 64px;
+}
+.is-bedconfig .deck-headline { font-size: clamp(26px, 2.8vw, 40px); }
+.is-bedconfig .deck-body { font-size: 14px; line-height: 1.55; max-width: 620px; margin: 0 auto; }
+.bedconfig-intro { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+/* Two columns: king suites stacked, shared suites on the bottom row — left
+   holds the three-twin share, right the queen + twin (per the room plan).
+   Fixed max-width + centered so the grid sits balanced under the intro. */
+.bedconfig-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; width: 100%; max-width: 820px; }
+.room-card {
+  display: flex; flex-direction: column; gap: 5px; padding: 15px 24px;
+  background: rgba(255,255,255,0.04); backdrop-filter: blur(3px);
+  border-top: 1px solid rgba(255,214,150,0.4);
+}
+.room-index { font-size: 11px; letter-spacing: 0.2em; color: var(--ct-gold); font-variant-numeric: tabular-nums; }
+.room-name { font-family: var(--ct-font-display); font-weight: 300; font-size: 20px; line-height: 1.15; color: rgba(255,255,255,0.96); }
+.room-guests { font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+/* Column of rows so bunk-room suites can stack one bed on top; single-row
+   suites (kings) render as one row and look unchanged. */
+.room-beds { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-height: 22px; margin-top: 4px; color: rgba(255,255,255,0.85); }
+.room-bed-row { display: flex; align-items: flex-end; gap: 12px; }
+.room-bed-icon { display: block; }
+.room-bedlabel { font-size: 12px; font-weight: 300; line-height: 1.55; color: rgba(255,255,255,0.72); }
+
 /* ── PRODUCTION FOOTPRINT (SPEC) ── */
 .spec-content { max-width: 1120px !important; }
 .spec-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 8px; }
@@ -696,10 +728,11 @@ html:not(.reveal-ready) .closing-divider { transform: scaleX(1); }
   .is-scale .deck-panel-content,
   .is-service .deck-panel-content,
   .is-aerial .deck-panel-content,
+  .is-bedconfig .deck-panel-content,
   .siteplan-content { justify-content: center; padding: 150px 22px 64px; gap: 28px; }
   .program-content { grid-template-columns: 1fr; }
   .program-rail::before { left: 62px; }
-  .amenities-grid, .spec-stats { grid-template-columns: 1fr; }
+  .amenities-grid, .spec-stats, .bedconfig-grid { grid-template-columns: 1fr; }
   .spec-points, .service-grid { grid-template-columns: 1fr; }
   .scale-grid { flex-direction: column; align-items: stretch; }
   .scale-mode { max-width: 100%; }

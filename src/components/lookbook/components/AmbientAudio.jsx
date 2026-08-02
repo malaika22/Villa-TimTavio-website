@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-// Ambient bed: "Lounge Music" by prettyjohn1 (Pixabay) — bundled at public/ambient.mp3.
-// Pixabay Content License: free for commercial use, no attribution required.
+// Ambient bed: audio extracted from the client-provided video, bundled at
+// public/lookbook/ambient.m4a (AAC).
 const TARGET_VOLUME = 0.35;
 const FADE_MS = 1300;
 
@@ -138,7 +138,7 @@ export default function AmbientAudio() {
 
   return (
     <>
-      <audio ref={audioRef} src="/lookbook/ambient.mp3" loop preload="auto" />
+      <audio ref={audioRef} src="/lookbook/ambient.m4a" loop preload="auto" />
       <button
         type="button"
         className={`audio-toggle${on ? ' is-on' : ''}${!started ? ' has-hint' : ''}`}
