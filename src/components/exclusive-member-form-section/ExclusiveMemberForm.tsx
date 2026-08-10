@@ -365,7 +365,10 @@ export const ExclusiveMemberForm = () => {
               name="socialLink"
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel className={labelClass}>Social Link</FormLabel>
+                  <FormLabel className={labelClass}>
+                    Social Link{" "}
+                    <span className="normal-case tracking-normal text-[#b0a898]">(optional)</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="https://instagram.com/you"

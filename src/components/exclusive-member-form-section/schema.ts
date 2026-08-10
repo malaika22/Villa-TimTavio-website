@@ -21,11 +21,13 @@ export const formSchema = z
     intendedUse: z.string().min(1, "Please select intended use"),
     /** Optional — who referred them or agency representation */
     referredByRepresentation: z.string().max(500),
-    /** Social profile used for the private vibe-check review */
+    /** Optional — social profile used for the private vibe-check review.
+     *  Empty is allowed; when provided it must be a valid URL. */
     socialLink: z
       .string()
-      .min(1, "Social link is required")
-      .url("Enter a valid URL (e.g. https://instagram.com/you)"),
+      .url("Enter a valid URL (e.g. https://instagram.com/you)")
+      .optional()
+      .or(z.literal("")),
     /** Preferred stay window — ISO date strings (YYYY-MM-DD) from the date pickers */
     preferredFrom: z.string().min(1, "Start date is required"),
     preferredTo: z.string().min(1, "End date is required"),
