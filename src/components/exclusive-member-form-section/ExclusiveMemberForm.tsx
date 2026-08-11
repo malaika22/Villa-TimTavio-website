@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { formSchema, type FormValues } from "./schema";
-import { ElegantDatePicker } from "./ElegantDatePicker";
+import { ElegantRangeDatePicker } from "./ElegantRangeDatePicker";
 import { Spinner } from "../ui/spinner";
 import { FormSubmissionDialog } from "./FormSubmissionDialog";
 
@@ -74,11 +74,10 @@ export const ExclusiveMemberForm = () => {
   const [isLoading, setLoading] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
 
-  // Today (YYYY-MM-DD) for the date pickers' min; end date can't precede start.
+  // Today (YYYY-MM-DD) for the range picker's min (no past arrivals).
   const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
     .toISOString()
     .split("T")[0];
-  const startDate = form.watch("preferredFrom");
 
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
@@ -293,50 +292,42 @@ export const ExclusiveMemberForm = () => {
             />
           </AnimatedRow>
 
-          {/* Row 5: Preferred Start Date + Preferred End Date */}
+          {/* Row 5: Preferred Stay (range calendar) + Number of Guests */}
           <AnimatedRow>
             <FormField
               control={form.control}
               name="preferredFrom"
               render={({ field, fieldState }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel className={labelClass}>Arrival Date</FormLabel>
+                  <FormLabel className={labelClass}>Preferred Stay</FormLabel>
                   <FormControl>
-                    <ElegantDatePicker
-                      value={field.value}
-                      onChange={field.onChange}
+                    <ElegantRangeDatePicker
+                      from={field.value}
+                      to={form.watch("preferredTo")}
                       min={today}
-                      placeholder="Select arrival date"
-                      invalid={fieldState?.error != null}
+                      placeholder="Select your arrival and departure"
+                      invalid={
+                        fieldState?.error != null ||
+                        form.formState.errors.preferredTo != null
+                      }
+                      onChange={(nextFrom, nextTo) => {
+                        field.onChange(nextFrom);
+                        form.setValue("preferredTo", nextTo, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                        });
+                      }}
                     />
                   </FormControl>
                   <FormMessage className="text-[11px] text-rose-400/80 font-light" />
+                  {!fieldState?.error && form.formState.errors.preferredTo && (
+                    <p className="text-[11px] text-rose-400/80 font-light">
+                      {String(form.formState.errors.preferredTo.message)}
+                    </p>
+                  )}
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="preferredTo"
-              render={({ field, fieldState }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel className={labelClass}>Departure Date</FormLabel>
-                  <FormControl>
-                    <ElegantDatePicker
-                      value={field.value}
-                      onChange={field.onChange}
-                      min={startDate || today}
-                      placeholder="Select departure date"
-                      invalid={fieldState?.error != null}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-[11px] text-rose-400/80 font-light" />
-                </FormItem>
-              )}
-            />
-          </AnimatedRow>
-
-          {/* Row 6: Number of Guests + Social Link */}
-          <AnimatedRow>
             <FormField
               control={form.control}
               name="numberOfGuests"
@@ -360,6 +351,10 @@ export const ExclusiveMemberForm = () => {
                 </FormItem>
               )}
             />
+          </AnimatedRow>
+
+          {/* Row 6: Social Link */}
+          <AnimatedRow>
             <FormField
               control={form.control}
               name="socialLink"
