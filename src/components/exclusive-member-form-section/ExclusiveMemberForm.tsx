@@ -292,13 +292,13 @@ export const ExclusiveMemberForm = () => {
             />
           </AnimatedRow>
 
-          {/* Row 5: Preferred Stay — one calendar, check-in → check-out */}
+          {/* Row 5: Preferred Stay (range calendar) + Number of Guests */}
           <AnimatedRow>
             <FormField
               control={form.control}
               name="preferredFrom"
               render={({ field, fieldState }) => (
-                <FormItem className="space-y-1 sm:col-span-2">
+                <FormItem className="space-y-1">
                   <FormLabel className={labelClass}>Preferred Stay</FormLabel>
                   <FormControl>
                     <ElegantRangeDatePicker
@@ -328,10 +328,6 @@ export const ExclusiveMemberForm = () => {
                 </FormItem>
               )}
             />
-          </AnimatedRow>
-
-          {/* Row 6: Number of Guests + Social Link */}
-          <AnimatedRow>
             <FormField
               control={form.control}
               name="numberOfGuests"
@@ -355,6 +351,10 @@ export const ExclusiveMemberForm = () => {
                 </FormItem>
               )}
             />
+          </AnimatedRow>
+
+          {/* Row 6: Social Link */}
+          <AnimatedRow>
             <FormField
               control={form.control}
               name="socialLink"
