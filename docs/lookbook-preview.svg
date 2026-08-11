@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="1200" height="620" role="img" aria-label="Casa TimTavio — The Lookbook">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#141a10"/>
+      <stop offset="0.55" stop-color="#0e0a07"/>
+      <stop offset="1" stop-color="#050403"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0" stop-color="#d6b478" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#d6b478" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#eecd96"/>
+      <stop offset="1" stop-color="#c9a35f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="620" fill="url(#bg)"/>
+  <rect width="1200" height="620" fill="url(#glow)"/>
+
+  <!-- infinity monogram -->
+  <g transform="translate(600 205)" fill="none" stroke="url(#gold)" stroke-width="7" stroke-linecap="round">
+    <path d="M-70 0 C-70 -42 -20 -42 0 0 C20 42 70 42 70 0 C70 -42 20 -42 0 0 C-20 42 -70 42 -70 0 Z" opacity="0.92"/>
+  </g>
+
+  <text x="600" y="330" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="66" fill="#f6f1ea" letter-spacing="6">CASA TIMTAVIO</text>
+  <text x="600" y="376" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="27" fill="#d6b478" letter-spacing="2">The Lookbook</text>
+
+  <text x="600" y="438" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#b9b0a2" letter-spacing="5">A CINEMATIC, SCROLL-DRIVEN ESTATE WALKTHROUGH</text>
+
+  <!-- scroll hint -->
+  <g transform="translate(600 486)" stroke="#d6b478" fill="none" stroke-width="1.6" opacity="0.8">
+    <rect x="-13" y="0" width="26" height="42" rx="13"/>
+    <line x1="0" y1="10" x2="0" y2="20" stroke-linecap="round"/>
+  </g>
+  <text x="600" y="566" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#8a8172" letter-spacing="4">SCROLL · PUERTO ESCONDIDO, OAXACA · MÉXICO</text>
+
+  <rect x="0.5" y="0.5" width="1199" height="619" fill="none" stroke="#d6b478" stroke-opacity="0.14"/>
+</svg>
