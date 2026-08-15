@@ -227,7 +227,10 @@ export const BrokerAvailabilityView = () => {
   // ─── Calendar ─────────────────────────────────────────────────────────────
 
   return (
-    <main className="mx-auto max-w-5xl px-5 pb-40 pt-8">
+    // Bottom padding clears the fixed selection bar, which grows a row taller
+    // once a range is picked and the note field appears. Too little and the
+    // last week of the final month can't be scrolled out from under it.
+    <main className="mx-auto max-w-5xl px-5 pb-52 pt-8">
       <header className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[#e3ddd3] pb-5">
         <span className="font-[family-name:var(--font-cormorant)] text-[14px] uppercase tracking-[0.26em] text-[#3a3530]">
           Villa TimTavio
@@ -368,7 +371,7 @@ export const BrokerAvailabilityView = () => {
             </div>
           ) : (
             <div className="flex flex-wrap items-end justify-between gap-4">
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="font-[family-name:var(--font-cormorant)] text-[19px] text-[#3a3530]">
                   {start && end
                     ? `${prettyDate(start)} — ${prettyDate(end)}`
@@ -405,14 +408,6 @@ export const BrokerAvailabilityView = () => {
                   </p>
                 )}
 
-                {end && !selection?.tooShort && (
-                  <input
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    placeholder="Anything the estate should know (optional)"
-                    className="mt-2 w-full max-w-sm border-0 border-b border-[#e3ddd3] bg-transparent px-0 py-1 text-[12.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#8c7261] focus:outline-none"
-                  />
-                )}
               </div>
 
               <div className="flex gap-2">
@@ -438,6 +433,19 @@ export const BrokerAvailabilityView = () => {
                 </button>
               </div>
             </div>
+          )}
+
+          {/* Its own row, full width. Sharing the flex row with the dates sized
+              the field to whatever the heading happened to be, which clipped
+              the placeholder mid-word — and a note box that looks broken is a
+              note box nobody fills in. */}
+          {!placed && end && !selection?.tooShort && (
+            <input
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="Anything the estate should know — client name, occasion (optional)"
+              className="mt-3 w-full border-0 border-b border-[#e3ddd3] bg-transparent px-0 py-1.5 text-[12.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#8c7261] focus:outline-none"
+            />
           )}
         </div>
       </div>
