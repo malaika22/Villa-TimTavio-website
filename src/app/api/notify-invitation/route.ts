@@ -3,12 +3,25 @@ import { NextRequest, NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const NOTIFY_EMAILS = [
+// Who hears about a new application. Hardcoded until now, which meant the
+// estate API's own notifications (new inquiry, broker hold) could quietly go to
+// a different set of people — nobody would notice until someone asked why they
+// hadn't seen something. One list, one variable, set the same in both places.
+// The literal stays as a fallback so an unset variable can't silence this.
+const NOTIFY_EMAILS = (process.env.NOTIFY_EMAILS ?? "")
+  .split(",")
+  .map((email) => email.trim())
+  .filter(Boolean);
+
+const FALLBACK_NOTIFY_EMAILS = [
   "Tim@villatimtavio.com",
   "Rodrigo@villatimtavio.com",
   "Tina@villatimtavio.com",
   "malaikaafridi22@gmail.com",
 ];
+
+const notifyRecipients = () =>
+  NOTIFY_EMAILS.length > 0 ? NOTIFY_EMAILS : FALLBACK_NOTIFY_EMAILS;
 
 // Estate-manager API (NestJS) that owns the dashboard's inquiry table.
 const MONOREPO_API_URL = process.env.MONOREPO_API_URL ?? "https://casa-timtavio-api.onrender.com";
@@ -114,7 +127,7 @@ export async function POST(req: NextRequest) {
   try {
     const res = await resend.emails.send({
       from: "Villa TimTavio <reservations@villatimtavio.com>",
-      to: NOTIFY_EMAILS,
+      to: notifyRecipients(),
       subject: `Villa TimTavio — New Guest Application from ${data.firstName} ${data.lastName}`,
       html,
     });
