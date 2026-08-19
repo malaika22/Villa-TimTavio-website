@@ -21,9 +21,14 @@ export interface Availability {
   from: string;
   to: string;
   nights: AvailabilityNight[];
-  /** Anything other than `lodgify` must be shown as indicative. */
-  rateSource: "lodgify" | "season" | "mixed" | "none";
-  currency: "USD";
+  /** `lodgify` when at least one night is priced, `none` otherwise. */
+  rateSource: "lodgify" | "none";
+  /**
+   * ISO code from the estate's Lodgify settings. Null means no currency could
+   * be established, and then no night carries a rate either — the calendar
+   * shows availability without money rather than a number in unknown units.
+   */
+  currency: string | null;
   holdHours: number;
 }
 
