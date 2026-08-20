@@ -17,6 +17,13 @@ type ElegantRangeDatePickerProps = {
   placeholder?: string;
   invalid?: boolean;
   id?: string;
+  /**
+   * Nights the villa is already sold, as "YYYY-MM-DD". Absent while the estate
+   * calendar is still loading, and left empty if it couldn't be reached — an
+   * inquiry form that refuses an inquiry because an upstream call was slow
+   * costs far more than a clash the estate resolves by hand.
+   */
+  bookedDates?: Set<string>;
 };
 
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
@@ -62,6 +69,7 @@ export const ElegantRangeDatePicker = ({
   placeholder = "Select your stay",
   invalid = false,
   id,
+  bookedDates,
 }: ElegantRangeDatePickerProps) => {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState<number | null>(null);
@@ -138,6 +146,22 @@ export const ElegantRangeDatePicker = ({
     if (!fromDate || (fromDate && toDate) || pickedDate.getTime() <= fromDate.getTime()) {
       onChange(pickedStr, "");
       return;
+    }
+
+    // A range can't jump over a night the villa is sold. Rather than accept it
+    // and have Rodrigo reject the enquiry later, the selection restarts from
+    // the date just clicked — the same rule the broker calendar uses.
+    if (bookedDates?.size) {
+      for (
+        let c = new Date(fromDate);
+        c.getTime() < pickedDate.getTime();
+        c.setDate(c.getDate() + 1)
+      ) {
+        if (bookedDates.has(toLocalString(c))) {
+          onChange(pickedStr, "");
+          return;
+        }
+      }
     }
 
     // Otherwise this completes the range (check-out). Close shortly after so the
@@ -264,7 +288,8 @@ export const ElegantRangeDatePicker = ({
                     if (day === null) return <div key={`b-${i}`} className="h-10" />;
 
                     const cellDate = startOfDay(new Date(viewMonth.year, viewMonth.month, day));
-                    const disabled = cellDate < minDate;
+                    const isBooked = bookedDates?.has(toLocalString(cellDate)) ?? false;
+                    const disabled = cellDate < minDate || isBooked;
                     const t = cellDate.getTime();
 
                     const isFrom = fromDate != null && t === fromDate.getTime();
@@ -323,8 +348,14 @@ export const ElegantRangeDatePicker = ({
                             !isEndpoint && isBetween && "text-[#6f5a4c] hover:bg-[#e3d8cd]",
                             !inRange && !disabled && "text-[#3a3530] hover:scale-105 hover:bg-[#efe9e0]",
                             !isEndpoint && isToday && !disabled && "ring-1 ring-[#8c7261]/40",
-                            disabled && "cursor-not-allowed text-[#c9c1b5]"
+                            disabled && "cursor-not-allowed text-[#c9c1b5]",
+                            // Struck through and shaded, matching the broker
+                            // calendar. Two pages showing the same fact should
+                            // not invent two vocabularies for it.
+                            isBooked &&
+                              "bg-[#ebe6dd] text-[#b5ada0] line-through decoration-1"
                           )}
+                          title={isBooked ? "Already booked" : undefined}
                         >
                           {day}
                         </button>
