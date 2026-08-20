@@ -30,6 +30,8 @@ export const AvailabilityCalendar = ({
   hovered,
   onPick,
   onHover,
+  money,
+  priced,
 }: {
   year: number;
   month: number;
@@ -40,6 +42,15 @@ export const AvailabilityCalendar = ({
   hovered: string | null;
   onPick: (date: string) => void;
   onHover: (date: string | null) => void;
+  /** Compact per-night rate in the estate's currency, or null if unpriced. */
+  money: (value: number | null) => string | null;
+  /**
+   * Whether the estate has any rates at all. Distinct from a single night
+   * having none: with nothing priced the calendar drops the second line
+   * entirely and returns to square cells, rather than printing ninety em
+   * dashes to say the same thing once.
+   */
+  priced: boolean;
 }) => {
   const first = new Date(year, month, 1);
   const total = new Date(year, month + 1, 0).getDate();
@@ -50,43 +61,32 @@ export const AvailabilityCalendar = ({
   const previewEnd = start && !end && hovered && hovered > start ? hovered : null;
   const rangeEnd = end ?? previewEnd;
 
-  // Taken from the month's own nights rather than the selection, so a broker
-  // scanning the page knows the terms before they click anything — which is
-  // the question their client asks straight after "is it free?".
-  const summary = (() => {
-    let cheapest: number | null = null;
-    let minNights = 0;
+  // Only the minimum stay is summarised now. A "from $X" header made sense
+  // when no date carried a price; with every sellable night showing its own,
+  // repeating the cheapest just competes with the grid it sits above.
+  const minNights = (() => {
+    let min = 0;
     for (let d = 1; d <= total; d++) {
       const night = nights.get(
         `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`,
       );
-      if (!night) continue;
-      if (night.rate != null && (cheapest == null || night.rate < cheapest)) {
-        cheapest = night.rate;
-      }
-      minNights = Math.max(minNights, night.minNights);
+      if (night) min = Math.max(min, night.minNights);
     }
-    return { cheapest, minNights };
+    return min;
   })();
 
   return (
     <div>
-      <div className="mb-1 flex items-baseline justify-between">
+      <div className="mb-3 flex items-baseline justify-between">
         <h3 className="font-[family-name:var(--font-cormorant)] text-[19px] text-[#3a3530]">
           {MONTH_NAMES[month]}
         </h3>
-        {summary.minNights > 0 && (
+        {minNights > 0 && (
           <span className="text-[10px] uppercase tracking-[0.1em] text-[#a89e90]">
-            {summary.minNights}-night min
+            {minNights}-night min
           </span>
         )}
       </div>
-
-      <p className="mb-3 h-4 text-[11px] tabular-nums text-[#a89e90]">
-        {summary.cheapest != null
-          ? `from $${summary.cheapest.toLocaleString("en-US")} / night`
-          : ""}
-      </p>
 
       <div className="mb-1.5 grid grid-cols-7 gap-[3px]">
         {WEEKDAYS.map((d, i) => (
@@ -115,7 +115,10 @@ export const AvailabilityCalendar = ({
             return (
               <span
                 key={date}
-                className="flex aspect-square items-center justify-center rounded-[4px] text-[12px] text-[#d5cec2]"
+                className={cn(
+                  "flex items-center justify-center rounded-[4px] text-[12px] text-[#d5cec2]",
+                  priced ? "aspect-[1/1.3]" : "aspect-square",
+                )}
               >
                 {dayNum}
               </span>
@@ -145,19 +148,40 @@ export const AvailabilityCalendar = ({
                     : undefined
               }
               className={cn(
-                "flex aspect-square items-center justify-center rounded-[4px] text-[12px] tabular-nums transition-all duration-150",
+                "flex flex-col items-center justify-center gap-[3px] rounded-[4px] leading-none tabular-nums transition-all duration-150",
+                priced ? "aspect-[1/1.3]" : "aspect-square",
                 "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8c7261]",
                 open && !inRange && "text-[#3a3530] hover:bg-[#efe9e0]",
                 inRange && !isEndpoint && "bg-[#ece3dd] text-[#6f5a4c]",
                 isEndpoint &&
                   "bg-[#8c7261] font-medium text-white shadow-[0_2px_8px_rgba(140,114,97,0.35)]",
                 night.status === "TAKEN" &&
-                  "cursor-not-allowed bg-[#ebe6dd] text-[#b9b1a4] line-through",
+                  "cursor-not-allowed bg-[#ebe6dd] text-[#b9b1a4]",
                 night.status === "HELD" &&
                   "cursor-not-allowed border border-dashed border-[#b99b6d] text-[#a8894f]",
               )}
             >
-              {dayNum}
+              <span
+                className={cn(
+                  "text-[12px]",
+                  night.status === "TAKEN" && "line-through",
+                )}
+              >
+                {dayNum}
+              </span>
+              {/* Priced only where it can be sold. A rate on a night nobody
+                  can buy is a number competing for attention with the ninety
+                  others on screen, and it answers no question the broker has. */}
+              {priced && (
+                <span
+                  className={cn(
+                    "h-[9px] text-[8.5px]",
+                    isEndpoint || inRange ? "opacity-90" : "text-[#a89e90]",
+                  )}
+                >
+                  {open ? (money(night.rate) ?? "—") : ""}
+                </span>
+              )}
             </button>
           );
         })}

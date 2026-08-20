@@ -23,7 +23,37 @@ const nightsBetween = (a: string, b: string) =>
 const prettyDate = (s: string) =>
   fromKey(s).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 
-const money = (n: number) => `$${n.toLocaleString("en-US")}`;
+/**
+ * Formatted in whatever the estate prices in. Hardcoding a dollar sign was
+ * safe only while nothing was priced — Lodgify can be set to pesos, and the
+ * two differ by roughly eighteen times, which is the sort of mistake a broker
+ * passes on to their client before anyone notices.
+ */
+const makeMoney = (currency: string | null) => {
+  if (!currency) return () => null;
+  const full = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  });
+  return (n: number | null) => (n == null ? null : full.format(n));
+};
+
+/**
+ * The same amount at grid scale. Ninety full figures would crowd the calendar,
+ * so cells round to the nearest hundred — enough to compare two weeks at a
+ * glance, with the exact total in the bar once a range is chosen.
+ */
+const makeCompactMoney = (currency: string | null) => {
+  if (!currency) return () => null;
+  const compact = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    notation: "compact",
+    maximumFractionDigits: 1,
+  });
+  return (n: number | null) => (n == null ? null : compact.format(n));
+};
 
 /**
  * The broker calendar.
@@ -82,6 +112,12 @@ export const BrokerAvailabilityView = () => {
   useEffect(() => {
     void load();
   }, [load]);
+
+  const money = useMemo(() => makeMoney(data?.currency ?? null), [data?.currency]);
+  const compactMoney = useMemo(
+    () => makeCompactMoney(data?.currency ?? null),
+    [data?.currency],
+  );
 
   const byDate = useMemo(() => {
     const map = new Map<string, AvailabilityNight>();
@@ -323,17 +359,18 @@ export const BrokerAvailabilityView = () => {
               hovered={hovered}
               onPick={pick}
               onHover={setHovered}
+              money={compactMoney}
+              priced={data?.rateSource === "lodgify"}
             />
           ))}
         </div>
       )}
 
       <p className="mt-12 max-w-[62ch] border-t border-[#e3ddd3] pt-6 text-[11.5px] leading-[1.75] text-[#a89e90]">
-        Estimates exclude tax and the estate service charge, and are indicative
-        until confirmed. A hold reserves your dates for {data?.holdHours ?? 48}{" "}
-        hours while your client decides — the estate is told at once and will
-        come back to you. This page is private; please don&rsquo;t forward the
-        link.
+        Nightly rates come from the estate's own calendar and exclude tax and the
+        service charge. A hold reserves your dates for {data?.holdHours ?? 48}{" "}
+        hours while your client decides — the estate is told at once and will come
+        back to you. This page is private; please don&rsquo;t forward the link.
       </p>
 
       {/* ── Selection bar ── */}
@@ -395,16 +432,21 @@ export const BrokerAvailabilityView = () => {
                 ) : (
                   <p className="mt-1 text-[12px] text-[#7a7065]">
                     {selection?.nights} nights · up to 14 guests
-                    {selection?.total != null && (
+                    {selection?.total != null && selection.nights > 0 && (
                       <>
                         {" · "}
                         <span className="text-[#3a3530]">
                           {money(selection.total)}
                         </span>{" "}
-                        estimated
-                        {data?.rateSource !== "lodgify" && " (indicative)"}
+                        total
+                        {" · "}
+                        {money(Math.round(selection.total / selection.nights))}{" "}
+                        avg / night
                       </>
                     )}
+                    {selection != null &&
+                      selection.total == null &&
+                      " · the estate will confirm the rate for these nights"}
                   </p>
                 )}
 
