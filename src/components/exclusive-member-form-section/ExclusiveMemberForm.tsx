@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -75,6 +75,38 @@ export const ExclusiveMemberForm = () => {
   const [successOpen, setSuccessOpen] = useState(false);
 
   // Today (YYYY-MM-DD) for the range picker's min (no past arrivals).
+  // Nights the villa is already sold, so the picker can grey them out.
+  //
+  // Fails open on purpose: if the estate calendar can't be reached the set
+  // stays empty and every date remains selectable. This form exists to capture
+  // an enquiry from someone who may be worth a great deal to the estate, and
+  // refusing one because an upstream call was slow is a far worse trade than a
+  // clash Rodrigo resolves when he reads it.
+  const [bookedDates, setBookedDates] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const now = new Date();
+    const pad2 = (n: number) => String(n).padStart(2, "0");
+    const key = (d: Date) =>
+      `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+    const from = key(now);
+    const to = key(new Date(now.getTime() + 400 * 86_400_000));
+
+    let cancelled = false;
+    fetch(`/api/availability?from=${from}&to=${to}`)
+      .then((r) => r.json())
+      .then((body: { booked?: string[] }) => {
+        if (!cancelled) setBookedDates(new Set(body?.booked ?? []));
+      })
+      .catch(() => {
+        /* Every date stays open. See above. */
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
     .toISOString()
     .split("T")[0];
@@ -305,6 +337,7 @@ export const ExclusiveMemberForm = () => {
                       from={field.value}
                       to={form.watch("preferredTo")}
                       min={today}
+                      bookedDates={bookedDates}
                       placeholder="Select your arrival and departure"
                       invalid={
                         fieldState?.error != null ||
