@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Loader2, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -13,8 +14,7 @@ const HORIZON_DAYS = 300;
 const MONTHS_SHOWN = 3;
 
 const pad = (n: number) => String(n).padStart(2, "0");
-const toKey = (d: Date) =>
-  `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const toKey = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 const fromKey = (s: string) => new Date(`${s}T00:00:00`);
 
 const nightsBetween = (a: string, b: string) =>
@@ -74,6 +74,14 @@ export const BrokerAvailabilityView = () => {
   const [email, setEmail] = useState("");
   const [agency, setAgency] = useState("");
   const [guests, setGuests] = useState(2);
+  /**
+   * What's in the box while it's being typed in, which is not always a number.
+   * Clamping on every keystroke means a broker who wants 9 has to delete the 2
+   * first and can't, because an empty box immediately becomes 1 again — and
+   * typing 12 over a 1 briefly reads as 112 and gets clamped to 14. So the text
+   * is held loose and only reconciled on blur.
+   */
+  const [guestsText, setGuestsText] = useState("2");
   const [confirming, setConfirming] = useState(false);
 
   const [start, setStart] = useState<string | null>(null);
@@ -99,9 +107,7 @@ export const BrokerAvailabilityView = () => {
       setData(body as Availability);
     } catch (error) {
       setData(null);
-      setLoadError(
-        error instanceof Error ? error.message : "Couldn't load availability",
-      );
+      setLoadError(error instanceof Error ? error.message : "Couldn't load availability");
     }
   }, []);
 
@@ -110,10 +116,7 @@ export const BrokerAvailabilityView = () => {
   }, [load]);
 
   const money = useMemo(() => makeMoney(data?.currency ?? null), [data?.currency]);
-  const compactMoney = useMemo(
-    () => makeCompactMoney(data?.currency ?? null),
-    [data?.currency],
-  );
+  const compactMoney = useMemo(() => makeCompactMoney(data?.currency ?? null), [data?.currency]);
 
   const byDate = useMemo(() => {
     const map = new Map<string, AvailabilityNight>();
@@ -178,8 +181,7 @@ export const BrokerAvailabilityView = () => {
   }, [start, end, byDate]);
 
   const emailLooksValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
-  const canPlace =
-    !!start && !!end && name.trim().length >= 2 && emailLooksValid && guests >= 1;
+  const canPlace = !!start && !!end && name.trim().length >= 2 && emailLooksValid && guests >= 1;
 
   const placeHold = async () => {
     if (!canPlace) return;
@@ -215,12 +217,11 @@ export const BrokerAvailabilityView = () => {
       setEmail("");
       setAgency("");
       setGuests(2);
+      setGuestsText("2");
       // The nights we just took must stop looking free to us too.
       void load();
     } catch (error) {
-      setHoldError(
-        error instanceof Error ? error.message : "We couldn't place that hold",
-      );
+      setHoldError(error instanceof Error ? error.message : "We couldn't place that hold");
       void load();
     } finally {
       setPlacing(false);
@@ -244,9 +245,7 @@ export const BrokerAvailabilityView = () => {
       </header>
 
       <div className="py-9">
-        <p className="mb-3 text-[10px] uppercase tracking-[0.3em] text-[#8c7261]">
-          Availability
-        </p>
+        <p className="mb-3 text-[10px] uppercase tracking-[0.3em] text-[#8c7261]">Availability</p>
         <h1 className="font-[family-name:var(--font-cormorant)] text-[clamp(28px,5vw,42px)] leading-[1.08] text-[#3a3530]">
           Puerto Escondido, Oaxaca
         </h1>
@@ -296,8 +295,8 @@ export const BrokerAvailabilityView = () => {
             We couldn&rsquo;t load availability
           </p>
           <p className="mx-auto mt-2 max-w-[40ch] text-[12.5px] leading-relaxed text-[#7a7065]">
-            Rather than show you a calendar that might be wrong, we&rsquo;d
-            rather show you nothing. Try again, or message the estate directly.
+            Rather than show you a calendar that might be wrong, we&rsquo;d rather show you nothing.
+            Try again, or message the estate directly.
           </p>
           <button
             type="button"
@@ -334,17 +333,17 @@ export const BrokerAvailabilityView = () => {
       )}
 
       <p className="mt-12 max-w-[62ch] border-t border-[#e3ddd3] pt-6 text-[11.5px] leading-[1.75] text-[#a89e90]">
-        Nightly rates come from the estate's own calendar and exclude tax and the
-        service charge. A hold reserves your dates for {data?.holdHours ?? 48}{" "}
-        hours while your client decides — the estate is told at once and will come
-        back to you. This page is private; please don&rsquo;t forward the link.
+        Nightly rates come from the estate's own calendar and exclude tax and the service charge. A
+        hold reserves your dates for {data?.holdHours ?? 48} hours while your client decides — the
+        estate is told at once and will come back to you. This page is private; please don&rsquo;t
+        forward the link.
       </p>
 
       {/* ── Selection bar ── */}
       <div
         className={cn(
           "fixed inset-x-0 bottom-0 z-20 border-t border-[#e3ddd3] bg-[#fbf9f6] shadow-[0_-8px_30px_rgba(60,53,48,0.08)] transition-transform duration-300",
-          start || placed ? "translate-y-0" : "translate-y-full",
+          start || placed ? "translate-y-0" : "translate-y-full"
         )}
       >
         <div className="mx-auto max-w-5xl px-5 py-4">
@@ -360,9 +359,8 @@ export const BrokerAvailabilityView = () => {
                   })}
                 </p>
                 <p className="mt-1 text-[12px] text-[#7a7065]">
-                  {prettyDate(placed.checkIn)} — {prettyDate(placed.checkOut)} ·{" "}
-                  {placed.nights} nights. The estate has been told and will
-                  confirm by email.
+                  {prettyDate(placed.checkIn)} — {prettyDate(placed.checkOut)} · {placed.nights}{" "}
+                  nights. The estate has been told and will confirm by email.
                 </p>
               </div>
               <button
@@ -387,14 +385,12 @@ export const BrokerAvailabilityView = () => {
                 {holdError ? (
                   <p className="mt-1 text-[12px] text-[#a8503a]">{holdError}</p>
                 ) : !end ? (
-                  <p className="mt-1 text-[12px] text-[#7a7065]">
-                    Now choose a departure date.
-                  </p>
+                  <p className="mt-1 text-[12px] text-[#7a7065]">Now choose a departure date.</p>
                 ) : selection?.tooShort ? (
                   <p className="mt-1 text-[12px] text-[#a8503a]">
                     {selection.nights} night
-                    {selection.nights === 1 ? "" : "s"} — this season has a{" "}
-                    {selection.minNights}-night minimum.
+                    {selection.nights === 1 ? "" : "s"} — this season has a {selection.minNights}
+                    -night minimum.
                   </p>
                 ) : (
                   <p className="mt-1 text-[12px] text-[#7a7065]">
@@ -402,13 +398,9 @@ export const BrokerAvailabilityView = () => {
                     {selection?.total != null && selection.nights > 0 && (
                       <>
                         {" · "}
-                        <span className="text-[#3a3530]">
-                          {money(selection.total)}
-                        </span>{" "}
-                        total
+                        <span className="text-[#3a3530]">{money(selection.total)}</span> total
                         {" · "}
-                        {money(Math.round(selection.total / selection.nights))}{" "}
-                        avg / night
+                        {money(Math.round(selection.total / selection.nights))} avg / night
                       </>
                     )}
                     {selection != null &&
@@ -416,7 +408,6 @@ export const BrokerAvailabilityView = () => {
                       " · the estate will confirm the rate for these nights"}
                   </p>
                 )}
-
               </div>
 
               <div className="flex gap-2">
@@ -443,7 +434,6 @@ export const BrokerAvailabilityView = () => {
               </div>
             </div>
           )}
-
         </div>
       </div>
 
@@ -452,151 +442,217 @@ export const BrokerAvailabilityView = () => {
           be a colleague, or the same broker acting for a different client, and
           a name quietly carried over from last time attaches the wrong person
           to a booking the estate then acts on. */}
-      {confirming && start && end && (
-        <div className="fixed inset-0 z-30 flex items-end justify-center bg-black/30 sm:items-center">
-          <div className="max-h-[92dvh] w-full overflow-y-auto rounded-t-[16px] bg-[#fbf9f6] p-6 sm:max-w-md sm:rounded-[16px]">
-            <p className="text-[10px] uppercase tracking-[0.26em] text-[#8c7261]">
-              Confirm your hold
-            </p>
+      <AnimatePresence>
+        {confirming && start && end && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            onClick={() => setConfirming(false)}
+            className="fixed inset-0 z-30 flex items-end justify-center bg-black/30 sm:items-center"
+          >
+            {/* Rising from the bottom on a phone, settling in place on a
+                desktop — the sheet arrives from where the button was pressed.
+                The click-through on the backdrop is stopped here so a stray
+                click inside the form doesn't dismiss a half-filled hold. */}
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.99 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.99 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Confirm your hold"
+              className="relative max-h-[92dvh] w-full overflow-y-auto rounded-t-[16px] bg-[#fbf9f6] p-6 sm:max-w-md sm:rounded-[16px]"
+            >
+              {/* Back at the foot is the deliberate exit; this is the one people
+                  reach for when they opened it to look and changed their mind. */}
+              <button
+                type="button"
+                onClick={() => setConfirming(false)}
+                aria-label="Close"
+                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full text-[#a89e90] transition-colors hover:bg-[#efe9e0] hover:text-[#3a3530]"
+              >
+                <X size={16} aria-hidden />
+              </button>
 
-            <div className="mt-4 rounded-[10px] border border-[#e3ddd3] bg-[#efe9e0] px-4 py-3">
-              <p className="font-[family-name:var(--font-cormorant)] text-[19px] text-[#3a3530]">
-                {prettyDate(start)} — {prettyDate(end)}
+              <p className="text-[10px] uppercase tracking-[0.26em] text-[#8c7261]">
+                Confirm your hold
               </p>
-              <p className="mt-1 text-[12px] tabular-nums text-[#7a7065]">
-                {selection?.nights} nights
-                {selection?.total != null && ` · ${money(selection.total)} total`}
-              </p>
-            </div>
 
-            <div className="mt-5 space-y-4">
-              <div>
-                <label
-                  htmlFor="hold-name"
-                  className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
-                >
-                  Full name <span className="text-[#a8503a]">*</span>
-                </label>
-                <input
-                  id="hold-name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoFocus
-                  className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
-                />
+              <div className="mt-4 rounded-[10px] border border-[#e3ddd3] bg-[#efe9e0] px-4 py-3">
+                <p className="font-[family-name:var(--font-cormorant)] text-[19px] text-[#3a3530]">
+                  {prettyDate(start)} — {prettyDate(end)}
+                </p>
+                <p className="mt-1 text-[12px] tabular-nums text-[#7a7065]">
+                  {selection?.nights} nights
+                  {selection?.total != null && ` · ${money(selection.total)} total`}
+                </p>
               </div>
 
-              <div>
-                <label
-                  htmlFor="hold-email"
-                  className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
-                >
-                  Email <span className="text-[#a8503a]">*</span>
-                </label>
-                <input
-                  id="hold-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
-                />
-                {email.trim().length > 0 && !emailLooksValid && (
-                  <p className="mt-1.5 text-[10.5px] text-[#a8503a]">
-                    That doesn&rsquo;t look like an email address.
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="hold-agency"
-                  className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
-                >
-                  Agency
-                </label>
-                <input
-                  id="hold-agency"
-                  value={agency}
-                  onChange={(e) => setAgency(e.target.value)}
-                  className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] focus:border-[#3a3530] focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <span className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]">
-                  Guests <span className="text-[#a8503a]">*</span>
-                </span>
-                {/* A stepper, not a text box: the answer is a small whole
-                    number with a hard ceiling, and a free field invites
-                    "8 adults 2 kids" and a validation error. */}
-                <div className="mt-1.5 flex items-center gap-4 border-b border-[#c8bfb0] py-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setGuests((g) => Math.max(1, g - 1))}
-                    disabled={guests <= 1}
-                    aria-label="One fewer guest"
-                    className="flex size-8 items-center justify-center rounded-full border border-[#e3ddd3] text-[15px] text-[#3a3530] disabled:opacity-30"
+              <div className="mt-5 space-y-4">
+                <div>
+                  <label
+                    htmlFor="hold-name"
+                    className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
                   >
-                    &minus;
-                  </button>
-                  <span className="min-w-[28px] text-center text-[19px] tabular-nums text-[#3a3530]">
-                    {guests}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setGuests((g) => Math.min(MAX_PARTY_SIZE, g + 1))}
-                    disabled={guests >= MAX_PARTY_SIZE}
-                    aria-label="One more guest"
-                    className="flex size-8 items-center justify-center rounded-full border border-[#e3ddd3] text-[15px] text-[#3a3530] disabled:opacity-30"
+                    Full name <span className="text-[#a8503a]">*</span>
+                  </label>
+                  <input
+                    id="hold-name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoFocus
+                    className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="hold-email"
+                    className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
                   >
-                    +
-                  </button>
-                  <span className="ml-auto text-[10.5px] text-[#a89e90]">
-                    of {MAX_PARTY_SIZE} maximum
+                    Email <span className="text-[#a8503a]">*</span>
+                  </label>
+                  <input
+                    id="hold-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
+                  />
+                  {email.trim().length > 0 && !emailLooksValid && (
+                    <p className="mt-1.5 text-[10.5px] text-[#a8503a]">
+                      That doesn&rsquo;t look like an email address.
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="hold-agency"
+                    className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
+                  >
+                    Agency
+                  </label>
+                  <input
+                    id="hold-agency"
+                    value={agency}
+                    onChange={(e) => setAgency(e.target.value)}
+                    className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] focus:border-[#3a3530] focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <span className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]">
+                    Guests <span className="text-[#a8503a]">*</span>
                   </span>
+                  {/* Typeable, with steppers either side. Stepping to nine is
+                    seven taps; typing it is one. But the steppers stay, because
+                    for the common two-to-four they're quicker than selecting
+                    and replacing text. */}
+                  <div className="mt-1.5 flex items-center gap-3 border-b border-[#c8bfb0] py-1.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = Math.max(1, guests - 1);
+                        setGuests(next);
+                        setGuestsText(String(next));
+                      }}
+                      disabled={guests <= 1}
+                      aria-label="One fewer guest"
+                      className="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#e3ddd3] text-[15px] text-[#3a3530] disabled:opacity-30"
+                    >
+                      &minus;
+                    </button>
+
+                    <input
+                      id="hold-guests"
+                      type="text"
+                      inputMode="numeric"
+                      value={guestsText}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9]/g, "");
+                        setGuestsText(raw);
+                        const n = Number(raw);
+                        if (raw !== "" && n >= 1 && n <= MAX_PARTY_SIZE) setGuests(n);
+                      }}
+                      onBlur={() => {
+                        // Reconciled once, on the way out: an empty or silly box
+                        // becomes the nearest number that could be true.
+                        const n = Number(guestsText);
+                        const settled =
+                          !Number.isFinite(n) || n < 1
+                            ? 1
+                            : Math.min(MAX_PARTY_SIZE, Math.floor(n));
+                        setGuests(settled);
+                        setGuestsText(String(settled));
+                      }}
+                      aria-label="Number of guests"
+                      className="w-14 border-0 bg-transparent p-0 text-center text-[19px] tabular-nums text-[#3a3530] focus:outline-none"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = Math.min(MAX_PARTY_SIZE, guests + 1);
+                        setGuests(next);
+                        setGuestsText(String(next));
+                      }}
+                      disabled={guests >= MAX_PARTY_SIZE}
+                      aria-label="One more guest"
+                      className="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#e3ddd3] text-[15px] text-[#3a3530] disabled:opacity-30"
+                    >
+                      +
+                    </button>
+
+                    <span className="ml-auto text-[10.5px] text-[#a89e90]">
+                      of {MAX_PARTY_SIZE} maximum
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="hold-note"
+                    className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
+                  >
+                    Anything the estate should know
+                  </label>
+                  <input
+                    id="hold-note"
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    placeholder="Client name, occasion (optional)"
+                    className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
+                  />
                 </div>
               </div>
 
-              <div>
-                <label
-                  htmlFor="hold-note"
-                  className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
-                >
-                  Anything the estate should know
-                </label>
-                <input
-                  id="hold-note"
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  placeholder="Client name, occasion (optional)"
-                  className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
-                />
-              </div>
-            </div>
+              {holdError && <p className="mt-4 text-[12px] text-[#a8503a]">{holdError}</p>}
 
-            {holdError && (
-              <p className="mt-4 text-[12px] text-[#a8503a]">{holdError}</p>
-            )}
-
-            <button
-              type="button"
-              onClick={() => void placeHold()}
-              disabled={!canPlace || placing}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-[3px] bg-[#3a3530] px-5 py-3.5 text-[10px] uppercase tracking-[0.18em] text-[#f7f5f1] disabled:opacity-30"
-            >
-              {placing && <Loader2 size={13} className="animate-spin" />}
-              Hold for {data?.holdHours ?? 48} hours
-            </button>
-            <button
-              type="button"
-              onClick={() => setConfirming(false)}
-              className="mt-2 w-full rounded-[3px] border border-[#c8bfb0] px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-[#3a3530]"
-            >
-              Back
-            </button>
-          </div>
-        </div>
-      )}
+              <button
+                type="button"
+                onClick={() => void placeHold()}
+                disabled={!canPlace || placing}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-[3px] bg-[#3a3530] px-5 py-3.5 text-[10px] uppercase tracking-[0.18em] text-[#f7f5f1] disabled:opacity-30"
+              >
+                {placing && <Loader2 size={13} className="animate-spin" />}
+                Hold for {data?.holdHours ?? 48} hours
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirming(false)}
+                className="mt-2 w-full rounded-[3px] border border-[#c8bfb0] px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-[#3a3530]"
+              >
+                Back
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 };
