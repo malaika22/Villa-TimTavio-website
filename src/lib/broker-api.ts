@@ -55,13 +55,19 @@ export async function brokerApi<T = unknown>(
   if (!response.ok) {
     // The API's own message is the useful one — "Someone has just held part of
     // those dates" tells the broker what to do, where a status code doesn't.
-    const message =
-      (payload as { message?: string | string[] } | null)?.message ??
-      "Something went wrong";
-    throw new BrokerApiError(
-      Array.isArray(message) ? message.join(", ") : message,
-      response.status,
-    );
+    //
+    // Validation failures arrive as an array, and joining them produced a
+    // paragraph naming internal fields: "brokerEmail must be shorter than or
+    // equal to 160 characters, That doesn't look like an email address,
+    // guestCount must not be greater than 14…". Five complaints about two
+    // fields, in the API's vocabulary rather than the broker's. One is enough
+    // to act on, and the proxy checks the obvious cases before it gets here.
+    const raw = (payload as { message?: string | string[] } | null)?.message;
+    const message = Array.isArray(raw)
+      ? (raw[0] ?? "Something went wrong")
+      : (raw ?? "Something went wrong");
+
+    throw new BrokerApiError(message, response.status);
   }
 
   return payload as T;
