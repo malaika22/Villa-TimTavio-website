@@ -40,3 +40,6 @@ export interface PlacedHold {
   expiresAt: string;
   estimatedTotal: string | null;
 }
+
+/** What the villa sleeps — the ceiling on a hold's party size. */
+export const MAX_PARTY_SIZE = 14;
