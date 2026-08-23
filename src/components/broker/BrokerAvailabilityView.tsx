@@ -549,69 +549,40 @@ export const BrokerAvailabilityView = () => {
                   <span className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]">
                     Guests <span className="text-[#a8503a]">*</span>
                   </span>
-                  {/* Typeable, with steppers either side. Stepping to nine is
-                    seven taps; typing it is one. But the steppers stay, because
-                    for the common two-to-four they're quicker than selecting
-                    and replacing text. */}
-                  <div className="mt-1.5 flex items-center gap-3 border-b border-[#c8bfb0] py-1.5">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const next = Math.max(1, guests - 1);
-                        setGuests(next);
-                        setGuestsText(String(next));
-                      }}
-                      disabled={guests <= 1}
-                      aria-label="One fewer guest"
-                      className="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#e3ddd3] text-[15px] text-[#3a3530] disabled:opacity-30"
-                    >
-                      &minus;
-                    </button>
-
-                    <input
-                      id="hold-guests"
-                      type="text"
-                      inputMode="numeric"
-                      value={guestsText}
-                      onChange={(e) => {
-                        const raw = e.target.value.replace(/[^0-9]/g, "");
-                        setGuestsText(raw);
-                        const n = Number(raw);
-                        if (raw !== "" && n >= 1 && n <= MAX_PARTY_SIZE) setGuests(n);
-                      }}
-                      onBlur={() => {
-                        // Reconciled once, on the way out: an empty or silly box
-                        // becomes the nearest number that could be true.
-                        const n = Number(guestsText);
-                        const settled =
-                          !Number.isFinite(n) || n < 1
-                            ? 1
-                            : Math.min(MAX_PARTY_SIZE, Math.floor(n));
-                        setGuests(settled);
-                        setGuestsText(String(settled));
-                      }}
-                      aria-label="Number of guests"
-                      className="w-14 border-0 bg-transparent p-0 text-center text-[19px] tabular-nums text-[#3a3530] focus:outline-none"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const next = Math.min(MAX_PARTY_SIZE, guests + 1);
-                        setGuests(next);
-                        setGuestsText(String(next));
-                      }}
-                      disabled={guests >= MAX_PARTY_SIZE}
-                      aria-label="One more guest"
-                      className="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#e3ddd3] text-[15px] text-[#3a3530] disabled:opacity-30"
-                    >
-                      +
-                    </button>
-
-                    <span className="ml-auto text-[10.5px] text-[#a89e90]">
-                      of {MAX_PARTY_SIZE} maximum
-                    </span>
-                  </div>
+                  {/* A plain field. The steppers helped only for two or three
+                      guests, and this villa sleeps fourteen — a party of nine
+                      meant seven taps, so they cost more than they saved.
+                      inputMode brings up a numeric keypad, since brokers work
+                      from a phone. */}
+                  <input
+                    id="hold-guests"
+                    type="text"
+                    inputMode="numeric"
+                    value={guestsText}
+                    onChange={(e) => {
+                      const raw = e.target.value.replace(/[^0-9]/g, "");
+                      setGuestsText(raw);
+                      const n = Number(raw);
+                      if (raw !== "" && n >= 1 && n <= MAX_PARTY_SIZE) setGuests(n);
+                    }}
+                    onBlur={() => {
+                      // Reconciled once, on the way out. Clamping per keystroke
+                      // is what made the estate dashboard's NumberField
+                      // unusable: an empty box became 1 immediately, so nobody
+                      // could clear it to type something else.
+                      const n = Number(guestsText);
+                      const settled =
+                        !Number.isFinite(n) || n < 1 ? 1 : Math.min(MAX_PARTY_SIZE, Math.floor(n));
+                      setGuests(settled);
+                      setGuestsText(String(settled));
+                    }}
+                    aria-label="Number of guests"
+                    aria-describedby="hold-guests-max"
+                    className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] tabular-nums text-[#3a3530] focus:border-[#3a3530] focus:outline-none"
+                  />
+                  <p id="hold-guests-max" className="mt-1.5 text-[10.5px] text-[#a89e90]">
+                    Up to {MAX_PARTY_SIZE} guests.
+                  </p>
                 </div>
 
                 <div>
