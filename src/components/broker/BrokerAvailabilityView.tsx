@@ -6,11 +6,11 @@ import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { AvailabilityCalendar } from "./AvailabilityCalendar";
+import { MAX_PARTY_SIZE } from "./types";
 import type { Availability, AvailabilityNight, PlacedHold } from "./types";
 
 const HORIZON_DAYS = 300;
 const MONTHS_SHOWN = 3;
-const NAME_KEY = "vtt-broker-name";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const toKey = (d: Date) =>
@@ -67,8 +67,14 @@ export const BrokerAvailabilityView = () => {
   const [data, setData] = useState<Availability | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
+  // Asked when the hold is placed, never remembered. A broker may be acting for
+  // a different client, or a colleague may be at the same desk — a name kept in
+  // localStorage would quietly attach the wrong person to a booking.
   const [name, setName] = useState("");
-  const [nameConfirmed, setNameConfirmed] = useState(false);
+  const [email, setEmail] = useState("");
+  const [agency, setAgency] = useState("");
+  const [guests, setGuests] = useState(2);
+  const [confirming, setConfirming] = useState(false);
 
   const [start, setStart] = useState<string | null>(null);
   const [end, setEnd] = useState<string | null>(null);
@@ -79,16 +85,6 @@ export const BrokerAvailabilityView = () => {
   const [placing, setPlacing] = useState(false);
   const [placed, setPlaced] = useState<PlacedHold | null>(null);
   const [holdError, setHoldError] = useState<string | null>(null);
-
-  // Remembered so a broker who checks dates twice a week isn't asked twice a
-  // week. Not authentication — it only means a hold arrives with a name on it.
-  useEffect(() => {
-    const saved = window.localStorage.getItem(NAME_KEY);
-    if (saved) {
-      setName(saved);
-      setNameConfirmed(true);
-    }
-  }, []);
 
   const load = useCallback(async () => {
     setLoadError(null);
@@ -181,8 +177,12 @@ export const BrokerAvailabilityView = () => {
     };
   }, [start, end, byDate]);
 
+  const emailLooksValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+  const canPlace =
+    !!start && !!end && name.trim().length >= 2 && emailLooksValid && guests >= 1;
+
   const placeHold = async () => {
-    if (!start || !end || !name.trim()) return;
+    if (!canPlace) return;
     setPlacing(true);
     setHoldError(null);
 
@@ -192,6 +192,9 @@ export const BrokerAvailabilityView = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           brokerName: name.trim(),
+          brokerEmail: email.trim(),
+          brokerAgency: agency.trim() || undefined,
+          guestCount: guests,
           checkIn: start,
           checkOut: end,
           note: note.trim() || undefined,
@@ -201,9 +204,17 @@ export const BrokerAvailabilityView = () => {
       if (!res.ok) throw new Error(body?.message ?? "We couldn't place that hold");
 
       setPlaced(body as PlacedHold);
+      setConfirming(false);
       setStart(null);
       setEnd(null);
       setNote("");
+      // Cleared with the rest. Nothing about one hold should carry into the
+      // next — the person at this screen may not be the person who was here
+      // five minutes ago.
+      setName("");
+      setEmail("");
+      setAgency("");
+      setGuests(2);
       // The nights we just took must stop looking free to us too.
       void load();
     } catch (error) {
@@ -215,50 +226,6 @@ export const BrokerAvailabilityView = () => {
       setPlacing(false);
     }
   };
-
-  // ─── Identity gate ────────────────────────────────────────────────────────
-
-  if (!nameConfirmed) {
-    return (
-      <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6">
-        <p className="mb-3 text-[10px] uppercase tracking-[0.3em] text-[#8c7261]">
-          Villa TimTavio
-        </p>
-        <h1 className="font-[family-name:var(--font-cormorant)] text-[32px] leading-tight text-[#3a3530]">
-          Availability
-        </h1>
-        <p className="mt-3 text-[13px] leading-relaxed text-[#7a7065]">
-          Before we begin — who are we speaking with? This appears alongside any
-          dates you hold, so the estate knows who to come back to.
-        </p>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (name.trim().length < 2) return;
-            window.localStorage.setItem(NAME_KEY, name.trim());
-            setNameConfirmed(true);
-          }}
-          className="mt-7"
-        >
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your name and agency"
-            autoFocus
-            className="w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[15px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
-          />
-          <button
-            type="submit"
-            disabled={name.trim().length < 2}
-            className="mt-6 w-full rounded-[3px] bg-[#3a3530] px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-[#f7f5f1] transition-opacity disabled:opacity-30"
-          >
-            Continue
-          </button>
-        </form>
-      </main>
-    );
-  }
 
   // ─── Calendar ─────────────────────────────────────────────────────────────
 
@@ -272,7 +239,7 @@ export const BrokerAvailabilityView = () => {
           Villa TimTavio
         </span>
         <span className="text-[11px] uppercase tracking-[0.12em] text-[#a89e90]">
-          {name}
+          Broker availability
         </span>
       </header>
 
@@ -466,7 +433,7 @@ export const BrokerAvailabilityView = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => void placeHold()}
+                  onClick={() => setConfirming(true)}
                   disabled={!end || !!selection?.tooShort || placing}
                   className="flex items-center gap-2 rounded-[3px] bg-[#3a3530] px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-[#f7f5f1] transition-opacity disabled:opacity-30"
                 >
@@ -477,20 +444,159 @@ export const BrokerAvailabilityView = () => {
             </div>
           )}
 
-          {/* Its own row, full width. Sharing the flex row with the dates sized
-              the field to whatever the heading happened to be, which clipped
-              the placeholder mid-word — and a note box that looks broken is a
-              note box nobody fills in. */}
-          {!placed && end && !selection?.tooShort && (
-            <input
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="Anything the estate should know — client name, occasion (optional)"
-              className="mt-3 w-full border-0 border-b border-[#e3ddd3] bg-transparent px-0 py-1.5 text-[12.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#8c7261] focus:outline-none"
-            />
-          )}
         </div>
       </div>
+
+      {/* Everything about this hold, asked at the moment of holding.
+          Nothing is remembered between holds: the person at the keyboard may
+          be a colleague, or the same broker acting for a different client, and
+          a name quietly carried over from last time attaches the wrong person
+          to a booking the estate then acts on. */}
+      {confirming && start && end && (
+        <div className="fixed inset-0 z-30 flex items-end justify-center bg-black/30 sm:items-center">
+          <div className="max-h-[92dvh] w-full overflow-y-auto rounded-t-[16px] bg-[#fbf9f6] p-6 sm:max-w-md sm:rounded-[16px]">
+            <p className="text-[10px] uppercase tracking-[0.26em] text-[#8c7261]">
+              Confirm your hold
+            </p>
+
+            <div className="mt-4 rounded-[10px] border border-[#e3ddd3] bg-[#efe9e0] px-4 py-3">
+              <p className="font-[family-name:var(--font-cormorant)] text-[19px] text-[#3a3530]">
+                {prettyDate(start)} — {prettyDate(end)}
+              </p>
+              <p className="mt-1 text-[12px] tabular-nums text-[#7a7065]">
+                {selection?.nights} nights
+                {selection?.total != null && ` · ${money(selection.total)} total`}
+              </p>
+            </div>
+
+            <div className="mt-5 space-y-4">
+              <div>
+                <label
+                  htmlFor="hold-name"
+                  className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
+                >
+                  Full name <span className="text-[#a8503a]">*</span>
+                </label>
+                <input
+                  id="hold-name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoFocus
+                  className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="hold-email"
+                  className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
+                >
+                  Email <span className="text-[#a8503a]">*</span>
+                </label>
+                <input
+                  id="hold-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
+                />
+                {email.trim().length > 0 && !emailLooksValid && (
+                  <p className="mt-1.5 text-[10.5px] text-[#a8503a]">
+                    That doesn&rsquo;t look like an email address.
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="hold-agency"
+                  className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
+                >
+                  Agency
+                </label>
+                <input
+                  id="hold-agency"
+                  value={agency}
+                  onChange={(e) => setAgency(e.target.value)}
+                  className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] focus:border-[#3a3530] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <span className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]">
+                  Guests <span className="text-[#a8503a]">*</span>
+                </span>
+                {/* A stepper, not a text box: the answer is a small whole
+                    number with a hard ceiling, and a free field invites
+                    "8 adults 2 kids" and a validation error. */}
+                <div className="mt-1.5 flex items-center gap-4 border-b border-[#c8bfb0] py-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setGuests((g) => Math.max(1, g - 1))}
+                    disabled={guests <= 1}
+                    aria-label="One fewer guest"
+                    className="flex size-8 items-center justify-center rounded-full border border-[#e3ddd3] text-[15px] text-[#3a3530] disabled:opacity-30"
+                  >
+                    &minus;
+                  </button>
+                  <span className="min-w-[28px] text-center text-[19px] tabular-nums text-[#3a3530]">
+                    {guests}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setGuests((g) => Math.min(MAX_PARTY_SIZE, g + 1))}
+                    disabled={guests >= MAX_PARTY_SIZE}
+                    aria-label="One more guest"
+                    className="flex size-8 items-center justify-center rounded-full border border-[#e3ddd3] text-[15px] text-[#3a3530] disabled:opacity-30"
+                  >
+                    +
+                  </button>
+                  <span className="ml-auto text-[10.5px] text-[#a89e90]">
+                    of {MAX_PARTY_SIZE} maximum
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="hold-note"
+                  className="block text-[9.5px] uppercase tracking-[0.14em] text-[#a89e90]"
+                >
+                  Anything the estate should know
+                </label>
+                <input
+                  id="hold-note"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder="Client name, occasion (optional)"
+                  className="mt-1.5 w-full border-0 border-b border-[#c8bfb0] bg-transparent px-0 py-2 text-[14.5px] text-[#3a3530] placeholder:text-[#b0a898] focus:border-[#3a3530] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {holdError && (
+              <p className="mt-4 text-[12px] text-[#a8503a]">{holdError}</p>
+            )}
+
+            <button
+              type="button"
+              onClick={() => void placeHold()}
+              disabled={!canPlace || placing}
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-[3px] bg-[#3a3530] px-5 py-3.5 text-[10px] uppercase tracking-[0.18em] text-[#f7f5f1] disabled:opacity-30"
+            >
+              {placing && <Loader2 size={13} className="animate-spin" />}
+              Hold for {data?.holdHours ?? 48} hours
+            </button>
+            <button
+              type="button"
+              onClick={() => setConfirming(false)}
+              className="mt-2 w-full rounded-[3px] border border-[#c8bfb0] px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-[#3a3530]"
+            >
+              Back
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
