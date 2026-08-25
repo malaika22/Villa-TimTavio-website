@@ -143,6 +143,25 @@ export const AvailabilityCalendar = ({
           }
 
           const open = night.status === "OPEN";
+
+          /**
+           * An arrival day can end a stay, though it can never begin one.
+           *
+           * If a party arrives on the 18th the villa is empty that morning, so
+           * a client leaving on the 18th needs the 15th, 16th and 17th and
+           * touches nothing the incoming party has. The range check has always
+           * agreed — it validates nights up to but not including the departure
+           * — and the API leaves the checkout date out of its window too. Only
+           * the button disagreed, and it was the button that was wrong.
+           *
+           * Offered solely while a departure is being chosen. Out of that
+           * moment the cell is occupied and means nothing a broker can use.
+           */
+          const choosingEnd = !!start && !end;
+          const canEndHere =
+            choosingEnd && date > start && (open || night.arrivalDay);
+          const clickable = open || canEndHere;
+
           const isStart = date === start;
           const isEnd = date === end;
           const inRange =
@@ -153,14 +172,16 @@ export const AvailabilityCalendar = ({
             <button
               key={date}
               type="button"
-              disabled={!open}
+              disabled={!clickable}
               onClick={() => onPick(date)}
               onMouseEnter={() => onHover(date)}
               onMouseLeave={() => onHover(null)}
               title={
-                night.arrivalDay
-                  ? "A party arrives this afternoon"
-                  : night.departureDay
+                canEndHere && night.arrivalDay
+                  ? "A party arrives this afternoon — you can still leave this morning"
+                  : night.arrivalDay
+                    ? "A party arrives this afternoon"
+                    : night.departureDay
                     ? "A party leaves this morning — the night is free"
                     : night.status === "TAKEN"
                       ? "Taken"

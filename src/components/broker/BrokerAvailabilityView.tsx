@@ -138,6 +138,12 @@ export const BrokerAvailabilityView = () => {
     setPlaced(null);
 
     if (!start || end || date <= start) {
+      // An arrival day can end a stay but never begin one — the night is sold.
+      // The cell is disabled in that state, but a disabled button is a
+      // suggestion, not a rule: keyboard, a stale render or a future refactor
+      // can all reach this, and starting a range on a sold night would send a
+      // hold the API is bound to refuse.
+      if (byDate.get(date)?.status !== "OPEN") return;
       setStart(date);
       setEnd(null);
       return;
