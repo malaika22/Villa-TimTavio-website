@@ -138,6 +138,12 @@ export const BrokerAvailabilityView = () => {
     setPlaced(null);
 
     if (!start || end || date <= start) {
+      // An arrival day can end a stay but never begin one — the night is sold.
+      // The cell is disabled in that state, but a disabled button is a
+      // suggestion, not a rule: keyboard, a stale render or a future refactor
+      // can all reach this, and starting a range on a sold night would send a
+      // hold the API is bound to refuse.
+      if (byDate.get(date)?.status !== "OPEN") return;
       setStart(date);
       setEnd(null);
       return;
@@ -260,6 +266,29 @@ export const BrokerAvailabilityView = () => {
           <span className="flex items-center gap-2">
             <i className="size-3 rounded-[3px] bg-[#ebe6dd]" />
             Taken
+          </span>
+          {/* The two halves of a stay. Worth naming rather than leaving as a
+              shape nobody can look up — a broker visiting monthly won't have
+              learnt what a diagonal means. */}
+          <span className="flex items-center gap-2">
+            <i
+              className="size-3 rounded-[3px] border border-[#e3ddd3]"
+              style={{
+                background:
+                  "linear-gradient(135deg, transparent 0 50%, #e4ded3 50% 100%)",
+              }}
+            />
+            Arrives that afternoon
+          </span>
+          <span className="flex items-center gap-2">
+            <i
+              className="size-3 rounded-[3px] border border-[#e3ddd3]"
+              style={{
+                background:
+                  "linear-gradient(135deg, #e4ded3 0 50%, transparent 50% 100%)",
+              }}
+            />
+            Leaves that morning
           </span>
           <span className="flex items-center gap-2">
             <i className="size-3 rounded-[3px] border border-dashed border-[#b99b6d]" />
