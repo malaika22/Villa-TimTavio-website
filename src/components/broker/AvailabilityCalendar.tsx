@@ -10,6 +10,23 @@ const MONTH_NAMES = [
   "July", "August", "September", "October", "November", "December",
 ];
 
+/**
+ * The occupied half of a changeover day.
+ *
+ * A stay runs from an afternoon to a morning, so its first and last dates are
+ * half-days. The filled corner is always the occupied one — bottom-right on an
+ * arrival, top-left on a departure — which makes a booking read as one shape
+ * with angled ends rather than a run of identical squares.
+ *
+ * Built as an inline gradient rather than a Tailwind arbitrary value: the
+ * commas and percentages inside `linear-gradient()` need escaping that makes
+ * the class unreadable, and this earns its place as real CSS.
+ */
+const edgeFill = (kind: "arrival" | "departure"): string =>
+  kind === "arrival"
+    ? "linear-gradient(135deg, transparent 0 50%, #e4ded3 50% 100%)"
+    : "linear-gradient(135deg, #e4ded3 0 50%, transparent 50% 100%)";
+
 export const monthLabel = (year: number, month: number) =>
   `${MONTH_NAMES[month]} ${year}`;
 
@@ -141,29 +158,60 @@ export const AvailabilityCalendar = ({
               onMouseEnter={() => onHover(date)}
               onMouseLeave={() => onHover(null)}
               title={
-                night.status === "TAKEN"
-                  ? "Taken"
-                  : night.status === "HELD"
-                    ? "Held by another broker"
-                    : undefined
+                night.arrivalDay
+                  ? "A party arrives this afternoon"
+                  : night.departureDay
+                    ? "A party leaves this morning — the night is free"
+                    : night.status === "TAKEN"
+                      ? "Taken"
+                      : night.status === "HELD"
+                        ? "Held by another broker"
+                        : undefined
               }
               className={cn(
-                "flex flex-col items-center justify-center gap-[3px] rounded-[4px] leading-none tabular-nums transition-all duration-150",
+                "relative flex flex-col items-center justify-center gap-[3px] overflow-hidden rounded-[4px] leading-none tabular-nums transition-all duration-150",
                 priced ? "aspect-[1/1.3]" : "aspect-square",
                 "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8c7261]",
                 open && !inRange && "text-[#3a3530] hover:bg-[#efe9e0]",
                 inRange && !isEndpoint && "bg-[#ece3dd] text-[#6f5a4c]",
                 isEndpoint &&
                   "bg-[#8c7261] font-medium text-white shadow-[0_2px_8px_rgba(140,114,97,0.35)]",
+                // An arrival is occupied, but only from the afternoon — so it
+                // takes the muted text without the full fill, and lets the
+                // wedge behind it show which half is actually sold. Filling
+                // the whole cell would bury the diagonal completely.
                 night.status === "TAKEN" &&
+                  !night.arrivalDay &&
                   "cursor-not-allowed bg-[#ebe6dd] text-[#b9b1a4]",
+                night.status === "TAKEN" &&
+                  night.arrivalDay &&
+                  "cursor-not-allowed text-[#b9b1a4]",
                 night.status === "HELD" &&
+                  !night.arrivalDay &&
                   "cursor-not-allowed border border-dashed border-[#b99b6d] text-[#a8894f]",
+                night.status === "HELD" &&
+                  night.arrivalDay &&
+                  "cursor-not-allowed text-[#a8894f]",
               )}
             >
+              {/* Behind the number, and only when the cell isn't part of a
+                  selection — a half-tint under the selected band would read as
+                  a rendering fault rather than a changeover. */}
+              {(night.arrivalDay || night.departureDay) && !inRange && (
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background: edgeFill(
+                      night.arrivalDay ? "arrival" : "departure",
+                    ),
+                  }}
+                />
+              )}
+
               <span
                 className={cn(
-                  "text-[12px]",
+                  "relative text-[12px]",
                   night.status === "TAKEN" && "line-through",
                 )}
               >
@@ -179,7 +227,7 @@ export const AvailabilityCalendar = ({
                     isEndpoint || inRange ? "opacity-90" : "text-[#a89e90]",
                   )}
                 >
-                  {open ? (money(night.rate) ?? "—") : ""}
+                  {open && !night.arrivalDay ? (money(night.rate) ?? "—") : ""}
                 </span>
               )}
             </button>

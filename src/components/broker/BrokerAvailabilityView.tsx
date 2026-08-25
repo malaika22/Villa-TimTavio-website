@@ -261,6 +261,29 @@ export const BrokerAvailabilityView = () => {
             <i className="size-3 rounded-[3px] bg-[#ebe6dd]" />
             Taken
           </span>
+          {/* The two halves of a stay. Worth naming rather than leaving as a
+              shape nobody can look up — a broker visiting monthly won't have
+              learnt what a diagonal means. */}
+          <span className="flex items-center gap-2">
+            <i
+              className="size-3 rounded-[3px] border border-[#e3ddd3]"
+              style={{
+                background:
+                  "linear-gradient(135deg, transparent 0 50%, #e4ded3 50% 100%)",
+              }}
+            />
+            Arrives that afternoon
+          </span>
+          <span className="flex items-center gap-2">
+            <i
+              className="size-3 rounded-[3px] border border-[#e3ddd3]"
+              style={{
+                background:
+                  "linear-gradient(135deg, #e4ded3 0 50%, transparent 50% 100%)",
+              }}
+            />
+            Leaves that morning
+          </span>
           <span className="flex items-center gap-2">
             <i className="size-3 rounded-[3px] border border-dashed border-[#b99b6d]" />
             Held
