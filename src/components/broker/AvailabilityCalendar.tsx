@@ -1,13 +1,27 @@
 "use client";
 
+import { useState } from "react";
+
 import { cn } from "@/lib/utils";
 
+import { nightTip } from "./night-tooltip";
+import { NightTooltip, useMinuteTick, type TipAnchor } from "./NightTooltip";
 import type { AvailabilityNight } from "./types";
 
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 /**
@@ -27,8 +41,7 @@ const edgeFill = (kind: "arrival" | "departure"): string =>
     ? "linear-gradient(135deg, transparent 0 50%, #e4ded3 50% 100%)"
     : "linear-gradient(135deg, #e4ded3 0 50%, transparent 50% 100%)";
 
-export const monthLabel = (year: number, month: number) =>
-  `${MONTH_NAMES[month]} ${year}`;
+export const monthLabel = (year: number, month: number) => `${MONTH_NAMES[month]} ${year}`;
 
 /**
  * One month of nights.
@@ -69,6 +82,10 @@ export const AvailabilityCalendar = ({
    */
   priced: boolean;
 }) => {
+  // One tooltip per month rather than per cell — only one can be pointed at.
+  const [tip, setTip] = useState<TipAnchor | null>(null);
+  const now = useMinuteTick(tip?.tip.count != null);
+
   const first = new Date(year, month, 1);
   const total = new Date(year, month + 1, 0).getDate();
   const lead = first.getDay();
@@ -85,7 +102,7 @@ export const AvailabilityCalendar = ({
     let min = 0;
     for (let d = 1; d <= total; d++) {
       const night = nights.get(
-        `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`,
+        `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`
       );
       if (night) min = Math.max(min, night.minNights);
     }
@@ -134,7 +151,7 @@ export const AvailabilityCalendar = ({
                 key={date}
                 className={cn(
                   "flex items-center justify-center rounded-[4px] text-[12px] text-[#d5cec2]",
-                  priced ? "aspect-[1/1.3]" : "aspect-square",
+                  priced ? "aspect-[1/1.3]" : "aspect-square"
                 )}
               >
                 {dayNum}
@@ -158,41 +175,55 @@ export const AvailabilityCalendar = ({
            * moment the cell is occupied and means nothing a broker can use.
            */
           const choosingEnd = !!start && !end;
-          const canEndHere =
-            choosingEnd && date > start && (open || night.arrivalDay);
+          const canEndHere = choosingEnd && date > start && (open || night.arrivalDay);
           const clickable = open || canEndHere;
 
           const isStart = date === start;
           const isEnd = date === end;
-          const inRange =
-            !!start && !!rangeEnd && date >= start && date <= rangeEnd;
+          const inRange = !!start && !!rangeEnd && date >= start && date <= rangeEnd;
           const isEndpoint = isStart || isEnd;
+
+          const tipFor = nightTip(night, { canEndHere, now });
+
+          const openTip = (el: HTMLElement) => {
+            if (!tipFor) return;
+            setTip({ rect: el.getBoundingClientRect(), tip: tipFor });
+          };
 
           return (
             <button
               key={date}
               type="button"
-              disabled={!clickable}
-              onClick={() => onPick(date)}
-              onMouseEnter={() => onHover(date)}
-              onMouseLeave={() => onHover(null)}
-              title={
-                canEndHere && night.arrivalDay
-                  ? "A party arrives this afternoon — you can still leave this morning"
-                  : night.arrivalDay
-                    ? "A party arrives this afternoon"
-                    : night.departureDay
-                    ? "A party leaves this morning — the night is free"
-                    : night.status === "TAKEN"
-                      ? "Taken"
-                      : night.status === "HELD"
-                        ? "Held by another broker"
-                        : undefined
-              }
+              /**
+               * `aria-disabled`, not `disabled`.
+               *
+               * A disabled button is out of the tab order and browsers
+               * suppress its pointer events — fine for a control nobody
+               * should reach, wrong for one whose whole job is to explain
+               * itself. A held night now answers on hover, on tap and on
+               * focus; the click is refused below instead.
+               */
+              aria-disabled={!clickable}
+              onClick={() => {
+                if (clickable) onPick(date);
+              }}
+              onMouseEnter={(e) => {
+                onHover(date);
+                openTip(e.currentTarget);
+              }}
+              onMouseLeave={() => {
+                onHover(null);
+                setTip(null);
+              }}
+              onFocus={(e) => openTip(e.currentTarget)}
+              onBlur={() => setTip(null)}
               className={cn(
                 "relative flex flex-col items-center justify-center gap-[3px] overflow-hidden rounded-[4px] leading-none tabular-nums transition-all duration-150",
                 priced ? "aspect-[1/1.3]" : "aspect-square",
                 "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8c7261]",
+                // Stated once, rather than repeated across the four occupied
+                // variants below — it used to come free with `disabled`.
+                !clickable && "cursor-not-allowed",
                 open && !inRange && "text-[#3a3530] hover:bg-[#efe9e0]",
                 inRange && !isEndpoint && "bg-[#ece3dd] text-[#6f5a4c]",
                 isEndpoint &&
@@ -201,18 +232,12 @@ export const AvailabilityCalendar = ({
                 // takes the muted text without the full fill, and lets the
                 // wedge behind it show which half is actually sold. Filling
                 // the whole cell would bury the diagonal completely.
-                night.status === "TAKEN" &&
-                  !night.arrivalDay &&
-                  "cursor-not-allowed bg-[#ebe6dd] text-[#b9b1a4]",
-                night.status === "TAKEN" &&
-                  night.arrivalDay &&
-                  "cursor-not-allowed text-[#b9b1a4]",
+                night.status === "TAKEN" && !night.arrivalDay && "bg-[#ebe6dd] text-[#b9b1a4]",
+                night.status === "TAKEN" && night.arrivalDay && "text-[#b9b1a4]",
                 night.status === "HELD" &&
                   !night.arrivalDay &&
-                  "cursor-not-allowed border border-dashed border-[#b99b6d] text-[#a8894f]",
-                night.status === "HELD" &&
-                  night.arrivalDay &&
-                  "cursor-not-allowed text-[#a8894f]",
+                  "border border-dashed border-[#b99b6d] text-[#a8894f]",
+                night.status === "HELD" && night.arrivalDay && "text-[#a8894f]"
               )}
             >
               {/* Behind the number, and only when the cell isn't part of a
@@ -223,18 +248,13 @@ export const AvailabilityCalendar = ({
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0"
                   style={{
-                    background: edgeFill(
-                      night.arrivalDay ? "arrival" : "departure",
-                    ),
+                    background: edgeFill(night.arrivalDay ? "arrival" : "departure"),
                   }}
                 />
               )}
 
               <span
-                className={cn(
-                  "relative text-[12px]",
-                  night.status === "TAKEN" && "line-through",
-                )}
+                className={cn("relative text-[12px]", night.status === "TAKEN" && "line-through")}
               >
                 {dayNum}
               </span>
@@ -245,7 +265,7 @@ export const AvailabilityCalendar = ({
                 <span
                   className={cn(
                     "h-[9px] text-[8.5px]",
-                    isEndpoint || inRange ? "opacity-90" : "text-[#a89e90]",
+                    isEndpoint || inRange ? "opacity-90" : "text-[#a89e90]"
                   )}
                 >
                   {open && !night.arrivalDay ? (money(night.rate) ?? "—") : ""}
@@ -255,6 +275,8 @@ export const AvailabilityCalendar = ({
           );
         })}
       </div>
+
+      <NightTooltip anchor={tip} />
     </div>
   );
 };

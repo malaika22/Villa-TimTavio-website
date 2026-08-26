@@ -12,6 +12,14 @@ export interface AvailabilityNight {
   /** YYYY-MM-DD — the night begun by this date. */
   date: string;
   status: BrokerNightStatus;
+  /**
+   * When the hold covering this night lapses, ISO.
+   *
+   * Null when the night isn't held, and null when a *confirmed* hold covers
+   * it — that one ignores the 48-hour clock and has no expiry to show. Both
+   * mean the same thing to the calendar: there is no countdown here.
+   */
+  heldUntil: string | null;
   /** Null where neither Lodgify nor the estate's season table has a rate. */
   rate: number | null;
   minNights: number;
