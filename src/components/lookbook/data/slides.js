@@ -519,9 +519,9 @@ export const SLIDES = [
         headline: 'The kitchen never\nfully sleeps.',
         body: 'A seamless, continuous culinary experience that follows the day around the clock.',
         windows: [
-          { time: '07:00', title: 'Morning', desc: 'Gourmet breakfast and wellness elixirs.' },
+          { time: '09:30', title: 'Morning', desc: 'Gourmet breakfast and wellness elixirs.' },
           { time: '12:30', title: 'Mid-day', desc: 'Dynamic poolside bites and snacks.' },
-          { time: '19:30', title: 'Evening', desc: 'Long architectural lunches and multi-course dinners.' },
+          { time: '20:30', title: 'Evening', desc: 'Long architectural lunches and multi-course dinners.' },
           { time: '01:00', title: 'Late-night', desc: 'Bespoke cravings, on request.' },
         ],
       },
